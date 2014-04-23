@@ -511,7 +511,9 @@ B8 01 00 00
 // TypeRef table [0x312]
 // Row 1
 06 00 
-// ResolutionScope //TODO
+// ResolutionScope
+// 000001 10
+// AssemblyRef #1
 
 11 00 
 // TypeName: "Object"
@@ -521,7 +523,7 @@ B8 01 00 00
 
 // Row 2
 06 00 
-// ResolutionScope 
+// ResolutionScope: AssemblyRef #1
 
 18 00 
 // TypeName: "Int32"
@@ -531,17 +533,17 @@ B8 01 00 00
 
 // Row 3
 06 00 
-// ResolutionScope
+// ResolutionScope: AssemblyRef #1
 
 1E 00 
-// Name: String
+// Name: "String"
 
 0A 00 
 // TypeNamespace: "System"
 
 // Row 4
 06 00 
-// ResolutionScope 
+// ResolutionScope: AssemblyRef #1
 
 2C 00 
 // Name: "Console"
@@ -593,40 +595,56 @@ B8 01 00 00
 // RVA
 
 00 00 
-// ImplFlags // TODO
+// ImplFlags // Method is CIL and managed
 
 10 00 
-// Flags
+// Flags [STATIC]
 
 56 00 
 // Name "Main"
 
 0C 00 
-// Signature: Blob: [00 00 01] //TODO
+// Signature: Blob: [00 00 01]
+// DEFAULT 
+// 0 PARAMS
+// RETURNS VOID
 
 01 00 
-// ParamList
+// ParamList // ??
 
 // MemberRef [0x354]
 // Row 1
 19 00 
 // Class [MemberRefParent coded index]
+// 00011 001
+// TypeRef #3: String --index from 1 :(
 
 25 00 
 // Name: "Concat"
 
 01 00 
-// Signature: Blob: [00 02 0E 1C 1C] //TODO
+// Signature: Blob: [00 02 0E 1C 1C]
+// DEFAULT 
+// 2 PARAMS 
+// RETURNS string
+// First Param: Object
+// Second Param: Object
 
 // Row 2
 21 00 
 // Class [MemberRefParent coded index]
+// 00100 001
+// TypeRef #4: Console
 
 34 00 
 // Name: "WriteLine"
 
 07 00 
-// Signature: Blob [00 01 01 0E] //TODO
+// Signature: Blob [00 01 01 0E]
+// DEFAULT
+// 1 PARAM
+// RETURNS VOID
+// First Param: String
 
 // Assembly table [0x360]
 00 00 00 00 
