@@ -1,0 +1,804 @@
+Understanding CIL
+
+I want a working understanding of the Portable Executable (PE) file format that the Common Language Runtime (CLR) uses to run Common Intermediate Language (CIL). CIL is a well-documented format, but the creation of a PE for the CLR is not as well documented.
+
+Let's trace a simple C# program through compilation to PE and it's corresponding CIL.
+
+//Add.cs
+public class Hello {
+   public static void Main() {
+      string s = "Hello, World!";
+      int i = 44;
+      s += i;
+      System.Console.WriteLine(s);
+   }
+}
+
+Compiling can be done through the Visual Studio Command Prompt:
+>csc Add.cs
+
+csc is the C# compiler, and the output file Add.exe is a binary executable file (a file that the computer can run and produce output).
+
+And then it can be run from the command prompt:
+>Add.exe
+Hello, World!44
+
+On the gcc compiler I would use the -S switch to produce assembly (a human-readable version of an executable), but I haven't found that for the csc.
+Instead, we can decompile Add.exe to get Common Instruction Language (CIL) (assembly produced for a .NET program), using the disassembler ildasm. Running ildasm on an execuble normally opens a GUI, but we can get the output CIL by specifying the output file:
+>ildasm Add.exe /out:Add.il
+
+Add.il contains a lot data more than just a Main() to print a string. It contains a public key token, RelaxationsAttribute, and a constructor for Hello. The Main() method is also has a lot of metadata, including labels to every instruction and declarations for the local variables. We can strip out a lot of that information and still get working CIL assembly:
+
+//AddR.il
+.assembly extern mscorlib {}
+.assembly World {}
+
+.class Hello {
+.method static void Main() {
+.entrypoint                                                   // Main isn't automatically the entry method
+ldstr "Hello, World!"                                         // Stack: "Hello, World!", [further down]
+ldc.i4.s 44                                                   // Stack: 44, "Hello, World!", [further down]
+box [mscorlib]System.Int32                                    // Stack: {}->44, "Hello, World!", [further down]
+call string [mscorlib]System.String::Concat(object, object)   // Stack: "Hello, World!44", [further down]
+call void [mscorlib]System.Console::WriteLine(string)         // Stack: [further down]
+}
+}
+
+ilasm is the tool to assemble CIL into a executable:
+>ilasm AddR.il
+
+>AddR.exe
+Hello, World!44
+
+Understanding the entire PE format is a big undertaking, so I'll probably just go through a subset to explain the bytes of AddR.exe.
+
+The following resources will help in understanding more of the format:
+http://msdn.microsoft.com/en-us/magazine/ms809762.aspx
+http://www.pelib.com/resources/kath.txt
+http://msdn.microsoft.com/en-us/magazine/cc301805.aspx
+http://brahms.di.uminho.pt/discip/minf/ac0304/icca04/Proc/11000_CLR.pdf
+
+//AddR.exe [2048 bytes]
+
+//MS-DOS image header _IMAGE_DOS_HEADER [0x000: 64 bytes] //KEEP EXACTLY
+4D 5A 
+"MZ"  // Magic number of PE format
+
+90 00 
+144 // Bytes on last page of file
+
+03 00 
+3 // Pages in file
+
+00 00 
+0 // Relocations
+
+04 00 
+4 // Size of header in paragraphs
+
+00 00 
+0 // Minimum extra paragraphs needed
+
+FF FF 
+65535 // Maximum extra paragraphs needed
+
+00 00 
+0 // Initial (relative) SS value
+
+B8 00 
+190 // Initial SP value
+
+00 00 
+// Checksum
+
+00 00 
+// Initial IP value
+
+00 00 
+// Initial (relative) CS value
+
+40 00 
+64 // File address of relocation table
+
+00 00 
+// Overlay number
+
+00 00 00 00 00 00 00 00 
+// Reserved words
+
+00 00 
+// OEM identifier (for e_oeminfo)
+
+00 00 
+// OEM information; e_oemid specific
+
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+// Reserved words
+
+80 00 00 00 
+128 // File address of new exe header
+
+//MS-DOS stub program _IMAGE_DOS_HEADER [0x040: 64 bytes] //KEEP EXACTLY
+0E 1F BA 0E 00 B4 09 CD 21 B8 01 4C CD 21 
+// MS-DOS bytes (to print something?)
+
+54 68 69 73 20 70 72 6F 67 72 61 6D 20 63 61 6E 6E 6F 74 20 62 65 20 72 75 6E 20 69 6E 20 44 4F 53 20 6D 6F 64 65 2E 
+"This program cannot be run in DOS mode." 
+
+0D 0D 0A 24 00 00 00 00 00 00 00 
+// more MS-DOS bytes
+
+// File Header [0x080: 24 bytes]
+50 45 00 00 
+"PE\0\0" PE Magic Number  //KEEP EXACTLY
+
+4C 01 
+0x014C // Machine (I386)  //KEEP EXACTLY
+
+02 00 
+2 // NumberOfSections
+
+41 B0 52 53 
+0x5352B041 // TimeDateStamp Sat Apr 19 10:20:01 2014 
+
+00 00 00 00 
+// PointerToSymbolTable  //KEEP EXACTLY
+
+00 00 00 00 
+// NumberOfSymbols  //KEEP EXACTLY
+
+E0 00 
+224 // SizeOfOptionalHeader
+
+02 01 
+0x102 // Characteristics EXECUTABLE_IMAGE | 32BIT_MACHINE
+
+// Optional Header [0x098: 224 bytes]
+
+0B 01 
+267 // Magic
+
+0B 00 
+11.0 // Linker version
+
+00 04 00 00 
+1024 // Size of executable code
+
+00 02 00 00 
+512 // Size of initialized data
+
+00 00 00 00 
+0 // Size of uninitialized data
+
+7E 22 00 00 
+0x227E // Entrypoint relative virtual address (actually 0x47E), and end of IAT
+
+00 20 00 00 
+0x2000 // Base of code (.text section)
+
+00 40 00 00 
+0x4000 // Base of data (.bss section)
+
+00 00 40 00 
+0x400000 // Image base
+
+00 20 00 00 
+0x2000 // Section alignment [can't be less than 0x1000]
+
+00 02 00 00 
+0x200 // File alignment [can't be less than 0x200]
+
+04 00 00 00 
+4.0 // "OS" version
+
+00 00 00 00 
+0.0 // Image version
+
+04 00 00 00 
+4.0 // Subsystem version
+
+00 00 00 00 
+// Reserved1
+
+00 60 00 00 
+0x6000 Size of image
+
+00 02 00 00 
+0x200 Size of headers
+
+00 00 00 00 
+// Checksum
+
+03 00 
+3 // Subsystem -> Windows console application, with input and output streams
+
+40 85 
+0x8540 // DLL flags: TERMINAL_SERVER_AWARE
+
+00 00 10 00 
+0x100000 // Stack reserve (1MB)
+
+00 10 00 00 
+0x1000 // Stack commit
+
+00 00 10 00 
+0x100000 // Heap reserve
+
+00 10 00 00 
+0x1000 // Heap commit
+
+00 00 00 00 
+// Loader flags [1: break before starting process / 2: break after process is loaded?]
+
+10 00 00 00 
+0x10 // Number of RVAs in the following array
+
+//Data Directory [0x0F9, included in previous byte count]
+00 00 00 00 00 00 00 00 30 22 00 00 4B 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 40 00 00 0C 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 20 00 00 08 00 00 00 00 00 00 00 00 00 00 00 08 20 00 00 48 00 00 00 00 00 00 00 00 00 00 00 
+//  EXPORT           rva: 00000000  size: 00000000
+//  IMPORT           rva: 00002230  size: 0000004B
+//  RESOURCE         rva: 00000000  size: 00000000
+//  EXCEPTION        rva: 00000000  size: 00000000
+//  SECURITY         rva: 00000000  size: 00000000
+//  BASERELOC        rva: 00004000  size: 0000000C
+//  DEBUG            rva: 00000000  size: 00000000
+//  ARCHITECTURE     rva: 00000000  size: 00000000
+//  GLOBALPTR        rva: 00000000  size: 00000000
+//  TLS              rva: 00000000  size: 00000000
+//  LOAD_CONFIG      rva: 00000000  size: 00000000
+//  BOUND_IMPORT     rva: 00000000  size: 00000000
+//  IAT              rva: 00002000  size: 00000008
+//  DELAY_IMPORT     rva: 00000000  size: 00000000
+//  COM_DESCRPTR     rva: 00002008  size: 00000048
+//  unused           rva: 00000000  size: 00000000
+
+//PE File section table:
+//TEXT section header [0x178: 28 bytes]
+2E 74 65 78 74 00 00 00 
+".text" // name
+
+84 02 00 00 
+644 // virtual size of the code (physical address is not for EXE)
+
+00 20 00 00 
+0x2000 // virtual address
+
+00 04 00 00 
+0x4000 // size of raw data (rounded up)
+
+00 02 00 00 
+0x200 // pointer to raw data [the offset]
+
+00 00 00 00 
+// pointer to relocations (meaningless in EXE)
+
+00 00 00 00 
+// pointer to line numbers
+
+00 00 
+// number of relocations (not relevant for EXE?)
+
+00 00 
+// number of line numbers
+
+20 00 00 60 
+0x60000020 // Characteristics: CODE | EXECUTE | READ | ALIGN_DEFAULT(16)
+
+// RELOC section header [0x1A0: 28 bytes]
+2E 72 65 6C 6F 63 00 00 
+".reloc" // Name
+
+0C 00 00 00 
+12 // virtual size / physical address
+ 
+00 40 00 00 
+0x4000 // virtual address
+ 
+00 02 00 00 
+0x200 // size of raw data
+
+00 06 00 00 
+0x600 // pointer to raw data [the offset]
+
+00 00 00 00 00 00 00 00 00 00 00 00 
+// no pointers or line numbers
+
+40 00 00 42 
+0x42000040 // Characteristics: INITIALIZED_DATA | DISCARDABLE | READ | ALIGN_DEFAULT(16)
+
+// unused bytes at end of section table [0x1C8: 56 bytes]
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+
+///////////////////////////////////////////
+// TEXT Section [0x200: 644? bytes] //TODO
+///////////////////////////////////////////
+
+//IAT from directory [0x200: 8 bytes]
+60 22 00 00 00 00 00 00 
+//IAT starts having data at 0x460
+
+// CIL header COM_DESCRPTR from directory [0x208: 72 bytes]
+48 00 00 00 
+72 // size
+
+02 00 05 00 
+// v2.5
+
+68 20 00 00 C8 01 00 00 
+// RVA and size of physical metadata
+
+01 00 00 00 
+//Flags
+
+01 00 00 06 
+// EntryPointToken
+
+00 00 00 00 00 00 00 00 
+//Resources
+
+00 00 00 00 00 00 00 00 
+// StrongNameSignature hash
+
+00 00 00 00 00 00 00 00 
+// Code Manager Table
+
+00 00 00 00 00 00 00 00 
+// VTableFixups (i.e. for languages not using CTS)
+
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+// ExportAddressTableJumps and ManagedNativeHeader 
+
+5A 
+
+72 
+// ldstr
+
+01 00 00 70 
+0x70000001 // user string #1
+
+1F 
+// ldc.i4.s 
+
+2C 
+// 44 
+
+8C 
+// box
+
+02 00 00 01 
+0x1000002 // TODO
+
+28 
+// call
+
+01 00 00 0A 
+0xA000001 // TODO
+
+28 
+// call
+
+02 00 00 0A 
+0xA0000002 // TODO
+
+00 
+
+// Metadata [0x268]
+42 53 4A 42 
+// magic signature for physical metadata
+
+01 00 01 00 
+1.1 // version [ignored]
+
+00 00 00 00 
+// reserved
+
+0C 00 00 00
+12 // length of version string
+
+76 34 2E 30 2E 33 30 33 31 39 00 00 
+"v4.0.30319"
+
+00 00 
+// Reserved flags
+
+05 00 
+5 // number of streams
+
+// stream0 #~ header [0x288]
+6C 00 00 00 
+108 // offset of stream
+
+B8 00 00 00 
+184 // size of stream
+
+23 7E 00 00 
+"#~" // stream name
+
+// stream1 #Strings header [0x294]
+24 01 00 00 
+292 // offset of stream
+
+64 00 00 00 
+100 // size of stream
+
+23 53 74 72 69 6E 67 73 00 00 00 00 
+"#Strings" // stream name
+
+// stream2 #US header [0x2A8]
+88 01 00 00 
+392 // offset of stream
+
+20 00 00 00 
+32 // size of stream 
+
+23 55 53 00 
+"#US" // name
+
+// stream3 #GUID header [0x2B4]
+A8 01 00 00 
+424 // offset of stream
+
+10 00 00 00 
+16 // size of stream
+
+23 47 55 49 44 00 00 00 
+"#GUID" // name
+
+// stream4 #Blob [0x2C4]
+B8 01 00 00 
+440 // offset
+
+10 00 00 00 
+16 // size
+
+23 42 6C 6F 62 00 00 00 
+"#Blob" // name
+
+// ~= stream [0x2D4]
+00 00 00 00 
+// Reserved
+
+02 00 
+// v2.0
+
+00 
+// Heap size indexes are 2 bytes wide
+
+01 
+// Reserved
+
+47 04 00 00 09 00 00 00 
+// bit vector of present tables
+// 0000000000000000000000000000100100000000000000000000010001000111 7 active
+// FEDCBA9876543210FEDCBA9876543210FEDCBA9876543210FEDCBA9876543210
+//0x00: Module
+//0x01: TypeRef
+//0x02: TypeDef
+//0x06: Method
+//0x0A: MemberRef
+//0x20: Assembly
+//0x23: AssemblyRef
+
+00 FA 25 33 00 16 00 00 
+// bit vector of sorted tables
+// 0000000000000000000101100000000000110011001001011111101000000000
+
+01 00 00 00 
+04 00 00 00 
+02 00 00 00 
+01 00 00 00 
+02 00 00 00 
+01 00 00 00 
+01 00 00 00 
+// Tables have 1, 4, 2, 1, 2, 1, 1 rows
+
+// Module Table [0x308]
+00 00
+// Generation, reserved
+
+3E 00 
+// Name: "AddR.exe"
+
+01 00 
+// Mvid: 77 87 2A 24 A8 24 CB 44 A1 40 9B D2 43 56 59 D4 (reverse order?)
+
+00 00 
+// EncID, reserved
+
+00 00
+// EncBaseID, reserved
+
+// TypeRef table [0x312]
+// Row 1
+06 00 
+// ResolutionScope //TODO
+
+11 00 
+// TypeName: "Object"
+
+0A 00 
+// TypeNamespace: "System"
+
+// Row 2
+06 00 
+// ResolutionScope 
+
+18 00 
+// TypeName: "Int32"
+
+0A 00 
+// TypeNamespace: "System"
+
+// Row 3
+06 00 
+// ResolutionScope
+
+1E 00 
+// Name: String
+
+0A 00 
+// TypeNamespace: "System"
+
+// Row 4
+06 00 
+// ResolutionScope 
+
+2C 00 
+// Name: "Console"
+
+0A 00 
+// TypeNamespace: "System"
+
+// TypeDef table [0x32A]
+// Row 1 (parent for functions and variables at module scope)
+00 00 00 00 
+// Flags
+
+01 00 
+// TypeName: "<Module>"
+
+00 00 
+// TypeNamespace: ""
+
+00 00 
+// Extends
+
+01 00 
+// FieldList
+
+01 00 
+// MethodList
+
+// Row 2
+00 00 00 00 
+// Flags
+
+50 00 
+// TypeName: "Hello"
+
+00 00 
+// TypeNamespace: ""
+
+05 00 
+// Extends
+
+01 00 
+// FieldList
+
+01 00 
+// MethodList
+
+// Method(Def) table [0x346]
+50 20 00 00 
+// RVA
+
+00 00 
+// ImplFlags // TODO
+
+10 00 
+// Flags
+
+56 00 
+// Name "Main"
+
+0C 00 
+// Signature: Blob: [00 00 01] //TODO
+
+01 00 
+// ParamList
+
+// MemberRef [0x354]
+// Row 1
+19 00 
+// Class [MemberRefParent coded index]
+
+25 00 
+// Name: "Concat"
+
+01 00 
+// Signature: Blob: [00 02 0E 1C 1C] //TODO
+
+// Row 2
+21 00 
+// Class [MemberRefParent coded index]
+
+34 00 
+// Name: "WriteLine"
+
+07 00 
+// Signature: Blob [00 01 01 0E] //TODO
+
+// Assembly table [0x360]
+00 00 00 00 
+// HashAlgID
+
+00 00 00 00 00 00 00 00 
+// MajorVersion, MinorVersion, BuildNumber, RevisionNumber
+
+00 00 00 00 
+// Flags
+
+00 00 
+// publicKey
+
+5B 00 
+// Name: "World"
+
+00 00 
+// Culture: ""
+
+// AssemblyRef [0x376]
+00 00 00 00 00 00 00 00 
+// MajorVersion, MinorVersion, BuildNumber, RevisionNumber
+
+00 00 00 00 
+// Flags
+
+00 00 
+// PublicKeyOrToken
+
+47 00 
+// Name "mscorlib"
+
+00 00 
+// Culture
+
+00 00 
+// HashValue
+
+00 00 
+// unused
+
+// String Heap [0x38C]
+00 
+"" // 0x00
+
+3C 4D 6F 64 75 6C 65 3E 00 
+"<Module>" // 0x01
+
+53 79 73 74 65 6D 00 
+"System" // 0x0A
+
+4F 62 6A 65 63 74 00 
+"Object" // 0x11
+
+49 6E 74 33 32 00 
+"Int32" // 0x18
+
+53 74 72 69 6E 67 00 
+"String" // 0x1E
+
+43 6F 6E 63 61 74 00 
+"Concat" // 0x25
+
+43 6F 6E 73 6F 6C 65 00 
+"Console" // 0x2C
+
+57 72 69 74 65 4C 69 6E 65 00 
+"WriteLine" // 0x34
+
+41 64 64 52 2E 65 78 65 00 
+"AddR.exe" // 0x3E
+
+6D 73 63 6F 72 6C 69 62 00 
+"mscorlib" // 0x47
+
+48 65 6C 6C 6F 00 
+"Hello" // 0x50
+
+4D 61 69 6E 00 
+"Main" // 0x56
+
+57 6F 72 6C 64 00 
+"World" // 0x5B
+
+00 00 00 
+// unused
+
+// US heap [0x3F0]
+00 
+// empty blob, always 0
+
+1B 
+// 27 bytes of data in first entry
+
+48 00 65 00 6C 00 6C 00 6F 00 2C 00 20 00 57 00 6F 00 72 00 6C 00 64 00 21 00 00 
+"Hello, World!" // [UTF16, null-terminated]
+
+00 00 00 
+// unused
+
+// GUID heap [0x410]
+77 87 2A 24 A8 24 CB 44 A1 40 9B D2 43 56 59 D4 
+// first GUID
+
+// Blob heap [0x420]
+00 
+// empty blob, always 0
+
+05 
+// 5 bytes of data in first entry
+
+00 02 0E 1C 1C 
+// 0x01
+
+04 
+// 4 of data in next entry
+
+00 01 01 0E 
+// 0x07
+
+03 
+// 3 bytes of data in next entry
+
+00 00 01 
+// 0x0C
+
+// Imports table [0x430: 75 bytes]
+58 22 00 00 
+// Import Lookup Table RVA ("First thunk") (actually 0x458 is the first thunk)
+
+00 00 00 00 
+// TimeDateStamp (0 means not bound)
+
+00 00 00 00 
+// ForwarderChain (index to the first forwarded API)
+
+6E 22 00 00 
+// DLL Name RVA (relative address to name) (actually 0x46E -> "mscoree.dll")
+
+00 20 00 00 
+// Import Address Table RVA
+
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+// end of import table, unused
+
+// Imports [0x458: 33 bytes]
+60 22 00 00 
+// RVA to IMAGE_IMPORT_BY_NAME (actually 0x460 -> #0, "_CorExeMain")
+
+00 00 00 00 
+// end of table, filled with zeroes
+
+00 00
+// hint: this will be function #0
+ 
+5F 43 6F 72 45 78 65 4D 61 69 6E 00 
+"_CorExeMain" // would be "_CorDllMain" for a .dll file
+
+6D 73 63 6F 72 65 65 2E 64 6C 6C 00 
+"mscoree.dll" // the Microsoft .NET Execution Engine
+
+00 
+// unused?
+
+00 00 00 FF 25 00 20 40 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+
+///////////////////////////////////////////
+// RELOC Section [0x600: 512 bytes]
+///////////////////////////////////////////
+00 20 00 00 0C 00 00 00 80 32 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+
+
+
+
