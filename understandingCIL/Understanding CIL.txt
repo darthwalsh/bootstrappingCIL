@@ -318,7 +318,7 @@ E0 00
 60 22 00 00 00 00 00 00 
 //IAT starts having data at RVA 0x460
 
-// CIL header COM_DESCRPTR from directory [0x208: 72 bytes]
+// CIL header (aka COM_DESCRPTR from data directory) [0x208: 72 bytes]
 48 00 00 00 
 72 // size of this header
 
@@ -326,10 +326,10 @@ E0 00
 // v2.5
 
 68 20 00 00 C8 01 00 00 
-// "RVA" 0x268 (actually raw address) and size of physical metadata
+// "RVA" 0x268 (appears to actually be raw address) and size 0x1C8 of physical metadata
 
 01 00 00 00 
-//Flags
+//Flags COMIMAGE_FLAGS_ILONLY
 
 01 00 00 06 
 // 0x06000001 EntryPointToken to enter CIL: MethodDef #1: Main
