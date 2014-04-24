@@ -237,20 +237,20 @@ E0 00
 //Data Directory [0x0F9, included in previous byte count]
 00 00 00 00 00 00 00 00 30 22 00 00 4B 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 40 00 00 0C 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 20 00 00 08 00 00 00 00 00 00 00 00 00 00 00 08 20 00 00 48 00 00 00 00 00 00 00 00 00 00 00 
 //  EXPORT           rva: 00000000  size: 00000000
-//  IMPORT           rva: 00002230  size: 0000004B
+//  IMPORT           rva: 00002230  size: 0000004B RVA to //0x430
 //  RESOURCE         rva: 00000000  size: 00000000
 //  EXCEPTION        rva: 00000000  size: 00000000
 //  SECURITY         rva: 00000000  size: 00000000
-//  BASERELOC        rva: 00004000  size: 0000000C
+//  BASERELOC        rva: 00004000  size: 0000000C RVA to //0x600
 //  DEBUG            rva: 00000000  size: 00000000
 //  ARCHITECTURE     rva: 00000000  size: 00000000
 //  GLOBALPTR        rva: 00000000  size: 00000000
 //  TLS              rva: 00000000  size: 00000000
 //  LOAD_CONFIG      rva: 00000000  size: 00000000
 //  BOUND_IMPORT     rva: 00000000  size: 00000000
-//  IAT              rva: 00002000  size: 00000008
+//  IAT              rva: 00002000  size: 00000008 RVA to //0x200
 //  DELAY_IMPORT     rva: 00000000  size: 00000000
-//  COM_DESCRPTR     rva: 00002008  size: 00000048
+//  COM_DESCRPTR     rva: 00002008  size: 00000048 RVA to //0x208
 //  unused           rva: 00000000  size: 00000000
 
 //PE File section table:
@@ -598,7 +598,7 @@ B8 01 00 00
 
 // Method(Def) table [0x346]
 50 20 00 00 
-// RVA
+// "RVA" (actually raw address)
 
 00 00 
 // ImplFlags // Method is CIL and managed
