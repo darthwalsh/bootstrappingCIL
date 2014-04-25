@@ -355,6 +355,17 @@ E0 00
 // Method header in tiny format (indicated by 0x5A & 0x3 == 0x2)
 // 010110 = 0x16 bytes in the method
 
+/*************************************
+ *  If the method was longer, the bytes here would be
+ *  03 30 08 00 46 00 00 00 00 00 00 00
+ * Flags: 0x003 (fat format)
+ * Header size = 0x3 (dwords)
+ * MaxStack: 0x0008
+ * Code Size: 0x00000046: (bytes) (70 is > 64)
+ *
+ *************************************
+
+
 // CIL Main [0x251: 22 bytes]
 72 
 // ldstr
