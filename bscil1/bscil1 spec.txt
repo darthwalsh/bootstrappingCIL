@@ -1,0 +1,23 @@
+BootStrappingCIL1 Specification
+
+bscil1 is a binary file of CIL assembly.
+While not an instruction language, this language is an intermediate to more human-readable forms.
+
+Its primary purpose is to handle the PE-file format, enabling pure CIL programs to be written.
+Programs can only be //TODO#1 bytes long.
+
+The grammar is:
+<START> : <OP> <START>
+        :
+
+<OP>    : (a CIL operation byte with any following bytes as needed)
+
+examples of valid programs:
+
+trivial program (just returns)
+    <2A>
+    ret
+
+better program (push two numbers, add, write, then returning)
+    <1F> <30>   <1B>     <58>   <28> <02> <00> <00> <06>   <2A>
+    push 0x30   push 5   add    call write to output '5'   ret
