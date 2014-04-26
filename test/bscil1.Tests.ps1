@@ -1,24 +1,31 @@
-$bscil = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
-$bscil1 = Join-Path -Path $bscil -ChildPath "bscil1\bscil1.exe"
+$root = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
+$bscil1exe = Join-Path -Path $root -ChildPath "bscil1\bscil1.exe"
+$bscil1bscil1 = Join-Path -Path $root -ChildPath "bscil1\bscil1.bscil1"
+
+Function Compile($exe, $target) {
+  If (Test-Path ./the.exe) {
+    Remove-Item ./the.exe
+  }  
+  
+  cmd /c "$exe < $target > the.exe"
+  $LastExitCode | Should be 0
+}
 
 Describe "bscil1" {
   It "runs trivial" {
-    If (Test-Path ./trivial.exe) {
-	  Remove-Item ./trivial.exe
-    }
-    
-    cmd /c "$bscil1 < trivial.bscil1 > trivial.exe"
-    
-    [string](./trivial.exe) | Should be ""
+    Compile $bscil1exe trivial.bscil1
+    [string](./the.exe) | Should be ""
   }
   
   It "runs adder" {
-    If (Test-Path ./adder.exe) {
-	  Remove-Item ./adder.exe
-    }
+    Compile $bscil1exe adder.bscil1
+    [string](./the.exe) | Should be "5"
+  }
+  
+  It "bootstraps" {
+    Compile $bscil1exe $bscil1bscil1
     
-    cmd /c "$bscil1 < adder.bscil1 > adder.exe"
-    
-    [string](./adder.exe) | Should be "5"
+    fc.exe /b $bscil1exe the.exe
+    $LastExitCode | Should be 0
   }
 }
