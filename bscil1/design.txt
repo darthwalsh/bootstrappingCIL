@@ -7,3 +7,7 @@ To accomplish this, the program has a few simple parts.
 All the bytes before the Main method are written literally, then the program is copied in.
 After this, a number of remaining bytes are printed, which ensures that the all the addresses line up to the right values.
 Finally, all the bytes after the Main method are written literally.
+
+The sections of literal print code can easily be constructed by copying the desired output as hex bytes, and then replaced with the regex /([A-F\d]{2})\s*/1F $1 28 02 00 00 06 00 /g
+For example, to print the bytes 00 6F 75 74 you want the CIL:
+1F 00 28 02 00 00 06 00 1F 6F 28 02 00 00 06 00 1F 75 28 02 00 00 06 00 1F 74 28 02 00 00 06 00 
