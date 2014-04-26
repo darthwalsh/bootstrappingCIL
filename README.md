@@ -1,7 +1,15 @@
 bootstrappingCIL
 ================
 
-Bootstrapping the Common Intermediate Language
+Running Tests
+-------------
+
+Get [nuget.exe](http://nuget.org/nuget.exe) and get it in your path or the test folder.
+
+    test/run
+
+Background
+----------
 
 Common Intermediate Language (CIL) is the assembly language of the .NET framework.
 Unlike other compiled programming languages that transform high-level code into the exact bytes that will run on the CPU,
@@ -24,4 +32,4 @@ For that reason we'll try to limit the number and complexity of any committed bi
 From the start, I want to make each program open for review, and include documentation to explain what all the bytes of the program are doing.
 But at the same time, .NET is not the right technology to bootstrap to remove all trust dependencies (start from an FPGA if that is your goal).
 
-This should be an education exploration. Buckle up, and let's get started!
+This should be an educational exploration. Buckle up, and let's get started!
