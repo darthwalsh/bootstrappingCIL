@@ -4,7 +4,7 @@ bscil1 is a binary file of CIL assembly.
 While not an instruction language, this language is an intermediate to more human-readable forms.
 
 Its primary purpose is to handle the PE-file format, enabling pure CIL programs to be written.
-Programs can only be //TODO#1 bytes long.
+Programs can only be 0x5010 bytes long.
 
 The grammar is:
 <START> : <OP> <START>
@@ -21,4 +21,14 @@ trivial program (just returns)
 better program (push two numbers, add, write, then returning)
     <1F> <30>   <1B>     <58>   <28> <02> <00> <00> <06>   <2A>
     push 0x30   push 5   add    call write to output '5'   ret
-    
+
+Three custom methods are available to call.
+int read() 0x06000001
+Returns the next byte from standard input, or -1 if there are no more bytes.
+
+void write(int b) 0x06000002
+Writes the given value as a byte to standard output.
+
+void finish() 0x06000003
+Writes a number of null bytes until 0x52D0 bytes have been printed.
+After this call, the next bytes of the physical CIL metadata ends up at the expected address.

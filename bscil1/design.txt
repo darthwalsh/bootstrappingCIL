@@ -1,0 +1,9 @@
+BootStrappingCIL1 Design
+
+The first language is designed to be as simple as possible, to allow for easy validation.
+
+The input program is dropped into a pre-made program's Main method, with enough space for 0x5010 bytes.
+To accomplish this, the program has a few simple parts.
+All the bytes before the Main method are written literally, then the program is copied in.
+After this, a number of remaining bytes are printed, which ensures that the all the addresses line up to the right values.
+Finally, all the bytes after the Main method are written literally.
