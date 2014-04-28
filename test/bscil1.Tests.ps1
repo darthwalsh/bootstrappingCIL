@@ -1,31 +1,48 @@
-$root = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
+$here = Split-Path -Parent $MyInvocation.MyCommand.Path
+$root = Split-Path -Parent $here
 $bscil1exe = Join-Path -Path $root -ChildPath "bscil1\bscil1.exe"
 $bscil1bscil1 = Join-Path -Path $root -ChildPath "bscil1\bscil1.bscil1"
 
 Function Compile($exe, $target) {
-  If (Test-Path ./the.exe) {
-    Remove-Item ./the.exe
-  }  
+  # Don't overwrite existing files
+  $name = Join-Path -Path $here -ChildPath "$(Get-Random 10000000)delete.exe"
   
-  cmd /c "$exe < $target > the.exe"
-  $LastExitCode | Should be 0
+  cmd /c "$exe < $target > $name"
+  $LastExitCode | Should be 0 | Out-Null
+  
+  return $name
 }
 
 Describe "bscil1" {
+  Remove-Item "*delete.exe"
+ 
   It "runs trivial" {
-    Compile $bscil1exe trivial.bscil1
-    [string](./the.exe) | Should be ""
+    $exe = Compile $bscil1exe trivial.bscil1
+    [string](& $exe) | Should be ""
   }
   
   It "runs adder" {
-    Compile $bscil1exe adder.bscil1
-    [string](./the.exe) | Should be "5"
+    $exe = Compile $bscil1exe adder.bscil1
+    [string](& $exe) | Should be "5"
+  }
+  
+  It "runs echo2" {
+    $exe = Compile $bscil1exe echo2.bscil1
+    
+    $output = "hello" | & $exe
+    [string]($output) | Should be "he"
   }
   
   It "bootstraps" {
-    Compile $bscil1exe $bscil1bscil1
+    $exe = Compile $bscil1exe $bscil1bscil1
     
-    fc.exe /b $bscil1exe the.exe
+    fc.exe /b $bscil1exe $exe
+    $LastExitCode | Should be 0
+    
+    # Redundant, but check that new executable runs
+    $exe2 = Compile $exe $bscil1bscil1
+    
+    fc.exe /b $exe $exe2
     $LastExitCode | Should be 0
   }
 }
