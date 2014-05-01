@@ -1,6 +1,17 @@
 bootstrappingCIL
 ================
 
+Bootstrapping
+-------------
+
+From a Visual Studio Command Prompt at the project root:
+
+    bootstrappingCIL> bscil1\bscil1.exe < bscil1\bscil1.bscil1 > bscil1.exe
+    
+And verifying each step:
+
+    bootstrappingCIL> fc /b bscil1\bscil1.exe bscil1.exe
+
 Running Tests
 -------------
 
