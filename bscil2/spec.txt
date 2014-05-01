@@ -1,0 +1,12 @@
+BootStrappingCIL2 Specification
+
+BSCIL2 is a text file of modified CIL assembly.
+
+The primary goal of the language is to be self-documenting. Two features will allow for that.
+
+First, BSCIL won't have any binary characters. 
+Binary files don't allow for easy code review in git, so every character in the files needs to be in ASCII.
+
+Second, BSCIL will allow for comments. 
+
+//TODO ops and grammar to follow
