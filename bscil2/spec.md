@@ -36,6 +36,7 @@ In BSICL2, reading and writing bytes are first-class ops.
 Grammar
 -------
 
+```
 <START>   : <LINE> <START>
           :
           
@@ -56,17 +57,23 @@ Grammar
 
 <COMMENT> : (not LF) <COMMENT>
           :
-
+```
 
 Examples programs
 -----------------
 
-Trivial:
-r and now this is a comment
+### Trivial
 
-Adder:
+```
+r and now this is a comment
+```
+
+### Adder
+
+```
 l35  pushes '5'
 lFF  pushes -1
 a    adding gives '4'
 w    writes '4' to standard output
 r
+```
