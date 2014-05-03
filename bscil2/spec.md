@@ -17,18 +17,19 @@ Some ops will be followed by two hexadecimal characters
 Operations
 ----------
 
-| BSCIL2 op | Byte args |  CIL op  | CIL byte(s)       |
-|:---------:|:---------:|:--------:|:-----------------:|
-|    l      |     1     | ldc.i4.s |       1F          |
-|    d      |     0     | dup      |       25          |
-|    p      |     0     | pop      |       26          |
-|    b      |     1     | br.s     |       2B          |
-|    t      |     0     | ret      |       2A          |
-|    n      |     1     | bne.s    |       33          |
-|    a      |     0     | add      |       58          |
-|    r      |     0     | [read]   | 28 01 00 00 00 06 |
-|    w      |     0     | [write]  | 28 02 00 00 00 06 |
-|    f      |     0     | [finish] | 28 03 00 00 00 06 |
+| BSCIL2 op | Byte args |  CIL op  | CIL byte(s)    |
+|:---------:|:---------:|:--------:|:--------------:|
+|    L      |     1     | ldc.i4.s | 1F __          |
+|    D      |     0     | dup      | 25             |
+|    P      |     0     | pop      | 26             |
+|    B      |     4     | br       | 38 __ __ __ __ |
+|    T      |     0     | ret      | 2A             |
+|    N      |     1     | bne.s    | 33 __          |
+|    A      |     0     | add      | 58             |
+|    M      |     0     | mul      | 5A             |
+|    R      |     0     | [read]   | 28 01 00 00 06 |
+|    W      |     0     | [write]  | 28 02 00 00 06 |
+|    F      |     0     | [finish] | 28 03 00 00 06 |
 
 read, write, and finish are the same as in BSCIL1.
 In BSICL2, reading and writing bytes are first-class ops.
@@ -42,16 +43,16 @@ Grammar
           
 <LINE>    : <OP> <COMMENT> (CR) (LF)
          
-<OP>      : l <HEX>
-          : d
-          : p
-          : b <HEX>
-          : t
-          : n <HEX>
-          : a
-          : r
-          : w
-          : f
+<OP>      : L <HEX>
+          : D
+          : P
+          : B <HEX> <HEX> <HEX> <HEX>
+          : T
+          : N <HEX>
+          : A
+          : R
+          : W
+          : F
 
 <HEX>     : (0-9A-E) (0-9A-E)
 
@@ -65,15 +66,15 @@ Examples programs
 ### Trivial
 
 ```
-r and now this is a comment
+R and now this is a comment
 ```
 
 ### Adder
 
 ```
-l35  pushes '5'
-lFF  pushes -1
-a    adding gives '4'
-w    writes '4' to standard output
-r
+L35  pushes '5'
+LFF  pushes -1
+A    adding gives '4'
+W    writes '4' to standard output
+R
 ```
