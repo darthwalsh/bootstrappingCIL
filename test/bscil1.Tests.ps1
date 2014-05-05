@@ -2,6 +2,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 $root = Split-Path -Parent $here
 $bscil1exe = Join-Path -Path $root -ChildPath "bscil1\bscil1.exe"
 $bscil1bscil1 = Join-Path -Path $root -ChildPath "bscil1\bscil1.bscil1"
+$bscil2bscil1 = Join-Path -Path $root -ChildPath "bscil2\bscil2.bscil1"
 
 Function Compile($exe, $target) {
   # Don't overwrite existing files
@@ -44,5 +45,14 @@ Describe "bscil1" {
     
     fc.exe /b $exe $exe2
     $LastExitCode | Should be 0
+  }
+}
+
+Describe "bscil2" {
+  $bscil2exe = Compile $bscil1exe $bscil2bscil1
+
+  It "runs trivial" {
+    $exe = Compile $bscil2exe trivial.bscil2
+    [string](& $exe) | Should be ""
   }
 }
