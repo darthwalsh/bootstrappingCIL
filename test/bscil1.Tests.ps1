@@ -55,4 +55,18 @@ Describe "bscil2" {
     $exe = Compile $bscil2exe trivial.bscil2
     [string](& $exe) | Should be ""
   }
+  
+  It "runs echo2" {
+    $exe = Compile $bscil2exe echo2.bscil2
+    
+    $output = "hello" | & $exe
+    [string]($output) | Should be "he"
+  }
+  
+  It "runs blank" {
+    $exe = Compile $bscil2exe blank.bscil2
+    
+    $output = & $exe
+    [string]($output).Length | Should be 0x52D0
+  }
 }

@@ -17,22 +17,63 @@ L44 'D'
 N0C    to next DUP
 L25 CIL op: dup
 W
-BXXXXXXXX //TODO jump to <COMMENT>
+BXXXXXXXX //TODO jump to <END-OP>
 D
 L50 'P'
 N0C    to next DUP
 L26 CIL op: pop
 W
-BXXXXXXXX //TODO jump to <COMMENT>
+BXXXXXXXX //TODO jump to <END-OP>
 D
 //TODO other ops
-BXXXXXXXX //TODO jump to <FINISH>
+D
+L52 'R'
+NXX //TODO to next DUP
+L28 CIL op: call
+W
+L01 output 0x06000001
+W
+L00
+W
+L00
+W
+L06
+W
+BXXXXXXXX //TODO jump to <END-OP>
+D
+L57 'W'
+NXX //TODO to next DUP
+L28 CIL op: call
+W
+L02 output 0x06000002
+W
+L00
+W
+L00
+W
+L06
+W
+BXXXXXXXX //TODO jump to <END-OP>
+D
+L46 'F'
+NXX //TODO to <FINISH>
+L28 CIL op: call
+W
+L03 output 0x06000003
+W
+L00
+W
+L00
+W
+L06
+W fall into END-OP
+P  <END-OP>
 R  <COMMENT>
 L0A '\n'
 NF7      to <COMMENT>
 BXXXXXXXX //TODO jump to <OP>
-F <FINISH>
-//TODO print out the rest of the program end
+P  <FINISH>
+F
 L42
 W
 L53
