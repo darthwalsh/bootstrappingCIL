@@ -11,7 +11,25 @@ R   <OP>
 D
 L4C 'L'
 nXX //TODO jump to next DUP
-//TODO output value ldc.i4.s
+L1F
+W
+LB8 -0x30
+A   0-9 -> 0-9; A-F -> 17-22
+R
+L0A Branch if digit is less than 10 (top of stack)
+E03  skip subtraction
+LF9 -7
+A
+L10  times 16
+M
+R
+L0A
+E03
+LF9
+A
+A
+W
+BXXXXXXXX //TODO jump to <END-OP>
 D
 L44 'D'
 N0C    to next DUP

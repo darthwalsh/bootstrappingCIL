@@ -24,6 +24,7 @@ Operations
 |    P      |     0     | pop      | 26             |
 |    B      |     4     | br       | 38 __ __ __ __ |
 |    T      |     0     | ret      | 2A             |
+|    E      |     1     | blt.s    | 32 __          |
 |    N      |     1     | bne.s    | 33 __          |
 |    A      |     0     | add      | 58             |
 |    M      |     0     | mul      | 5A             |
@@ -48,6 +49,7 @@ Grammar
           : P
           : B <HEX> <HEX> <HEX> <HEX>
           : T
+          : E <HEX>
           : N <HEX>
           : A
           : R
