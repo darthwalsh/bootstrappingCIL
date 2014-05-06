@@ -10,24 +10,28 @@ W
 R   <OP>
 D
 L4C 'L'
-nXX //TODO jump to next DUP
+N35 to next DUP
 L1F
 W
-LB8 -0x30
+R   through the next write reads two hex digits and outputs a byte
+LD0 -0x30
 A   0-9 -> 0-9; A-F -> 17-22
-R
-L0A Branch if digit is less than 10 (top of stack)
-E03  skip subtraction
-LF9 -7
+D
+L0A 
+E03  skip subtraction if digit is less than 10 (top of stack)
+LF9 
+A    -= 7 (A should be at 10 but is at 17)
+L10  
+M    *= 16
+R    ditto to read next digit
+LB8
 A
-L10  times 16
-M
-R
+D
 L0A
 E03
 LF9
 A
-A
+A    16*digit + digit
 W
 BXXXXXXXX //TODO jump to <END-OP>
 D

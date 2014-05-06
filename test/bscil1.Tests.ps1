@@ -69,4 +69,9 @@ Describe "bscil2" {
     $output = & $exe
     [string]($output).Length | Should be 0x52D0
   }
+  
+  It "runs heart" {
+    $exe = Compile $bscil2exe heart.bscil2
+    [string](& $exe) | Should be "<3"
+  }
 }
