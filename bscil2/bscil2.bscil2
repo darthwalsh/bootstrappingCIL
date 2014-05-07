@@ -47,10 +47,27 @@ L26 CIL op: pop
 W
 BXXXXXXXX //TODO jump to <END-OP>
 D
+L54 'T'
+N0C    to next DUP
+L26 CIL op: ret
+W
+BXXXXXXXX //TODO jump to <END-OP>
+D
 //TODO other ops
+L41 'A'
+N0C    to next DUP
+L26 CIL op: add
+W
+BXXXXXXXX //TODO jump to <END-OP>
+D
+L4D 'M'
+N0C    to next DUP
+L26 CIL op: mull
+W
+BXXXXXXXX //TODO jump to <END-OP>
 D
 L52 'R'
-NXX //TODO to next DUP
+N28 to next DUP
 L28 CIL op: call
 W
 L01 output 0x06000001
@@ -64,7 +81,7 @@ W
 BXXXXXXXX //TODO jump to <END-OP>
 D
 L57 'W'
-NXX //TODO to next DUP
+N28 to next DUP
 L28 CIL op: call
 W
 L02 output 0x06000002
@@ -78,7 +95,7 @@ W
 BXXXXXXXX //TODO jump to <END-OP>
 D
 L46 'F'
-NXX //TODO to <FINISH>
+N32 to <FINISH>
 L28 CIL op: call
 W
 L03 output 0x06000003
