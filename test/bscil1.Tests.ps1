@@ -86,4 +86,9 @@ Describe "bscil2" {
     $exe = Compile $bscil2exe math.bscil2
     [string](& $exe) | Should be "6"
   }
+  
+  It "runs branches" {
+    $exe = Compile $bscil2exe branches.bscil2
+    [string](& $exe) | Should be "2456"
+  }
 }

@@ -11,7 +11,7 @@ R   <OP>
 D
 L4C 'L'
 N35 to next DUP
-L1F
+L1F CIL op: ldc.i4.s
 W
 R   through the next write reads two hex digits and outputs a byte
 LD0 -0x30
@@ -33,38 +33,177 @@ LF9
 A
 A    16*digit + digit
 W
-BXXXXXXXX //TODO jump to <END-OP>
+B0A020000 to <END-OP>
 D
 L44 'D'
 N0C    to next DUP
 L25 CIL op: dup
 W
-BXXXXXXXX //TODO jump to <END-OP>
+BF9010000 to <END-OP>
 D
 L50 'P'
 N0C    to next DUP
 L26 CIL op: pop
 W
-BXXXXXXXX //TODO jump to <END-OP>
+BE8010000 to <END-OP>
 D
 L54 'T'
 N0C    to next DUP
 L26 CIL op: ret
 W
-BXXXXXXXX //TODO jump to <END-OP>
+BD7010000 to <END-OP>
 D
-//TODO other ops
+L45 'E'
+N35 to next DUP
+L32 CIL op: blt.s
+W 
+R   two hex characters to byte
+LD0 
+A   
+D
+L0A 
+E03 
+LF9 
+A   
+L10 
+M   
+R   
+LB8
+A
+D
+L0A
+E03
+LF9
+A
+A 
+W
+B9D010000 to <END-OP>
+D
+L4E 'N'
+N35 to next DUP
+L33 CIL op: bne.s
+W   
+R   two hex characters to byte
+LD0 
+A   
+D
+L0A 
+E03 
+LF9 
+A   
+L10 
+M   
+R   
+LB8
+A
+D
+L0A
+E03
+LF9
+A
+A 
+W
+B63010000 to <END-OP>
+D
+L42 'B'
+N05     to full-size branch to next DUP
+B05000000 skip over next branch
+BB0000000 to next DUP
+L38 CIL op: br
+W   
+R   two hex characters to byte #1
+LD0 
+A   
+D
+L0A 
+E03 
+LF9 
+A   
+L10 
+M   
+R   
+LB8
+A
+D
+L0A
+E03
+LF9
+A
+A
+W   
+R   two hex characters to byte #2
+LD0 
+A   
+D
+L0A 
+E03 
+LF9 
+A   
+L10 
+M   
+R   
+LB8
+A
+D
+L0A
+E03
+LF9
+A
+A
+W   
+R   two hex characters to byte #3
+LD0 
+A   
+D
+L0A 
+E03 
+LF9 
+A   
+L10 
+M   
+R   
+LB8
+A
+D
+L0A
+E03
+LF9
+A
+A
+W   
+R   two hex characters to byte #4
+LD0 
+A   
+D
+L0A 
+E03 
+LF9 
+A   
+L10 
+M   
+R   
+LB8
+A
+D
+L0A
+E03
+LF9
+A
+A
+W
+BA4000000 to <END-OP>
+D
 L41 'A'
 N0C    to next DUP
 L26 CIL op: add
 W
-BXXXXXXXX //TODO jump to <END-OP>
+B93000000 to <END-OP>
 D
 L4D 'M'
 N0C    to next DUP
 L26 CIL op: mull
 W
-BXXXXXXXX //TODO jump to <END-OP>
+B82000000 to <END-OP>
 D
 L52 'R'
 N28 to next DUP
@@ -78,7 +217,7 @@ L00
 W
 L06
 W
-BXXXXXXXX //TODO jump to <END-OP>
+B55000000 to <END-OP>
 D
 L57 'W'
 N28 to next DUP
@@ -92,7 +231,7 @@ L00
 W
 L06
 W
-BXXXXXXXX //TODO jump to <END-OP>
+B28000000 to <END-OP>
 D
 L46 'F'
 N32 to <FINISH>
@@ -110,7 +249,7 @@ P  <END-OP>
 R  <COMMENT>
 L0A '\n'
 NF7      to <COMMENT>
-BXXXXXXXX //TODO jump to <OP>
+BA8FDFFFF back to <OP>
 P  <FINISH>
 F
 L42
