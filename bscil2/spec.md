@@ -22,10 +22,10 @@ Operations
 |    L      |     1     | ldc.i4.s | 1F __          |
 |    D      |     0     | dup      | 25             |
 |    P      |     0     | pop      | 26             |
-|    B      |     4     | br       | 38 __ __ __ __ |
 |    T      |     0     | ret      | 2A             |
 |    E      |     1     | blt.s    | 32 __          |
 |    N      |     1     | bne.s    | 33 __          |
+|    B      |     4     | br       | 38 __ __ __ __ |
 |    A      |     0     | add      | 58             |
 |    M      |     0     | mul      | 5A             |
 |    R      |     0     | [read]   | 28 01 00 00 06 |
@@ -47,10 +47,10 @@ Grammar
 <OP>      : L <HEX>
           : D
           : P
-          : B <HEX> <HEX> <HEX> <HEX>
           : T
           : E <HEX>
           : N <HEX>
+          : B <HEX> <HEX> <HEX> <HEX>
           : A
           : R
           : W

@@ -74,4 +74,11 @@ Describe "bscil2" {
     $exe = Compile $bscil2exe heart.bscil2
     [string](& $exe) | Should be "<3"
   }
+  
+  <#It "runs echoTwice" {
+    $exe = Compile $bscil2exe echoTwice.bscil2
+    
+    $output = "abc" | & $exe
+    [string]($output) | Should be "cca"
+  }#>
 }
