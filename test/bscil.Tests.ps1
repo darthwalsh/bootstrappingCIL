@@ -1,9 +1,9 @@
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 $root = Split-Path -Parent $here
-$bscil1exe = Join-Path -Path $root -ChildPath "bscil1\bscil1.exe"
-$bscil1bscil1 = Join-Path -Path $root -ChildPath "bscil1\bscil1.bscil1"
 
-Remove-Item "*delete.exe"
+Function Root($p) {
+  return Join-Path -Path $root -ChildPath $p
+}
 
 Function Compile($exe, $target) {
   # Don't overwrite existing files
@@ -23,6 +23,15 @@ Function RunTest($exe, $target, $instream, $expected) {
     [string]($output) | Should be $expected
 }
 
+Function Bootstraps($bscilexe, $target) {
+  It "bootstraps" {
+    $bootstrapped = Compile $bscilexe $target
+    
+    fc.exe /b $bscilexe $bootstrapped
+    $LastExitCode | Should be 0
+  }
+}
+
 Function TestBSCIL1($bscilexe) {
   It "runs trivial" {
     RunTest $bscilexe trivial.bscil1 "" ""
@@ -34,23 +43,6 @@ Function TestBSCIL1($bscilexe) {
   
   It "runs echo2" {
     RunTest $bscilexe echo2.bscil1 "hello" "he"
-  }
-}
-
-Describe "bscil1" {
-  TestBSCIL1 $bscil1exe
-  
-  It "bootstraps" {
-    $exe = Compile $bscil1exe $bscil1bscil1
-    
-    fc.exe /b $bscil1exe $exe
-    $LastExitCode | Should be 0
-    
-    # Redundant, but check that new executable runs
-    $exe2 = Compile $exe $bscil1bscil1
-    
-    fc.exe /b $exe $exe2
-    $LastExitCode | Should be 0
   }
 }
 
@@ -87,13 +79,25 @@ Function TestBSCIL2($bscilexe) {
   }
 }
 
-$bscil2bscil1 = Join-Path -Path $root -ChildPath "bscil2\bscil2.bscil1"
-$bscil2bscil2 = Join-Path -Path $root -ChildPath "bscil2\bscil2.bscil2"
+Remove-Item "*delete.exe" # Pretty safe to delete files ending in delete?
+
+$bscil1exe = Root "bscil1\bscil1.exe"
+
+Describe "bscil1" {
+  TestBSCIL1 $bscil1exe
+  
+  Bootstraps $bscil1exe (Root "bscil1\bscil1.bscil1")
+}
+
+$bscil2exe = Compile $bscil1exe (Root "bscil2\bscil2.bscil1")
 
 Describe "bscil2.bscil1" {
-  TestBSCIL2 (Compile $bscil1exe $bscil2bscil1)
+  TestBSCIL2 $bscil2exe 
 }
 
 Describe "bscil2.bscil2" {
-  TestBSCIL2 (Compile (Compile $bscil1exe $bscil2bscil1) $bscil2bscil2)
+  $anotherbscil2 = Compile $bscil2exe (Root "bscil2\bscil2.bscil2")
+  TestBSCIL2 $anotherbscil2
+  
+  Bootstraps $anotherbscil2 (Root "bscil2\bscil2.bscil2")
 }

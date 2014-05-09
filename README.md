@@ -6,11 +6,17 @@ Bootstrapping
 
 From a Visual Studio Command Prompt at the project root:
 
-    bootstrappingCIL> bscil1\bscil1.exe < bscil1\bscil1.bscil1 > bscil1.exe
+    bootstrappingCIL> bscil1\bscil1.exe < bscil2\bscil2.bscil1 > bscil2\bscil2.exe
     
-And verifying each step:
+And verifying each language can self-host:
 
-    bootstrappingCIL> fc /b bscil1\bscil1.exe bscil1.exe
+    bootstrappingCIL> bscil1\bscil1.exe < bscil1\bscil1.bscil1 > bs1.exe
+    bootstrappingCIL> fc /b bscil1\bscil1.exe bs1.exe
+    
+    bootstrappingCIL> bscil2\bscil2.exe < bscil2\bscil2.bscil2 > bscil2.exe
+    bootstrappingCIL> bscil2.exe < bscil2\bscil2.bscil2 > bs2.exe
+    bootstrappingCIL> fc /b bscil2.exe bs2.exe
+
 
 Running Tests
 -------------
