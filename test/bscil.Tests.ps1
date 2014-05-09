@@ -3,6 +3,9 @@ $root = Split-Path -Parent $here
 $bscil1exe = Join-Path -Path $root -ChildPath "bscil1\bscil1.exe"
 $bscil1bscil1 = Join-Path -Path $root -ChildPath "bscil1\bscil1.bscil1"
 $bscil2bscil1 = Join-Path -Path $root -ChildPath "bscil2\bscil2.bscil1"
+$bscil2bscil2 = Join-Path -Path $root -ChildPath "bscil2\bscil2.bscil2"
+
+Remove-Item "*delete.exe"
 
 Function Compile($exe, $target) {
   # Don't overwrite existing files
@@ -14,9 +17,7 @@ Function Compile($exe, $target) {
   return $name
 }
 
-Describe "bscil1" {
-  Remove-Item "*delete.exe"
- 
+Function TestBSCIL1($bscil1exe) {
   It "runs trivial" {
     $exe = Compile $bscil1exe trivial.bscil1
     [string](& $exe) | Should be ""
@@ -33,6 +34,10 @@ Describe "bscil1" {
     $output = "hello" | & $exe
     [string]($output) | Should be "he"
   }
+}
+
+Describe "bscil1" {
+  TestBSCIL1 $bscil1exe
   
   It "bootstraps" {
     $exe = Compile $bscil1exe $bscil1bscil1
@@ -48,9 +53,7 @@ Describe "bscil1" {
   }
 }
 
-Describe "bscil2" {
-  $bscil2exe = Compile $bscil1exe $bscil2bscil1
-
+Function TestBSCIL2($bscil2exe) {
   It "runs trivial" {
     $exe = Compile $bscil2exe trivial.bscil2
     [string](& $exe) | Should be ""
@@ -91,4 +94,12 @@ Describe "bscil2" {
     $exe = Compile $bscil2exe branches.bscil2
     [string](& $exe) | Should be "2456"
   }
+}
+
+Describe "bscil2.bscil1" {
+  TestBSCIL2 (Compile $bscil1exe $bscil2bscil1)
+}
+
+Describe "bscil2.bscil2" {
+  TestBSCIL2 (Compile (Compile $bscil1exe $bscil2bscil1) $bscil2bscil2)
 }

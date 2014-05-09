@@ -65,6 +65,8 @@ Grammar
 Examples programs
 -----------------
 
+*Remember the last line needs to end with a LF*
+
 ### Trivial
 
 ```
