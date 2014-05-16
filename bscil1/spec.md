@@ -17,7 +17,7 @@ Some ops will be followed by two hexadecimal characters
 Operations
 ----------
 
-| BSCIL2 op | Byte args |  CIL op  | CIL byte(s)    |
+| BSCIL1 op | Byte args |  CIL op  | CIL byte(s)    |
 |:---------:|:---------:|:--------:|:--------------:|
 |    L      |     1     | ldc.i4.s | 1F __          |
 |    D      |     0     | dup      | 25             |
