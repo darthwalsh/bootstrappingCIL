@@ -4,18 +4,18 @@ bootstrappingCIL
 Bootstrapping
 -------------
 
-From a Visual Studio Command Prompt at the project root:
+From a Command Prompt at the project root:
 
-    bootstrappingCIL> bscil1\bscil1.exe < bscil2\bscil2.bscil1 > bscil2\bscil2.exe
+    bootstrappingCIL> bscil0\bscil0.exe < bscil1\bscil1.bscil0 > bscil1\bscil1.exe
     
 And verifying each language can self-host:
 
-    bootstrappingCIL> bscil1\bscil1.exe < bscil1\bscil1.bscil1 > bs1.exe
-    bootstrappingCIL> fc /b bscil1\bscil1.exe bs1.exe
+    bootstrappingCIL> bscil0\bscil0.exe < bscil0\bscil0.bscil0 > bs0.exe
+    bootstrappingCIL> fc /b bscil0\bscil0.exe bs0.exe
     
-    bootstrappingCIL> bscil2\bscil2.exe < bscil2\bscil2.bscil2 > bscil2.exe
-    bootstrappingCIL> bscil2.exe < bscil2\bscil2.bscil2 > bs2.exe
-    bootstrappingCIL> fc /b bscil2.exe bs2.exe
+    bootstrappingCIL> bscil1\bscil1.exe < bscil1\bscil1.bscil1 > bscil1.exe
+    bootstrappingCIL> bscil1.exe < bscil1\bscil1.bscil1 > bs1.exe
+    bootstrappingCIL> fc /b bscil1.exe bs1.exe
 
 
 Running Tests
@@ -50,3 +50,13 @@ From the start, I want to make each program open for review, and include documen
 But at the same time, .NET is not the right technology to bootstrap to remove all trust dependencies (start from an FPGA if that is your goal).
 
 This should be an educational exploration. Buckle up, and let's get started!
+
+
+Acknowledgments
+---------------
+
+Tests run on [Pester](https://github.com/pester/Pester), a PowerShell unit test framework.
+
+[EMCA-335](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-335.pdf) describes in great detail the binary file format assemblers must produce.
+
+Visual Studio's ldasm is helpful to understand CIL binaries (nothing proprietary used).
