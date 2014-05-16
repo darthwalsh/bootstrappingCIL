@@ -1,4 +1,4 @@
-BootStrappingCIL1 Specification
+BootStrappingCIL0 Specification
 
 bscil1 is a binary file of CIL assembly.
 While not an instruction language, this language is an intermediate to more human-readable forms.

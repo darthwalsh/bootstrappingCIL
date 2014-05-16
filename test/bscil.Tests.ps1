@@ -32,17 +32,17 @@ Function Bootstraps($bscilexe, $target) {
   }
 }
 
-Function TestBSCIL1($bscilexe) {
+Function TestBSCIL0($bscilexe) {
   It "runs trivial" {
-    RunTest $bscilexe trivial.bscil1 "" ""
+    RunTest $bscilexe trivial.bscil0 "" ""
   }
   
   It "runs adder" {
-    RunTest $bscilexe adder.bscil1 "" "5"
+    RunTest $bscilexe adder.bscil0 "" "5"
   }
   
   It "runs echo2" {
-    RunTest $bscilexe echo2.bscil1 "hello" "he"
+    RunTest $bscilexe echo2.bscil0 "hello" "he"
   }
 }
 
@@ -81,17 +81,17 @@ Function TestBSCIL2($bscilexe) {
 
 Remove-Item "*delete.exe" # Pretty safe to delete files ending in delete?
 
-$bscil1exe = Root "bscil1\bscil1.exe"
+$bscil0exe = Root "bscil0\bscil0.exe"
 
-Describe "bscil1" {
-  TestBSCIL1 $bscil1exe
+Describe "bscil0" {
+  TestBSCIL0 $bscil0exe
   
-  Bootstraps $bscil1exe (Root "bscil1\bscil1.bscil1")
+  Bootstraps $bscil0exe (Root "bscil0\bscil0.bscil0")
 }
 
-$bscil2exe = Compile $bscil1exe (Root "bscil2\bscil2.bscil1")
+$bscil2exe = Compile $bscil0exe (Root "bscil2\bscil2.bscil0")
 
-Describe "bscil2.bscil1" {
+Describe "bscil2.bscil0" {
   TestBSCIL2 $bscil2exe 
 }
 

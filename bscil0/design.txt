@@ -1,4 +1,4 @@
-BootStrappingCIL1 Design
+BootStrappingCIL0 Design
 
 The first language is designed to be as simple as possible, to allow for easy validation.
 
