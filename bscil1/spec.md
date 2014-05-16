@@ -1,7 +1,7 @@
-BootStrappingCIL2 Specification
+BootStrappingCIL1 Specification
 ===============================
 
-BSCIL2 is a text file of modified CIL assembly.
+BSCIL1 is a text file of modified CIL assembly.
 
 The primary goal of this iteration of the language is to be self-documenting. Two features will allow for that.
 
@@ -33,7 +33,7 @@ Operations
 |    F      |     0     | [finish] | 28 03 00 00 06 |
 
 read, write, and finish are the same as in BSCIL1.
-In BSICL2, reading and writing bytes are first-class ops.
+In BSICL1, reading and writing bytes are first-class ops.
 
 Grammar
 -------

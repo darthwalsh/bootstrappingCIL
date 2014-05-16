@@ -46,36 +46,36 @@ Function TestBSCIL0($bscilexe) {
   }
 }
 
-Function TestBSCIL2($bscilexe) {
+Function TestBSCIL1($bscilexe) {
   It "runs trivial" {
-    RunTest $bscilexe trivial.bscil2 "" ""
+    RunTest $bscilexe trivial.bscil1 "" ""
   }
   
   It "runs echo2" {
-    RunTest $bscilexe echo2.bscil2 "hello" "he"
+    RunTest $bscilexe echo2.bscil1 "hello" "he"
   }
   
   It "runs blank" {
-    $exe = Compile $bscilexe blank.bscil2
+    $exe = Compile $bscilexe blank.bscil1
     
     $output = & $exe
     [string]($output).Length | Should be 0x52D0
   }
   
   It "runs heart" {
-    RunTest $bscilexe heart.bscil2 "" "<3"
+    RunTest $bscilexe heart.bscil1 "" "<3"
   }
   
   It "runs echoTwice" {
-    RunTest $bscilexe echoTwice.bscil2 "abc" "cca"
+    RunTest $bscilexe echoTwice.bscil1 "abc" "cca"
   }
   
   It "runs math" {
-    RunTest $bscilexe math.bscil2 "" "6"
+    RunTest $bscilexe math.bscil1 "" "6"
   }
   
   It "runs branches" {
-    RunTest $bscilexe branches.bscil2 "" "2456"
+    RunTest $bscilexe branches.bscil1 "" "2456"
   }
 }
 
@@ -89,15 +89,15 @@ Describe "bscil0" {
   Bootstraps $bscil0exe (Root "bscil0\bscil0.bscil0")
 }
 
-$bscil2exe = Compile $bscil0exe (Root "bscil2\bscil2.bscil0")
+$bscil1exe = Compile $bscil0exe (Root "bscil1\bscil1.bscil0")
 
-Describe "bscil2.bscil0" {
-  TestBSCIL2 $bscil2exe 
+Describe "bscil1.bscil0" {
+  TestBSCIL1 $bscil1exe 
 }
 
-Describe "bscil2.bscil2" {
-  $anotherbscil2 = Compile $bscil2exe (Root "bscil2\bscil2.bscil2")
-  TestBSCIL2 $anotherbscil2
+Describe "bscil1.bscil1" {
+  $anotherbscil1 = Compile $bscil1exe (Root "bscil1\bscil1.bscil1")
+  TestBSCIL1 $anotherbscil1
   
-  Bootstraps $anotherbscil2 (Root "bscil2\bscil2.bscil2")
+  Bootstraps $anotherbscil1 (Root "bscil1\bscil1.bscil1")
 }
