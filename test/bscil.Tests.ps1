@@ -79,6 +79,16 @@ Function TestBSCIL1($bscilexe) {
   }
 }
 
+Function TestBSCIL2($bscilexe) {
+  It "runs trivial" {
+    RunTest $bscilexe trivial.bscil2 "" ""
+  }
+  
+  It "runs echo2" {
+    RunTest $bscilexe echo2.bscil2 "hello" "he"
+  }
+}
+
 Remove-Item "*delete.exe" # Pretty safe to delete files ending in delete?
 
 $bscil0exe = Root "bscil0\bscil0.exe"
@@ -100,4 +110,10 @@ Describe "bscil1.bscil1" {
   TestBSCIL1 $anotherbscil1
   
   Bootstraps $anotherbscil1 (Root "bscil1\bscil1.bscil1")
+}
+
+$bscil2exe = Compile $bscil1exe (Root "bscil2\bscil2.bscil1")
+
+Describe "bscil2.bscil1" {
+  TestBSCIL2 $bscil2exe 
 }

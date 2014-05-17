@@ -1604,7 +1604,7 @@ L5A CIL op: mull
 W
 B82000000 to <END-OP>
 D
-L52 'R'
+L72 'r'
 N28 to next DUP
 L28 CIL op: call
 W
@@ -1618,7 +1618,7 @@ L06
 W
 B55000000 to <END-OP>
 D
-L57 'W'
+L77 'w'
 N28 to next DUP
 L28 CIL op: call
 W
@@ -1632,7 +1632,7 @@ L06
 W
 B28000000 to <END-OP>
 D
-L46 'F'
+L66 'f'
 N32 to <FINISH>
 L28 CIL op: call
 W
