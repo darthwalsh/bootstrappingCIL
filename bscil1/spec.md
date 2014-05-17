@@ -32,7 +32,7 @@ Operations
 |    W      |     0     | [write]  | 28 02 00 00 06 |
 |    F      |     0     | [finish] | 28 03 00 00 06 |
 
-read, write, and finish are the same as in BSCIL1.
+read, write, and finish are the same as in BSCIL0.
 In BSICL1, reading and writing bytes are first-class ops.
 
 Grammar
@@ -52,6 +52,7 @@ Grammar
           : N <HEX>
           : B <HEX> <HEX> <HEX> <HEX>
           : A
+          : M
           : R
           : W
           : F

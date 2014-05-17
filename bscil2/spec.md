@@ -22,24 +22,32 @@ lowercase characters will now indicate meta ops
 Operations
 ----------
 
-//TODO
-| BSCIL2 op | Byte args |  CIL op  | CIL byte(s)    |
-|:---------:|:---------:|:--------:|:--------------:|
-|    L      |     1     | ldc.i4.s | 1F __          |
-|    D      |     0     | dup      | 25             |
-|    P      |     0     | pop      | 26             |
-|    T      |     0     | ret      | 2A             |
-|    E      |     1     | blt.s    | 32 __          |
-|    N      |     1     | bne.s    | 33 __          |
-|    B      |     4     | br       | 38 __ __ __ __ |
-|    A      |     0     | add      | 58             |
-|    M      |     0     | mul      | 5A             |
-|    r      |     0     | [read]   | 28 01 00 00 06 |
-|    w      |     0     | [write]  | 28 02 00 00 06 |
-|    f      |     0     | [finish] | 28 03 00 00 06 |
+| BSCIL2 op | Byte args |  CIL op    | CIL byte(s)       |
+|:---------:|:---------:|:----------:|:-----------------:|
+|    O      |     0     | ldloc.0    | 06                |
+|    S      |     0     | stloc.0    | 0A                |
+|    L      |     1     | ldc.i4.s   | 1F __             |
+|    D      |     0     | dup        | 25                |
+|    P      |     0     | pop        | 26                |
+|    T      |     0     | ret        | 2A                |
+|    E      |     1     | blt.s      | 32 __             |
+|    N      |     1     | bne.s      | 33 __             |
+|    B      |     4     | br         | 38 __ __ __ __    |
+|    A      |     0     | add        | 58                |
+|    M      |     0     | mul        | 5A                |
+|    C      |     4     | localloc   | FE 0F __ __ __ __ |
+|    r      |     0     | [read]     | 28 01 00 00 06    |
+|    w      |     0     | [write]    | 28 02 00 00 06    |
+|    f      |     0     | [finish]   | 28 03 00 00 06    |
+|    p      |     0     | [position] | 28 04 00 00 06    |
+|    s      |     0     | [suspend]  | 28 05 00 00 06    |
+|    u      |     0     | [resume]   | 28 06 00 00 06    |
 
 read, write, and finish are the same as in BSCIL1.
-In BSICL1, reading and writing bytes are first-class ops.
+
+suspend stops writing bytes to standard output, and marks the position in standard input
+resume reverts the position of the standard input stream back to the last suspend point
+position returns the number of output bytes skipped since the last suspend
 
 Grammar
 -------
@@ -50,7 +58,9 @@ Grammar
           
 <LINE>    : <OP> <COMMENT> (CR) (LF)
          
-<OP>      : L <HEX>
+<OP>      : O
+          : S
+          : L <HEX>
           : L <LITERAL>
           : D
           : P
@@ -59,9 +69,13 @@ Grammar
           : N <HEX>
           : B <HEX> <HEX> <HEX> <HEX>
           : A
+          : M
           : r
           : w
           : f
+          : p
+          : s
+          : u
 
 <HEX>     : (0-9A-E) (0-9A-E)
 
