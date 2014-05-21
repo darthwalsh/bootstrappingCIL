@@ -33,9 +33,11 @@ Operations
 |    E      |     1     | blt.s      | 32 __             |
 |    N      |     1     | bne.s      | 33 __             |
 |    B      |     4     | br         | 38 __ __ __ __    |
+|    Q      |     0     | ldind.i4   | 4A                |
+|    Z      |     0     | stind.i4   | 54                |
 |    A      |     0     | add        | 58                |
 |    M      |     0     | mul        | 5A                |
-|    C      |     4     | localloc   | FE 0F __ __ __ __ |
+|    C      |     0     | localloc   | FE 0F             |
 |    r      |     0     | [read]     | 28 01 00 00 06    |
 |    w      |     0     | [write]    | 28 02 00 00 06    |
 |    f      |     0     | [finish]   | 28 03 00 00 06    |
@@ -68,8 +70,11 @@ Grammar
           : E <HEX>
           : N <HEX>
           : B <HEX> <HEX> <HEX> <HEX>
+          : Q
+          : Z
           : A
           : M
+          : C
           : r
           : w
           : f
