@@ -1,0 +1,18 @@
+L10  MEM      STACK
+C    X,X,X,X  ..., p0
+D    X,X,X,X  ..., p0, p0
+L33  X,X,X,X  ..., p0, p0, '3'
+Z    3,X,X,X  ..., p0
+D    3,X,X,X  ..., p0, p0
+L08  3,X,X,X  ..., p0, p0, 0x08
+A    3,X,X,X  ..., p0, p2
+r    3,X,X,X  ..., p0, p2, i (user input)
+Z    3,X,i,X  ..., p0
+D    3,X,i,X  ..., p0, p0
+Q    3,X,i,X  ..., p0, '3'
+w    3,X,i,X  ..., p0
+L08  3,X,i,X  ..., p0, 0x08
+A    3,X,i,X  ..., p2
+Q    3,X,i,X  ..., i
+w
+T

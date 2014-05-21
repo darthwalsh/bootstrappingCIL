@@ -110,6 +110,10 @@ Function TestBSCIL2($bscilexe) {
   It "runs branches" {
     RunTest $bscilexe branches.bscil2 "" "2456"
   }
+  
+  It "runs mem" {
+    RunTest $bscilexe mem.bscil2 "4" "34"
+  }
 }
 
 Remove-Item "*delete.exe" # Pretty safe to delete files ending in delete?

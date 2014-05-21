@@ -1432,25 +1432,25 @@ LF9
 A
 A    16*digit + digit
 W
-B0A020000 to <END-OP>
+B44020000 to <END-OP>
 D
 L44 'D'
 N0C    to next DUP
 L25 CIL op: dup
 W
-BF9010000 to <END-OP>
+B33020000 to <END-OP>
 D
 L50 'P'
 N0C    to next DUP
 L26 CIL op: pop
 W
-BE8010000 to <END-OP>
+B22020000 to <END-OP>
 D
 L54 'T'
 N0C    to next DUP
 L2A CIL op: ret
 W
-BD7010000 to <END-OP>
+B11020000 to <END-OP>
 D
 L45 'E'
 N35 to next DUP
@@ -1476,7 +1476,7 @@ LF9
 A
 A 
 W
-B9D010000 to <END-OP>
+BD7010000 to <END-OP>
 D
 L4E 'N'
 N35 to next DUP
@@ -1502,7 +1502,7 @@ LF9
 A
 A 
 W
-B63010000 to <END-OP>
+B9D010000 to <END-OP>
 D
 L42 'B'
 N05     to full-size branch to next DUP
@@ -1590,17 +1590,37 @@ LF9
 A
 A
 W
-BA4000000 to <END-OP>
+BDE000000 to <END-OP>
+D
+L51 'Q'
+N0C    to next DUP
+L4A CIL op: ldind.i4
+W
+BCD000000 to <END-OP>
+D
+L5A 'Z'
+N0C    to next DUP
+L54 CIL op: stind.i4
+W
+BBC000000 to <END-OP>
 D
 L41 'A'
 N0C    to next DUP
 L58 CIL op: add
 W
-B93000000 to <END-OP>
+BAB000000 to <END-OP>
 D
 L4D 'M'
 N0C    to next DUP
-L5A CIL op: mull
+L5A CIL op: mul
+W
+B9A000000 to <END-OP>
+D
+L43 'C'
+N13    to next DUP
+LFE CIL op: localloc
+W
+L0F CIL op: localloc
 W
 B82000000 to <END-OP>
 D
@@ -1648,7 +1668,7 @@ P  <END-OP>
 R  <COMMENT>
 L0A '\n'
 NF7      to <COMMENT>
-BA8FDFFFF back to <OP>
+B6EFDFFFF back to <OP>
 P  <FINISH>
 F
 L42
