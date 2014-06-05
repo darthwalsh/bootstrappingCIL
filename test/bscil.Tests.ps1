@@ -20,6 +20,10 @@ Function RunTest($exe, $target, $instream, $expected) {
     $exe = Compile $exe $target
     
     $output = $instream | & $exe
+    if($output -eq $null) {
+      $output = ""
+    }
+    
     [string]($output) | Should be $expected
 }
 
