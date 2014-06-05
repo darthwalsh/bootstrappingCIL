@@ -24,10 +24,9 @@ Function RunTest($exe, $target, $instream, $expected) {
     # //TODO undo debug
     if($output -eq $null) {
       Write-Host "Output Null!"
+      $output = ""
     }
-    else {
-      Write-Host "Output Length $($output.Length)"
-    }
+    Write-Host "Output Length $($output.Length)"
     
     [string]($output) | Should be $expected
 }
