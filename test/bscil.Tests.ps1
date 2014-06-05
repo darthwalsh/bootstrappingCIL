@@ -20,15 +20,6 @@ Function RunTest($exe, $target, $instream, $expected) {
     $exe = Compile $exe $target
     
     $output = $instream | & $exe
-    
-    # //TODO undo debug
-    if($output -eq $null) {
-      Write-Host "Output Null!"
-    }
-    else {
-      Write-Host "Output Length $($output.Length)"
-    }
-    
     [string]($output) | Should be $expected
 }
 
@@ -128,20 +119,6 @@ Function TestBSCIL2($bscilexe) {
 Remove-Item "*delete.exe" # Pretty safe to delete files ending in delete?
 
 $bscil0exe = Root "bscil0\bscil0.exe"
-
-Describe "debug" {
-  It "says null is empty" {
-    $null | Should be ""
-  }
-
-  It "says empty is null" {
-    "" | Should be $null
-  }
-  
-  It "casts null to empty" {
-    [string]($null) | Should be ""
-  }
-}
 
 Describe "bscil0" {
   TestBSCIL0 $bscil0exe
