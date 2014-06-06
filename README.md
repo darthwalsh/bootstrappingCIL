@@ -57,7 +57,9 @@ This should be an educational exploration. Buckle up, and let's get started!
 Acknowledgments
 ---------------
 
-Tests run on [Pester](https://github.com/pester/Pester), a PowerShell unit test framework.
+Tests use [Pester](https://github.com/pester/Pester), a PowerShell unit test framework.
+
+CI testing runs on [AppVeyor](http://www.appveyor.com/) for Windows Cloud testing.
 
 [EMCA-335](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-335.pdf) describes in great detail the binary file format assemblers must produce.
 
