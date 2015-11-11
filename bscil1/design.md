@@ -1,7 +1,7 @@
 BootStrappingCIL1 Design
 ========================
 
-Language1 is designed to still be rather simple, but address several shortcomings of BSCIL0.
+BSCIL1 is designed to still be rather simple, but address several shortcomings of BSCIL0.
 
 Only the minimal number of op codes are supported, for simplicity.
 Branches addresses and load constants are taken in as two hex characters, for simplicity.
