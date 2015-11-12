@@ -204,3 +204,19 @@ Describe "bscil2.bscil1" {
 $time = $sw.ElapsedMilliseconds
 Write-Host "Tests completed in $($time)ms"
 Write-Host "Passed: $passed Failed: $failed"
+
+
+$date = [datetime]::now.ToString("yyyy-MM-dd")
+$time = [datetime]::now.ToString("HH:mm:ss")
+
+$xml = '<?xml version="1.0" encoding="utf-8" standalone="no"?>'
+$xml += '
+<test-results  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="nunit_schema_2.5.xsd" name="CarlTesting"'
+$xml += " total=""$($failed + $passed)"" errors=""$failed"" failures=""$failed"""
+$xml += ' not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0"'
+$xml += "date=""$date"" time=""$time"">"
+$xml +='
+	<environment nunit-version="2.5.8.0" clr-version="2.0.50727.1433" os-version="10.0.10240" platform="Microsoft Windows 10 Home|C:\WINDOWS|\Device\Harddisk1\Partition2" cwd="C:\code\bootstrappingCIL\test" machine-name="DISCOVERY" user="cwalsh" user-domain="DISCOVERY" /> <culture-info current-culture="en-US" current-uiculture="en-US" />
+</test-results>'
+
+$xml > (Here "Test.xml")
