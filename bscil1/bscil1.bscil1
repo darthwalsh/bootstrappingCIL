@@ -1346,7 +1346,7 @@ L04
 W
 L20
 W
-LD0
+LCD
 W
 L52
 W
@@ -1651,6 +1651,12 @@ NF7      to <COMMENT>
 BA8FDFFFF back to <OP>
 P  <FINISH>
 F
+L2A
+W
+L00
+W
+L00
+W
 L42
 W
 L53

@@ -5,10 +5,14 @@ Function Root($p) {
   return Join-Path -Path $root -ChildPath $p
 }
 
+Function Here($p) {
+return Join-Path -Path $here -ChildPath $p
+}
+
 Function Compile($exe, $target) {
   # Don't overwrite existing files
   $shortname = (get-childitem -path $target).Name -replace "\.", ""
-  $name = Join-Path -Path $here -ChildPath "$($shortname)_$(Get-Random 1000)delete.exe"
+  $name = Here "$($shortname)_$(Get-Random 1000)delete.exe"
   
   cmd /c "$exe < $target > $name"
   $LastExitCode | Should be 0 | Out-Null
@@ -17,6 +21,7 @@ Function Compile($exe, $target) {
 }
 
 Function RunTest($exe, $target, $instream, $expected) {
+    $target = Here $target
     $exe = Compile $exe $target
     
     $output = $instream | & $exe
@@ -60,10 +65,10 @@ Function TestBSCIL1($bscilexe) {
   }
   
   It "runs blank" {
-    $exe = Compile $bscilexe blank.bscil1
+    $exe = Compile $bscilexe (Here blank.bscil1)
     
     $output = & $exe
-    [string]($output).Length | Should be 0x52D0
+    [string]($output).Length | Should be 0x52CD
   }
   
   It "runs heart" {
@@ -93,10 +98,10 @@ Function TestBSCIL2($bscilexe) {
   }
   
   It "runs blank" {
-    $exe = Compile $bscilexe blank.bscil2
+    $exe = Compile $bscilexe (Here blank.bscil2)
     
     $output = & $exe
-    [string]($output).Length | Should be 0x52D0
+    [string]($output).Length | Should be 0x52CD
   }
   
   It "runs heart" {
