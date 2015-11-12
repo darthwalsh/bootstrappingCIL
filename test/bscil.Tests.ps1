@@ -141,7 +141,7 @@ Function TestBSCIL2($bscilexe) {
   }
   
   It "runs echo2" {
-    RunTest $bscilexe echo2.bscil2 "hello" "hea"
+    RunTest $bscilexe echo2.bscil2 "hello" "he"
   }
   
   It "runs blank" {
