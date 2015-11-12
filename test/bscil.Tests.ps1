@@ -1,12 +1,59 @@
+$ErrorActionPreference = "Stop"
+
+$sw = [system.diagnostics.stopwatch]::startNew()
+
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 $root = Split-Path -Parent $here
 
 Function Root($p) {
-  return Join-Path -Path $root -ChildPath $p
+  Join-Path -Path $root -ChildPath $p
 }
 
 Function Here($p) {
-return Join-Path -Path $here -ChildPath $p
+  Join-Path -Path $here -ChildPath $p
+}
+
+Function Should-Be($expected) { 
+  Process { 
+    if ($_ -ne $expected) {
+      throw "Expected $expected but actually got $_"
+    }
+  }
+}
+
+$passed = 0
+$failed = 0
+
+Function It($name, $action) {
+  $time = Measure-Command { 
+    Try { 
+      & $action
+    } Catch { 
+      $e = $_
+    }
+  }
+  $time = [math]::Ceiling($time.TotalMilliseconds)
+  
+
+  if ($e -eq $null) {
+    $color = "DarkGreen"
+    $success = "+"
+    ++$script:passed
+  } else {
+    $color = "Red"
+    $success = "-"
+    ++$script:failed
+  }
+  
+  Write-Host "[$success] $name $($time)ms" -Foreground $color
+  if ($e -ne $null) {
+    Write-Host $e.ToString() -Foreground $color
+  }
+}
+
+Function Describe($name, $action) {
+  Write-Host "Describing $name" -Foreground "magenta"
+  & $action
 }
 
 Function Compile($exe, $target) {
@@ -15,9 +62,9 @@ Function Compile($exe, $target) {
   $name = Here "$($shortname)_$(Get-Random 1000)delete.exe"
   
   cmd /c "$exe < $target > $name"
-  $LastExitCode | Should be 0 | Out-Null
+  $LastExitCode | Should-Be 0
   
-  return $name
+  $name
 }
 
 Function RunTest($exe, $target, $instream, $expected) {
@@ -29,7 +76,7 @@ Function RunTest($exe, $target, $instream, $expected) {
       $output = ""
     }
     
-    [string]($output) | Should be $expected
+    [string]($output) | Should-Be $expected
 }
 
 Function Bootstraps($bscilexe, $target) {
@@ -37,7 +84,7 @@ Function Bootstraps($bscilexe, $target) {
     $bootstrapped = Compile $bscilexe $target
     
     fc.exe /b $bscilexe $bootstrapped
-    $LastExitCode | Should be 0
+    $LastExitCode | Should-Be 0
   }
 }
 
@@ -68,7 +115,7 @@ Function TestBSCIL1($bscilexe) {
     $exe = Compile $bscilexe (Here blank.bscil1)
     
     $output = & $exe
-    [string]($output).Length | Should be 0x52CD
+    [string]($output).Length | Should-Be 0x52CD
   }
   
   It "runs heart" {
@@ -94,14 +141,14 @@ Function TestBSCIL2($bscilexe) {
   }
   
   It "runs echo2" {
-    RunTest $bscilexe echo2.bscil2 "hello" "he"
+    RunTest $bscilexe echo2.bscil2 "hello" "hea"
   }
   
   It "runs blank" {
     $exe = Compile $bscilexe (Here blank.bscil2)
     
     $output = & $exe
-    [string]($output).Length | Should be 0x52CD
+    [string]($output).Length | Should-Be 0x52CD
   }
   
   It "runs heart" {
@@ -153,3 +200,7 @@ $bscil2exe = Compile $bscil1exe (Root "bscil2\bscil2.bscil1")
 Describe "bscil2.bscil1" {
   TestBSCIL2 $bscil2exe 
 }
+
+$time = $sw.ElapsedMilliseconds
+Write-Host "Tests completed in $($time)ms"
+Write-Host "Passed: $passed Failed: $failed"
