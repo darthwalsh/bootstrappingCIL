@@ -1,6 +1,6 @@
 BootStrappingCIL0 Specification
 
-bscil1 is a binary file of CIL assembly.
+BSCIL0 is a binary file of CIL assembly.
 While not an instruction language, this language is an intermediate to more human-readable forms.
 
 Its primary purpose is to handle the PE-file format, enabling pure CIL programs to be written.
