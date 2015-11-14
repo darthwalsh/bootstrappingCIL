@@ -7,6 +7,7 @@ Bootstrapping
 From a Command Prompt at the project root:
 
     bootstrappingCIL> bscil0\bscil0.exe < bscil1\bscil1.bscil0 > bscil1\bscil1.exe
+    bootstrappingCIL> bscil1\bscil1.exe < bscil2\bscil2.bscil1 > bscil2\bscil2.exe
     
 And verifying each language can self-host:
 
@@ -42,7 +43,8 @@ First, a high level program like C# or VB is compiled to CIL.
 Next, the generated CIL is assembled to a binary Portable Executable (PE) file. (This is the transformation to bootstrap.)
 Finally, to run the binary an execution engine converts CIL to native machine code as the program runs.
 
-To be clear, we'll consider the PE file to be the end goal, and we're not trying to simulate the operations in the execution engine. Also, the goal of bootstrapping the CIL means each iteration of better tools show move closer to proper CIL, and not to a higher-level.
+To be clear, we'll consider the PE file to be the end goal, and we're not trying to simulate the operations in the execution engine.
+Also, the goal of bootstrapping the CIL means each iteration of better tools show move closer to proper CIL, and not to a higher-level.
 
 I don't think it is reasonable to ask people interested in this project to just trust some executables off the internet.
 For that reason we'll try to limit the number and complexity of any committed binary executables.
