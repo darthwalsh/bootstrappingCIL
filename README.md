@@ -21,9 +21,7 @@ And verifying each language can self-host:
 Running Tests
 -------------
 
-Get [nuget.exe](http://nuget.org/nuget.exe) and get it in your path or the test folder.
-
-    test/run
+    test\run
 
 Windows test status: [![Build status](https://ci.appveyor.com/api/projects/status/cnd0aqt66wc98ncm)](https://ci.appveyor.com/project/darthwalsh/bootstrappingcil)
 
