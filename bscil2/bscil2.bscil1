@@ -1409,17 +1409,17 @@ W
 R   <OP>
 D
 L4C 'L'
-N4A to next DUP  //TODO?? was 35 add new count 15
+N4A to next op //TODO VERIFY: was 35 add new count 15
 L1F CIL op: ldc.i4.s
 W
 R   through the next write reads two hex digits or one literal character and outputs a byte
-D   //TODO?? new code starts here
+D //TODO VERIFY: the new code starts here 
 L27 '\''
-N10 //TODO?? to LD0
+N10 //TODO VERIFY: to LD0
 P
 R
 W
-B6D020000 //TODO to <END-OP>
+B6D020000 //TODO VERIFY: //to <END-OP>
 LD0 -0x30
 A   0-9 -> 0-9; A-F -> 17-22
 D
