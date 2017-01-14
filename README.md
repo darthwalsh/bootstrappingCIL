@@ -29,22 +29,23 @@ Windows test status: [![Build status](https://ci.appveyor.com/api/projects/statu
 Background
 ----------
 
-Common Intermediate Language (CIL) is the assembly language of the .NET framework.
-Unlike other compiled programming languages that transform high-level code into the exact bytes that will run on the CPU,
- CIL describes operations in a hypothetical virtual machine.
- 
-"Bootstrapping" is a common term used to describe the origin of a compiler for a language, written in that language itself.
-While this may seem like a chicken-and-egg situation, evolution is again the answer.
-The solution is to make a very simple tool written directly in binary, and then use that iteratively to produce more advanced tools.
-
 The process of writing and running a .NET program has several steps.
 
-First, a high level program like C# or VB is compiled to CIL.
-Next, the generated CIL is assembled to a binary Portable Executable (PE) file. (This is the transformation to bootstrap.)
+First, a high-level program like C# or VB is compiled to Common Intermediate Language (CIL).
+Next, the generated CIL is assembled to a binary Portable Executable (PE) file.
 Finally, to run the binary an execution engine converts CIL to native machine code as the program runs.
 
-To be clear, we'll consider the PE file to be the end goal, and we're not trying to simulate the operations in the execution engine.
-Also, the goal of bootstrapping the CIL means each iteration of better tools show move closer to proper CIL, and not to a higher-level.
+Common Intermediate Language (CIL) is the assembly language of the .NET framework, and represents the op codes in the executable.
+Unlike other assembly languages like x86 or ARM that exactly describe the instructions that will run on the CPU,
+ CIL describes operations in a hypothetical virtual machine 
+ 
+"Bootstrapping" is a term used to describe the origin of a compiler for a language, written in that language itself.
+While being able to run a C# compiler written in C# may seem like a chicken-and-egg situation, evolution is again the answer.
+The solution is to make a very simple tool written in an existing language, and then use that iteratively to produce more advanced tools.
+
+The goal of this project is to write an assembler that transforms CIL assembly files into PE files.
+We're not trying to simulate the operations in the execution engine, so producing a valid PE file is the goal. 
+Also, the goal of bootstrapping the CIL means each iteration of better tools show move closer to proper CIL, and not add higher-level C# features.
 
 I don't think it is reasonable to ask people interested in this project to just trust some executables off the internet.
 For that reason we'll try to limit the number and complexity of any committed binary executables.
@@ -53,7 +54,6 @@ But at the same time, .NET is not the right technology to bootstrap to remove al
 
 This should be an educational exploration. Buckle up, and let's get started!
 
-
 Acknowledgments
 ---------------
 
@@ -61,4 +61,6 @@ CI testing runs on [AppVeyor](http://www.appveyor.com/) for Windows Cloud testin
 
 [EMCA-335](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-335.pdf) describes in great detail the binary file format assemblers must produce.
 
-Visual Studio's ldasm is helpful to understand CIL binaries (nothing proprietary used).
+Visual Studio's ildasm.exe is helpful to view PE files, but this project doesn't copy any code from other tools.
+
+You, for reading!

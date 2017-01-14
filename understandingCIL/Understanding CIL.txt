@@ -58,6 +58,10 @@ http://www.pelib.com/resources/kath.txt
 http://msdn.microsoft.com/en-us/magazine/cc301805.aspx
 http://brahms.di.uminho.pt/discip/minf/ac0304/icca04/Proc/11000_CLR.pdf
 http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-335.pdf
+http://www.csn.ul.ie/~caolan/pub/winresdump/winresdump/doc/pefile2.html
+http://www.microsoft.com/whdc/system/platform/firmware/PECOFF.mspx or https://msdn.microsoft.com/en-us/windows/hardware/gg463119.aspx
+http://www.codeproject.com/Articles/362076/Understanding-Common-Intermediate-Language-CIL
+Many times https://www.simple-talk.com/blogs/2011/03/28/anatomy-of-a-net-assembly-the-clr-loader-stub/
 
 //AddR.exe [2048 bytes]
 
