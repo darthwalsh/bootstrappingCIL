@@ -6,7 +6,7 @@ BSCIL1 is designed to still be rather simple, but address several shortcomings o
 Only the minimal number of op codes are supported, for simplicity.
 Branches addresses and load constants are taken in as two hex characters, for simplicity.
 Op codes are all single letters, and must be capital letters.
-One unexpected input is encountered, the rest of the program is ignored.
+If unexpected input is encountered, the rest of the program is ignored.
 
 As with BSCIL1, a regex can produce most of the literal print code by copying the desired output as hex bytes, and then replaced with the regex:
 
