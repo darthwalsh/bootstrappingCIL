@@ -9,5 +9,6 @@ ldc.i4.s 44                                                   // Stack: 44, "Hel
 box [mscorlib]System.Int32                                    // Stack: {}->44, "Hello, World!", [further down]
 call string [mscorlib]System.String::Concat(object, object)   // Stack: "Hello, World!44", [further down]
 call void [mscorlib]System.Console::WriteLine(string)         // Stack: [further down]
+ret
 }
 }

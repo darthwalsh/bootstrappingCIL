@@ -2,3 +2,4 @@
 *.exe
 *.bak
 Packages
+.DS_Store
