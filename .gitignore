@@ -3,3 +3,5 @@
 *.bak
 Packages
 .DS_Store
+test/bin/
+bscil*.runtimeconfig.json

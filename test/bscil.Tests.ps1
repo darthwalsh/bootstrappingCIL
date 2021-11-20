@@ -6,16 +6,23 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 $root = Split-Path -Parent $here
 
 Function Root($p) {
-  Join-Path -Path $root -ChildPath $p
+  Join-Path $root $p
 }
 
 Function Here($p) {
-  Join-Path -Path $here -ChildPath $p
+  Join-Path $here $p
+}
+
+Function Bin($p) {
+  Here (Join-Path 'bin' $p)
 }
 
 Function Should-Be($expected) { 
   Process { 
     if ($_ -ne $expected) {
+      Get-PSCallStack | ForEach-Object {
+        Write-Warning (@($_.Command.PadLeft(16), ($_.Location -replace ' line ', '') , ($_.Arguments -replace '\s+', ' ')) -join ' ')
+      }
       throw "Expected $expected but actually got $_"
     }
   }
@@ -35,19 +42,21 @@ Function It($name, $action) {
   $time = [math]::Ceiling($time.TotalMilliseconds)
   
 
-  if ($e -eq $null) {
-    $color = "DarkGreen"
-    $success = "+"
-    ++$script:passed
-  } else {
+  if ($e) {
     $color = "Red"
     $success = "-"
     ++$script:failed
   }
+  else {
+    $color = "DarkGreen"
+    $success = "+"
+    ++$script:passed
+  }
   
   Write-Host "[$success] $name $($time)ms" -Foreground $color
-  if ($e -ne $null) {
+  if ($e) {
     Write-Host $e.ToString() -Foreground $color
+    throw ''
   }
 }
 
@@ -56,35 +65,66 @@ Function Describe($name, $action) {
   & $action
 }
 
+Function CreateRuntimeConfig($name) {
+    @{
+      runtimeOptions = @{
+        framework = @{
+          name    = 'Microsoft.NETCore.App'
+          version = "5.0.0"
+        }
+      }
+    } | ConvertTo-Json | Set-Content ($name -replace '\.exe$', '.runtimeconfig.json')
+}
+
+$compileI = 0
 Function Compile($exe, $target) {
   # Don't overwrite existing files
-  $shortname = (get-childitem -path $target).Name -replace "\.", ""
-  $name = Here "$($shortname)_$(Get-Random 1000)delete.exe"
+  $shortname = (Get-ChildItem $target).Name -replace '\W', '_'
+
+  $script:compileI++
+  $name = Bin "$($shortname)_$($script:compileI).exe"
+  $line = "$exe < $target > $name" # powershell destroys binary data in stream
+
+  if (Get-Command cmd -ErrorAction SilentlyContinue) {
+    cmd /c $line
+  }
+  else {
+    CreateRuntimeConfig $exe
+    bash -c "dotnet $line"
+    CreateRuntimeConfig $name
+  }
   
-  cmd /c "$exe < $target > $name"
   $LastExitCode | Should-Be 0
   
   $name
 }
 
+Function RunExe($exe, $instream = "") {
+  if (Get-Command cmd -ErrorAction SilentlyContinue) { 
+    $instream | & $exe 
+  }
+  else { 
+    $instream | & dotnet $exe 
+  }
+}
+
 Function RunTest($exe, $target, $instream, $expected) {
-    $target = Here $target
-    $exe = Compile $exe $target
+  $target = Here $target
+  $exe = Compile $exe $target
     
-    $output = $instream | & $exe
-    if($output -eq $null) {
-      $output = ""
-    }
+  $output = RunExe $exe $instream
+  if ($output -eq $null) {
+    $output = ""
+  }
     
-    [string]($output) | Should-Be $expected
+  [string]($output) | Should-Be $expected
 }
 
 Function Bootstraps($bscilexe, $target) {
   It "bootstraps" {
     $bootstrapped = Compile $bscilexe $target
     
-    fc.exe /b $bscilexe $bootstrapped
-    $LastExitCode | Should-Be 0
+    Get-Content $bscilexe -Raw | Should-Be (Get-Content $bootstrapped -Raw)
   }
 }
 
@@ -114,7 +154,7 @@ Function TestBSCIL1($bscilexe) {
   It "runs blank" {
     $exe = Compile $bscilexe (Here blank.bscil1)
     
-    $output = & $exe
+    $output = RunExe $exe
     [string]($output).Length | Should-Be 0x52CD
   }
   
@@ -147,7 +187,7 @@ Function TestBSCIL2($bscilexe) {
   It "runs blank" {
     $exe = Compile $bscilexe (Here blank.bscil2)
     
-    $output = & $exe
+    $output = RunExe $exe
     [string]($output).Length | Should-Be 0x52CD
   }
   
@@ -172,7 +212,10 @@ Function TestBSCIL2($bscilexe) {
   }
 }
 
-Remove-Item "*delete.exe" # Pretty safe to delete files ending in delete?
+if (Test-Path (Bin)) {
+  Remove-Item (Bin) -Recurse -Force
+}
+New-Item (Bin) -ItemType Directory -Force
 
 $bscil0exe = Root "bscil0\bscil0.exe"
 
