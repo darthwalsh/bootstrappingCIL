@@ -1,71 +1,72 @@
 $ErrorActionPreference = "Stop"
 
-$sw = [system.diagnostics.stopwatch]::startNew()
+# $sw = [system.diagnostics.stopwatch]::startNew()
 
-$here = Split-Path -Parent $MyInvocation.MyCommand.Path
-$root = Split-Path -Parent $here
+BeforeAll {
+  $here = $PSScriptRoot
+  $root = Split-Path -Parent $here
 
-Function Root($p) {
-  Join-Path $root $p
-}
-
-Function Here($p) {
-  Join-Path $here $p
-}
-
-Function Bin($p) {
-  Here (Join-Path 'bin' $p)
-}
-
-Function Should-Be($expected) { 
-  Process { 
-    if ($_ -ne $expected) {
-      Get-PSCallStack | ForEach-Object {
-        Write-Warning (@($_.Command.PadLeft(16), ($_.Location -replace ' line ', '') , ($_.Arguments -replace '\s+', ' ')) -join ' ')
-      }
-      throw "Expected $expected but actually got $_"
-    }
+  Function Root($p) {
+    Join-Path $root $p
   }
-}
 
-$passed = 0
-$failed = 0
-
-Function It($name, $action) {
-  $time = Measure-Command { 
-    Try { 
-      & $action
-    } Catch { 
-      $e = $_
-    }
+  Function Here($p) {
+    Join-Path $here $p
   }
-  $time = [math]::Ceiling($time.TotalMilliseconds)
-  
 
-  if ($e) {
-    $color = "Red"
-    $success = "-"
-    ++$script:failed
+  Function BinDir($p) {
+    Here (Join-Path 'bin' $p)
   }
-  else {
-    $color = "DarkGreen"
-    $success = "+"
-    ++$script:passed
-  }
-  
-  Write-Host "[$success] $name $($time)ms" -Foreground $color
-  if ($e) {
-    Write-Host $e.ToString() -Foreground $color
-    throw ''
-  }
-}
 
-Function Describe($name, $action) {
-  Write-Host "Describing $name" -Foreground "magenta"
-  & $action
-}
+  # Function Should -Be($expected) { 
+  #   Process { 
+  #     if ($_ -ne $expected) {
+  #       Get-PSCallStack | ForEach-Object {
+  #         Write-Warning (@($_.Command.PadLeft(16), ($_.Location -replace ' line ', '') , ($_.Arguments -replace '\s+', ' ')) -join ' ')
+  #       }
+  #       throw "Expected $expected but actually got $_"
+  #     }
+  #   }
+  # }
 
-Function CreateRuntimeConfig($name) {
+  # $passed = 0
+  # $failed = 0
+
+  # Function It($name, $action) {
+  #   $time = Measure-Command { 
+  #     Try { 
+  #       & $action
+  #     } Catch { 
+  #       $e = $_
+  #     }
+  #   }
+  #   $time = [math]::Ceiling($time.TotalMilliseconds)
+    
+
+  #   if ($e) {
+  #     $color = "Red"
+  #     $success = "-"
+  #     ++$script:failed
+  #   }
+  #   else {
+  #     $color = "DarkGreen"
+  #     $success = "+"
+  #     ++$script:passed
+  #   }
+    
+  #   Write-Host "[$success] $name $($time)ms" -Foreground $color
+  #   if ($e) {
+  #     Write-Host $e.ToString() -Foreground $color
+  #     throw ''
+  #   }
+  # }
+
+  # Function Describe($name, $action) {
+  #   Write-Host "Describing $name" -Foreground "magenta"
+  #   & $action
+  # }
+
+  Function CreateRuntimeConfig($name) {
     @{
       runtimeOptions = @{
         framework = @{
@@ -74,71 +75,102 @@ Function CreateRuntimeConfig($name) {
         }
       }
     } | ConvertTo-Json | Set-Content ($name -replace '\.exe$', '.runtimeconfig.json')
-}
-
-$compileI = 0
-Function Compile($exe, $target) {
-  # Don't overwrite existing files
-  $shortname = (Get-ChildItem $target).Name -replace '\W', '_'
-
-  $script:compileI++
-  $name = Bin "$($shortname)_$($script:compileI).exe"
-  $line = "$exe < $target > $name" # powershell destroys binary data in stream
-
-  if (Get-Command cmd -ErrorAction SilentlyContinue) {
-    cmd /c $line
   }
-  else {
-    CreateRuntimeConfig $exe
-    bash -c "dotnet $line"
-    CreateRuntimeConfig $name
-  }
-  
-  $LastExitCode | Should-Be 0
-  
-  $name
-}
 
-Function RunExe($exe, $instream = "") {
-  if (Get-Command cmd -ErrorAction SilentlyContinue) { 
-    $instream | & $exe 
-  }
-  else { 
-    $instream | & dotnet $exe 
-  }
-}
+  $compileI = 0
+  Function Compile($target) {
+    $target | Should -Not -BeNullOrEmpty
 
-Function RunTest($exe, $target, $instream, $expected) {
-  $target = Here $target
-  $exe = Compile $exe $target
+    # Don't overwrite existing files
+    $shortname = (Get-ChildItem $target).Name -replace '\W', '_'
+
+    $script:compileI++
+    $name = BinDir "$($shortname)_$($script:compileI).exe"
+    $line = "$(Get-Compiler) < $target > $name" # powershell destroys binary data in stream
+
+    if (Get-Command cmd -ErrorAction SilentlyContinue) {
+      cmd /c $line
+    }
+    else {
+      bash -c "dotnet $line"
+      CreateRuntimeConfig $name
+    }
     
-  $output = RunExe $exe $instream
-  if ($output -eq $null) {
-    $output = ""
-  }
+    $LastExitCode | Should -Be 0 -Because "Ran line $line"
     
-  [string]($output) | Should-Be $expected
+    $name
+  }
+
+  Function RunExe($exe, $instream = "") {
+    if (Get-Command cmd -ErrorAction SilentlyContinue) { 
+      $instream | & $exe 
+    }
+    else { 
+      $instream | & dotnet $exe 
+    }
+  }
+
+  Function RunTest($target, $instream, $expected) {
+    $target = Here $target
+    $exe = Compile $target
+      
+    $output = RunExe $exe $instream
+    if (-not $output) {
+      $output = ""
+    }
+      
+    [string]($output) | Should -Be $expected
+  }
+
+  $script:compilers = @{
+    bscil0 = Root "bscil0\bscil0.exe"
+  }
+
+  Function Get-Description {
+    $____Pester.CurrentBlock.Name
+  }
+
+  Function Get-Compiler() {
+    $source = Get-Description
+    if (-not $script:compilers.ContainsKey($source)) {
+      $script:compilers[$source] = "MySCRIPT" + $script:compilers.Count
+      CreateRuntimeConfig $exe
+      
+    }
+    $script:compilers[$source]
+  }
+
+  # if (Test-Path (BinDir)) {
+  #   Remove-Item (BinDir) -Recurse -Force
+  # }
+  # New-Item (BinDir) -ItemType Directory -Force
+
+  # $bscil0exe = Root "bscil0\bscil0.exe"
+  # $bscil1exe = Compile $bscil0exe (Root "bscil1\bscil1.bscil0")
+  # $bscil2exe = Compile $bscil1exe (Root "bscil2\bscil2.bscil1")
 }
 
-Function Bootstraps($bscilexe, $target) {
+Function Bootstraps() {
   It "bootstraps" {
-    $bootstrapped = Compile $bscilexe $target
+    $version = Get-Description -split '.' | Select-Object -First 1
+    $target = (Root "$version\$version.$version")
+    $bootstrapped = Compile $target
     
-    Get-Content $bscilexe -Raw | Should-Be (Get-Content $bootstrapped -Raw)
+    Get-Content (Get-Compiler) -Raw | Should -Be (Get-Content $bootstrapped -Raw)
   }
 }
 
-Function TestBSCIL0($bscilexe) {
+Function TestBSCIL0() {
   It "runs trivial" {
-    RunTest $bscilexe trivial.bscil0 "" ""
+    RunTest trivial.bscil0 "" ""
   }
   
   It "runs adder" {
-    RunTest $bscilexe adder.bscil0 "" "5"
+    RunTest adder.bscil0 "" "5"
   }
   
   It "runs echo2" {
-    RunTest $bscilexe echo2.bscil0 "hello" "he"
+    RunTest echo2.bscil0 "hello" "he"
   }
 }
 
@@ -152,10 +184,10 @@ Function TestBSCIL1($bscilexe) {
   }
   
   It "runs blank" {
-    $exe = Compile $bscilexe (Here blank.bscil1)
+    $exe = Compile (Here blank.bscil1)
     
     $output = RunExe $exe
-    [string]($output).Length | Should-Be 0x52CD
+    [string]($output).Length | Should -Be 0x52CD
   }
   
   It "runs heart" {
@@ -185,10 +217,10 @@ Function TestBSCIL2($bscilexe) {
   }
   
   It "runs blank" {
-    $exe = Compile $bscilexe (Here blank.bscil2)
+    $exe = Compile (Here blank.bscil2)
     
     $output = RunExe $exe
-    [string]($output).Length | Should-Be 0x52CD
+    [string]($output).Length | Should -Be 0x52CD
   }
   
   It "runs heart" {
@@ -212,40 +244,24 @@ Function TestBSCIL2($bscilexe) {
   }
 }
 
-if (Test-Path (Bin)) {
-  Remove-Item (Bin) -Recurse -Force
-}
-New-Item (Bin) -ItemType Directory -Force
-
-$bscil0exe = Root "bscil0\bscil0.exe"
 
 Describe "bscil0" {
-  TestBSCIL0 $bscil0exe
+  TestBSCIL0
   
-  Bootstraps $bscil0exe (Root "bscil0\bscil0.bscil0")
+  Bootstraps
 }
 
-$bscil1exe = Compile $bscil0exe (Root "bscil1\bscil1.bscil0")
+# Describe "bscil1.bscil0" {
+#   TestBSCIL1 bscil1.bscil0
+# }
 
-Describe "bscil1.bscil0" {
-  TestBSCIL1 $bscil1exe 
-}
-
-Describe "bscil1.bscil1" {
-  $anotherbscil1 = Compile $bscil1exe (Root "bscil1\bscil1.bscil1")
-  TestBSCIL1 $anotherbscil1
+# Describe "bscil1.bscil1" {
+#   $anotherbscil1 = Compile $bscil1exe (Root "bscil1\bscil1.bscil1")
+#   TestBSCIL1 bscil1.bscil1
   
-  Bootstraps $anotherbscil1 (Root "bscil1\bscil1.bscil1")
-}
+#   Bootstraps $anotherbscil1 (Root "bscil1\bscil1.bscil1")
+# }
 
-$bscil2exe = Compile $bscil1exe (Root "bscil2\bscil2.bscil1")
-
-Describe "bscil2.bscil1" {
-  TestBSCIL2 $bscil2exe 
-}
-
-$time = $sw.ElapsedMilliseconds
-Write-Host "Tests completed in $($time)ms"
-Write-Host "Passed: $passed Failed: $failed"
-
-exit $failed
+# Describe "bscil2.bscil1" {
+#   TestBSCIL2 $bscil2exe 
+# }
