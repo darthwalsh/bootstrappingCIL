@@ -1,0 +1,7 @@
+.assembly A {}
+.class C {
+.method static void M() {
+.entrypoint
+ret
+}
+}

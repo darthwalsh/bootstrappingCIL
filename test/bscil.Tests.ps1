@@ -49,7 +49,11 @@ BeforeAll {
       cmd /c $line
     }
     else {
-      bash -c "dotnet $line"
+      if ((Get-Description) -ne "bscilN.il") { # can remove this hack when bscil0 -> bscil1 -> bscilN
+        $line = "dotnet $line"
+      }
+
+      bash -c $line
       CreateRuntimeConfig $name
     }
     
@@ -66,6 +70,7 @@ BeforeAll {
     else { 
       $instream | & dotnet $exe 
     }
+    $LastExitCode | Should -Be 0 -Because "Ran $exe"
   }
 
   Function RunTest($target, $instream, $expected) {
@@ -86,6 +91,7 @@ BeforeAll {
 
   $script:compilers = @{
     bscil0 = Root "bscil0\bscil0.exe"
+    "bscilN.il" = Root "bscilN\ilasmAdapter"
   }
 
   Function Get-Compiler($target = $null) {
@@ -228,6 +234,15 @@ Function TestBSCIL2() {
   }
 }
 
+Function TestBSCILN() {
+  It "runs trivial" {
+    RunTest trivial.bscilN "" ""
+  }
+  
+  It "runs echo2" {
+    RunTest echo2.bscilN "hello" "he"
+  }
+}
 
 Describe "bscil0" {
   TestBSCIL0
@@ -249,3 +264,12 @@ Describe "bscil1.bscil1" {
 Describe "bscil2.bscil1" {
   TestBSCIL2
 }
+
+Describe "bscilN.il" {
+  TestBSCILN
+}
+
+# NOT IMPLEMENTED YET!!
+# Describe "bscilN.bscilN" {
+#   TestBSCILN
+# }

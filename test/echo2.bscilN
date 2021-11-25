@@ -1,0 +1,11 @@
+.assembly A {}
+.class C {
+.method static void Main() {
+.entrypoint
+call int32 [mscorlib]System.Console::Read()
+call void [mscorlib]System.Console::Write(char)
+call int32 [mscorlib]System.Console::Read()
+call void [mscorlib]System.Console::Write(char)
+ret
+}
+}
