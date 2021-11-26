@@ -1,6 +1,6 @@
 .assembly A {}
 .class C {
-.method static void Main() {
+.method static void M() {
 .entrypoint
 call int32 [mscorlib]System.Console::Read()
 call void [mscorlib]System.Console::Write(char)

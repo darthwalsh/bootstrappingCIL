@@ -49,7 +49,7 @@ BeforeAll {
       cmd /c $line
     }
     else {
-      if ((Get-Description) -ne "bscilN.il") { # can remove this hack when bscil0 -> bscil1 -> bscilN
+      if ((Get-Description) -ne "ilasm") { # can remove this hack when bscil0 -> bscil1 -> bscilN
         $line = "dotnet $line"
       }
 
@@ -91,7 +91,7 @@ BeforeAll {
 
   $script:compilers = @{
     bscil0 = Root "bscil0\bscil0.exe"
-    "bscilN.il" = Root "bscilN\ilasmAdapter"
+    "ilasm" = Root "bscilN\ilasmAdapter"
   }
 
   Function Get-Compiler($target = $null) {
@@ -112,14 +112,9 @@ BeforeAll {
     #   $script:compilers[$moniker] = Compile $source
     # }
 
-
     $script:compilers[$moniker]
   }
 
-
-  if (Test-Path (BinDir)) {
-    Remove-Item (BinDir) -Recurse -Force
-  }
   New-Item (BinDir) -ItemType Directory -Force
 }
 
@@ -135,6 +130,15 @@ Function Add-Compiler() {
     }
     $moniker = "$next.$name"
     $source = Root "$next/$moniker"
+    Log "ADD $(Get-Description) Generating $moniker from $source"
+    $script:compilers[$moniker] = Compile $source
+  }
+}
+
+Function Add-CompilerN() {
+  It "compiles next tool" {
+    $moniker = "bscilN.bscilN"
+    $source = Root "bscilN/$moniker"
     Log "ADD $(Get-Description) Generating $moniker from $source"
     $script:compilers[$moniker] = Compile $source
   }
@@ -239,37 +243,37 @@ Function TestBSCILN() {
     RunTest trivial.bscilN "" ""
   }
   
-  It "runs echo2" {
-    RunTest echo2.bscilN "hello" "he"
-  }
+  # It "runs echo2" {
+  #   RunTest echo2.bscilN "hello" "he"
+  # }
 }
 
-Describe "bscil0" {
-  TestBSCIL0
-  Bootstraps
-  Add-Compiler
+# Describe "bscil0" {
+#   TestBSCIL0
+#   Bootstraps
+#   Add-Compiler
+# }
+
+# Describe "bscil1.bscil0" {
+#   TestBSCIL1
+#   Add-Compiler
+# }
+
+# Describe "bscil1.bscil1" {
+#   TestBSCIL1
+#   Bootstraps
+#   Add-Compiler
+# }
+
+# Describe "bscil2.bscil1" {
+#   TestBSCIL2
+# }
+
+Describe "ilasm" {
+  # TestBSCILN
+  Add-CompilerN
 }
 
-Describe "bscil1.bscil0" {
-  TestBSCIL1
-  Add-Compiler
-}
-
-Describe "bscil1.bscil1" {
-  TestBSCIL1
-  Bootstraps
-  Add-Compiler
-}
-
-Describe "bscil2.bscil1" {
-  TestBSCIL2
-}
-
-Describe "bscilN.il" {
+Describe "bscilN.bscilN" {
   TestBSCILN
 }
-
-# NOT IMPLEMENTED YET!!
-# Describe "bscilN.bscilN" {
-#   TestBSCILN
-# }
