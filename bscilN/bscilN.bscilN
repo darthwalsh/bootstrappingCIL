@@ -15,6 +15,7 @@ stsfld [mscorlib]System.IO.Stream C::input
 call [mscorlib]System.IO.Stream [mscorlib]System.Console::OpenStandardOutput()
 stsfld [mscorlib]System.IO.Stream C::output
 
+// PEHeader DosHeader
 ldc.i4.s 0x4D
 call void C::Write(unsigned int8)
 ldc.i4.s 0x5A
@@ -278,7 +279,8 @@ ldc.i4.s 0x00
 call void C::Write(unsigned int8)
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
- 
+
+// PESignature then PEFileHeader
 ldc.i4.s 0x50
 call void C::Write(unsigned int8)
 ldc.i4.s 0x45
@@ -328,6 +330,7 @@ ldc.i4.s 0x0E
 call void C::Write(unsigned int8)
 ldc.i4.s 0x01
 call void C::Write(unsigned int8)
+// PEOptionalHeader
 ldc.i4.s 0x0B
 call void C::Write(unsigned int8)
 ldc.i4.s 0x01
@@ -790,6 +793,7 @@ ldc.i4.s 0x00
 call void C::Write(unsigned int8)
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
+// SectionHeaders[0]
 ldc.i4.s 0x2E
 call void C::Write(unsigned int8)
 ldc.i4.s 0x74
@@ -873,6 +877,7 @@ call void C::Write(unsigned int8)
 ldc.i4.s 0x60
 call void C::Write(unsigned int8)
  
+// SectionHeaders[1]
 ldc.i4.s 0x2E
 call void C::Write(unsigned int8)
 ldc.i4.s 0x72
@@ -955,6 +960,7 @@ ldc.i4.s 0x00
 call void C::Write(unsigned int8)
 ldc.i4.s 0x42
 call void C::Write(unsigned int8)
+// Unused 0x38 bytes all 0
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
 ldc.i4.s 0x00
@@ -971,40 +977,7 @@ ldc.i4.s 0x00
 call void C::Write(unsigned int8)
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
- 
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
- 
+
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
 ldc.i4.s 0x00
@@ -1071,6 +1044,40 @@ call void C::Write(unsigned int8)
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
  
+ldc.i4.s 0x00
+call void C::Write(unsigned int8)
+ldc.i4.s 0x00
+call void C::Write(unsigned int8)
+ldc.i4.s 0x00
+call void C::Write(unsigned int8)
+ldc.i4.s 0x00
+call void C::Write(unsigned int8)
+ldc.i4.s 0x00
+call void C::Write(unsigned int8)
+ldc.i4.s 0x00
+call void C::Write(unsigned int8)
+ldc.i4.s 0x00
+call void C::Write(unsigned int8)
+ldc.i4.s 0x00
+call void C::Write(unsigned int8)
+ldc.i4.s 0x00
+call void C::Write(unsigned int8)
+ldc.i4.s 0x00
+call void C::Write(unsigned int8)
+ldc.i4.s 0x00
+call void C::Write(unsigned int8)
+ldc.i4.s 0x00
+call void C::Write(unsigned int8)
+ldc.i4.s 0x00
+call void C::Write(unsigned int8)
+ldc.i4.s 0x00
+call void C::Write(unsigned int8)
+ldc.i4.s 0x00
+call void C::Write(unsigned int8)
+ldc.i4.s 0x00
+call void C::Write(unsigned int8)
+
+// Section[0] ImportAddressTable
 ldc.i4.s 0x70
 call void C::Write(unsigned int8)
 ldc.i4.s 0x22
@@ -1087,6 +1094,7 @@ ldc.i4.s 0x00
 call void C::Write(unsigned int8)
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
+// CLIHeader
 ldc.i4.s 0x48
 call void C::Write(unsigned int8)
 ldc.i4.s 0x00
@@ -1235,7 +1243,8 @@ ldc.i4.s 0x00
 call void C::Write(unsigned int8)
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
- 
+
+// Methods[0] Main 
 ldc.i4.s 0x5E
 call void C::Write(unsigned int8)
 ldc.i4.s 0x72
@@ -1284,6 +1293,7 @@ call void C::Write(unsigned int8)
 ldc.i4.s 0x0A
 call void C::Write(unsigned int8)
 ldc.i4.s 0x2A
+// MetadataRoot
 call void C::Write(unsigned int8)
 ldc.i4.s 0x42
 call void C::Write(unsigned int8)
@@ -1507,6 +1517,7 @@ call void C::Write(unsigned int8)
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
 ldc.i4.s 0x00
+// TildeStream
 call void C::Write(unsigned int8)
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
@@ -1896,6 +1907,7 @@ call void C::Write(unsigned int8)
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
  
+// StringHeap
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
 ldc.i4.s 0x41
@@ -2104,6 +2116,7 @@ ldc.i4.s 0x00
 call void C::Write(unsigned int8)
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
+// UserStringHeap
 ldc.i4.s 0x1B
 call void C::Write(unsigned int8)
 ldc.i4.s 0x48
@@ -2168,6 +2181,7 @@ ldc.i4.s 0x00
 call void C::Write(unsigned int8)
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
+// GuidHeap
 ldc.i4.s 0xF1
 call void C::Write(unsigned int8)
 ldc.i4.s 0x8C
@@ -2201,6 +2215,7 @@ ldc.i4.s 0xA6
 call void C::Write(unsigned int8)
 ldc.i4.s 0x85
 call void C::Write(unsigned int8)
+// BlobHeap
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
 ldc.i4.s 0x01
@@ -2258,7 +2273,8 @@ ldc.i4.s 0x00
 call void C::Write(unsigned int8)
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
- 
+
+// ImportTable
 ldc.i4.s 0x68
 call void C::Write(unsigned int8)
 ldc.i4.s 0x22
@@ -2419,6 +2435,7 @@ ldc.i4.s 0x00
 call void C::Write(unsigned int8)
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
+// NativeEntry x86 code
 ldc.i4.s 0xFF
 call void C::Write(unsigned int8)
 ldc.i4.s 0x25
@@ -2431,6 +2448,8 @@ call void C::Write(unsigned int8)
 ldc.i4.s 0x40
 call void C::Write(unsigned int8)
 ldc.i4.s 0x00
+
+// Empty bytes until 0x600
 call void C::Write(unsigned int8)
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
@@ -3183,6 +3202,8 @@ call void C::Write(unsigned int8)
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
  
+
+// Section[1] .reloc
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
 ldc.i4.s 0x20
@@ -3207,6 +3228,7 @@ ldc.i4.s 0x00
 call void C::Write(unsigned int8)
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
+// Until 0x800 all 0
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
 ldc.i4.s 0x00

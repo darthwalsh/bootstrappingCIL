@@ -240,7 +240,7 @@ Function TestBSCIL2() {
 
 Function TestBSCILN() {
   It "runs trivial" {
-    RunTest trivial.bscilN "" ""
+    RunTest trivial.bscilN "" "Hello, World!44" #TODO
   }
   
   # It "runs echo2" {
