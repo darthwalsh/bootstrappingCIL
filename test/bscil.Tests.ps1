@@ -43,6 +43,9 @@ BeforeAll {
     $name = BinDir "$($shortname)_$($script:compileI).exe"
     $compiler = Get-Compiler $target
     $line = "$compiler < $target > $name" # MAYBE sc -raw (powershell destroys binary data in stream)
+    if ((Get-Description) -in @("ilasm", "bscilN.bscilN")) {
+      $line = "$compiler $target -OUTPUT=$name >&2"
+    }
 
     Log "exec compile $compiler $name"
     if (Get-Command cmd -ErrorAction SilentlyContinue) {
@@ -52,7 +55,7 @@ BeforeAll {
       if ((Get-Description) -ne "ilasm") { # can remove this hack when bscil0 -> bscil1 -> bscilN
         $line = "dotnet $line"
       }
-
+      
       bash -c $line
       CreateRuntimeConfig $name
     }
@@ -91,7 +94,7 @@ BeforeAll {
 
   $script:compilers = @{
     bscil0 = Root "bscil0\bscil0.exe"
-    "ilasm" = Root "bscilN\ilasmAdapter"
+    "ilasm" = "ilasm"
   }
 
   Function Get-Compiler($target = $null) {
@@ -239,13 +242,17 @@ Function TestBSCIL2() {
 }
 
 Function TestBSCILN() {
-  It "runs trivial" {
-    RunTest trivial.bscilN "" "Hello, World!44" #TODO
-  }
+  # It "runs trivial" {
+  #   RunTest trivial.bscilN "" ""
+  # }
   
   # It "runs echo2" {
   #   RunTest echo2.bscilN "hello" "he"
   # }
+
+  It "runs AddR" {
+    RunTest AddR.bscilN "" "Hello, World!44" #TODO
+  }
 }
 
 # Describe "bscil0" {

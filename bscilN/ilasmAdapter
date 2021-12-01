@@ -1,8 +1,0 @@
-#! /usr/bin/env bash
-
-set -euo pipefail
-
-tmp=$(mktemp)
-ilasm /dev/stdin -OUTPUT=$tmp >&2 # Redirect "Assembling..." verbosity to stderr
-cat $tmp
-rm $tmp
