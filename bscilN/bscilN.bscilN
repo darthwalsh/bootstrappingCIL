@@ -333,7 +333,7 @@ ldc.i4.s 0x4C
 call void C::Write(unsigned int8)
 ldc.i4.s 0x01
 call void C::Write(unsigned int8)
-ldc.i4.s 0x02
+ldc.i4.s 0x02 //TODO(no-reloc-section) NumberOfSections could be 1 to remove .reloc section
 call void C::Write(unsigned int8)
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
@@ -651,7 +651,8 @@ ldc.i4.s 0x00
 call void C::Write(unsigned int8)
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
- 
+
+//TODO(no-reloc-section) if no .reloc, then BaseRelocationTable RVA and Size should 0
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
 ldc.i4.s 0x40
@@ -2381,6 +2382,7 @@ ldc.i4 0x600
 call void C::ZeroUntil(unsigned int32)
 
 // Section[1] .reloc
+//TODO(no-reloc-section) can we remove this?
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
 ldc.i4.s 0x20
