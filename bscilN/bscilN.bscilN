@@ -55,7 +55,18 @@ ldc.i4.2 // FileMode.Create
 call [mscorlib]System.IO.FileStream [mscorlib]System.IO.File::Open(string, valuetype [mscorlib]System.IO.FileMode)
 stsfld [mscorlib]System.IO.Stream C::output
 
-// PEHeader DosHeader
+call void C::WritePEHeader()
+call void C::WriteTextSection()
+call void C::WriteRelocSection()
+
+ldsfld [mscorlib]System.IO.Stream C::output
+callvirt instance void class [mscorlib]System.IDisposable::Dispose()
+
+ret
+}
+
+.method static void WritePEHeader() {
+// DosHeader
 ldc.i4.s 0x4D
 call void C::Write(unsigned int8)
 ldc.i4.s 0x5A
@@ -1005,7 +1016,11 @@ call void C::Write(unsigned int8)
 ldc.i4 0x200
 call void C::ZeroUntil(unsigned int32)
 
-// Section[0] ImportAddressTable
+ret
+}
+
+.method static void WriteTextSection() {
+// ImportAddressTable
 ldc.i4.s 0x70
 call void C::Write(unsigned int8)
 ldc.i4.s 0x22
@@ -2381,7 +2396,10 @@ call void C::Write(unsigned int8)
 ldc.i4 0x600
 call void C::ZeroUntil(unsigned int32)
 
-// Section[1] .reloc
+ret
+}
+
+.method static void WriteRelocSection() {
 //TODO(no-reloc-section) can we remove this?
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
@@ -2411,8 +2429,6 @@ call void C::Write(unsigned int8)
 ldc.i4 0x800
 call void C::ZeroUntil(unsigned int32)
 
-ldsfld [mscorlib]System.IO.Stream C::output
-callvirt instance void class [mscorlib]System.IDisposable::Dispose()
 ret
 }
 .field static [mscorlib]System.IO.Stream input
