@@ -37,15 +37,18 @@ BeforeAll {
     $target | Should -Not -BeNullOrEmpty
 
     # Don't overwrite existing files
-    $shortname = (Get-ChildItem $target).Name -replace '\W', '_'
+    $shortname = ($target | Select-Object -First 1 | Get-ChildItem ).Name -replace '\W', '_'
+    Log "shortname $shortname"
 
     $script:compileI++ # MAYBE use a stable name, then check file write time to reuse binary
     $name = BinDir "$($shortname)_$($script:compileI).exe"
     $compiler = Get-Compiler $target
     $line = "$compiler < $target > $name" # MAYBE sc -raw (powershell destroys binary data in stream)
+
     if ((Get-Description) -in @("ilasm", "bscilN.bscilN")) {
       $line = "$compiler $target -OUTPUT=$name >&2"
     }
+    Log("LINE $line")
 
     Log "exec compile $compiler $name"
     if (Get-Command cmd -ErrorAction SilentlyContinue) {
@@ -141,9 +144,11 @@ Function Add-Compiler() {
 Function Add-CompilerN() {
   It "compiles next tool" {
     $moniker = "bscilN.bscilN"
-    $source = Root "bscilN/$moniker"
-    Log "ADD $(Get-Description) Generating $moniker from $source"
-    $script:compilers[$moniker] = Compile $source
+    $sourceDir = Root "bscilN"
+    $source = @(Root "bscilN/bscilN.bscilN")
+    $source += Get-ChildItem $sourceDir/*.bscilN | ForEach-Object FullName
+    Log "ADD $(Get-Description) Generating $moniker from $sourceDir"
+    $script:compilers[$moniker] = Compile ($source | Select-Object -Unique)
   }
 }
 
@@ -277,7 +282,7 @@ Function TestBSCILN() {
 # }
 
 Describe "ilasm" {
-  # TestBSCILN
+  TestBSCILN
   Add-CompilerN
 }
 

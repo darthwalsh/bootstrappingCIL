@@ -1851,206 +1851,66 @@ ldc.i4.s 0x00
 call void C::Write(unsigned int8)
  
 // StringHeap
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x41
-call void C::Write(unsigned int8)
-ldc.i4.s 0x64
-call void C::Write(unsigned int8)
-ldc.i4.s 0x64
-call void C::Write(unsigned int8)
-ldc.i4.s 0x72
-call void C::Write(unsigned int8)
-ldc.i4.s 0x2E
-call void C::Write(unsigned int8)
-ldc.i4.s 0x65
-call void C::Write(unsigned int8)
-ldc.i4.s 0x78
-call void C::Write(unsigned int8)
-ldc.i4.s 0x65
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x57
-call void C::Write(unsigned int8)
-ldc.i4.s 0x6F
-call void C::Write(unsigned int8)
-ldc.i4.s 0x72
-call void C::Write(unsigned int8)
-ldc.i4.s 0x6C
-call void C::Write(unsigned int8)
-ldc.i4.s 0x64
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+// TODO load these strings by parsing the assembly input instead of hardcoding
+ldstr ""
+call int32 StringHeap::Add(string)
+pop
+
+ldstr "Addr.exe"
+call int32 StringHeap::Add(string)
+pop
+
+ldstr "World"
+call int32 StringHeap::Add(string)
+pop
  
-ldc.i4.s 0x3C
-call void C::Write(unsigned int8)
-ldc.i4.s 0x4D
-call void C::Write(unsigned int8)
-ldc.i4.s 0x6F
-call void C::Write(unsigned int8)
-ldc.i4.s 0x64
-call void C::Write(unsigned int8)
-ldc.i4.s 0x75
-call void C::Write(unsigned int8)
-ldc.i4.s 0x6C
-call void C::Write(unsigned int8)
-ldc.i4.s 0x65
-call void C::Write(unsigned int8)
-ldc.i4.s 0x3E
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x6D
-call void C::Write(unsigned int8)
-ldc.i4.s 0x73
-call void C::Write(unsigned int8)
-ldc.i4.s 0x63
-call void C::Write(unsigned int8)
-ldc.i4.s 0x6F
-call void C::Write(unsigned int8)
-ldc.i4.s 0x72
-call void C::Write(unsigned int8)
-ldc.i4.s 0x6C
-call void C::Write(unsigned int8)
-ldc.i4.s 0x69
-call void C::Write(unsigned int8)
- 
-ldc.i4.s 0x62
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x48
-call void C::Write(unsigned int8)
-ldc.i4.s 0x65
-call void C::Write(unsigned int8)
-ldc.i4.s 0x6C
-call void C::Write(unsigned int8)
-ldc.i4.s 0x6C
-call void C::Write(unsigned int8)
-ldc.i4.s 0x6F
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x49
-call void C::Write(unsigned int8)
-ldc.i4.s 0x6E
-call void C::Write(unsigned int8)
-ldc.i4.s 0x74
-call void C::Write(unsigned int8)
-ldc.i4.s 0x33
-call void C::Write(unsigned int8)
-ldc.i4.s 0x32
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x53
-call void C::Write(unsigned int8)
-ldc.i4.s 0x79
-call void C::Write(unsigned int8)
- 
-ldc.i4.s 0x73
-call void C::Write(unsigned int8)
-ldc.i4.s 0x74
-call void C::Write(unsigned int8)
-ldc.i4.s 0x65
-call void C::Write(unsigned int8)
-ldc.i4.s 0x6D
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x53
-call void C::Write(unsigned int8)
-ldc.i4.s 0x74
-call void C::Write(unsigned int8)
-ldc.i4.s 0x72
-call void C::Write(unsigned int8)
-ldc.i4.s 0x69
-call void C::Write(unsigned int8)
-ldc.i4.s 0x6E
-call void C::Write(unsigned int8)
-ldc.i4.s 0x67
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x43
-call void C::Write(unsigned int8)
-ldc.i4.s 0x6F
-call void C::Write(unsigned int8)
-ldc.i4.s 0x6E
-call void C::Write(unsigned int8)
-ldc.i4.s 0x73
-call void C::Write(unsigned int8)
- 
-ldc.i4.s 0x6F
-call void C::Write(unsigned int8)
-ldc.i4.s 0x6C
-call void C::Write(unsigned int8)
-ldc.i4.s 0x65
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x4D
-call void C::Write(unsigned int8)
-ldc.i4.s 0x61
-call void C::Write(unsigned int8)
-ldc.i4.s 0x69
-call void C::Write(unsigned int8)
-ldc.i4.s 0x6E
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x4F
-call void C::Write(unsigned int8)
-ldc.i4.s 0x62
-call void C::Write(unsigned int8)
-ldc.i4.s 0x6A
-call void C::Write(unsigned int8)
-ldc.i4.s 0x65
-call void C::Write(unsigned int8)
-ldc.i4.s 0x63
-call void C::Write(unsigned int8)
-ldc.i4.s 0x74
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
- 
-ldc.i4.s 0x43
-call void C::Write(unsigned int8)
-ldc.i4.s 0x6F
-call void C::Write(unsigned int8)
-ldc.i4.s 0x6E
-call void C::Write(unsigned int8)
-ldc.i4.s 0x63
-call void C::Write(unsigned int8)
-ldc.i4.s 0x61
-call void C::Write(unsigned int8)
-ldc.i4.s 0x74
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x57
-call void C::Write(unsigned int8)
-ldc.i4.s 0x72
-call void C::Write(unsigned int8)
-ldc.i4.s 0x69
-call void C::Write(unsigned int8)
-ldc.i4.s 0x74
-call void C::Write(unsigned int8)
-ldc.i4.s 0x65
-call void C::Write(unsigned int8)
-ldc.i4.s 0x4C
-call void C::Write(unsigned int8)
-ldc.i4.s 0x69
-call void C::Write(unsigned int8)
-ldc.i4.s 0x6E
-call void C::Write(unsigned int8)
-ldc.i4.s 0x65
-call void C::Write(unsigned int8)
- 
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+ldstr "<Module>"
+call int32 StringHeap::Add(string)
+pop
+
+ldstr "mscorlib"
+call int32 StringHeap::Add(string)
+pop
+
+ldstr "Hello"
+call int32 StringHeap::Add(string)
+pop
+
+ldstr "Int32"
+call int32 StringHeap::Add(string)
+pop
+
+ldstr "System"
+call int32 StringHeap::Add(string)
+pop
+
+ldstr "String"
+call int32 StringHeap::Add(string)
+pop
+
+ldstr "Console"
+call int32 StringHeap::Add(string)
+pop
+
+ldstr "Main"
+call int32 StringHeap::Add(string)
+pop
+
+ldstr "Object"
+call int32 StringHeap::Add(string)
+pop
+
+ldstr "Concat"
+call int32 StringHeap::Add(string)
+pop
+
+ldstr "WriteLine"
+call int32 StringHeap::Add(string)
+pop
+
+ldsfld [mscorlib]System.IO.Stream C::output
+call void StringHeap::WriteHeap([mscorlib]System.IO.Stream)
+
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
 ldc.i4.s 0x00
