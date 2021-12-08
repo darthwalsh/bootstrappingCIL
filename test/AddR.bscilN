@@ -1,6 +1,6 @@
-.assembly A {}
-.class C {
-.method static void M() {
+.assembly World {}
+.class Hello {
+.method static void Main() {
 .entrypoint
 ldstr "Hello, World!"
 ldc.i4.s 44
