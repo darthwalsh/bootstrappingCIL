@@ -1,0 +1,176 @@
+.class abstract sealed Reader {
+  .field static [mscorlib]System.IO.Stream input
+  .method static void Init([mscorlib]System.IO.Stream) {
+    ldarg.0
+    stsfld [mscorlib]System.IO.Stream Reader::input
+    ret
+  }
+
+  .method static char Read() {
+    ldsfld [mscorlib]System.IO.Stream Reader::input
+    callvirt instance int32 [mscorlib]System.IO.Stream::ReadByte()
+    conv.u2
+    ret
+  }
+
+  .method static void ReadExpected(string) {
+    .locals init (char c)
+    call char Reader::Read()
+    stloc.0
+
+    ldloca.s 0
+    call instance string char::ToString()
+    ldarg.0
+    call bool string::op_Equality(string, string)
+    brfalse ERROR
+    ret
+
+ERROR:
+    ldloca.s 0
+    call instance string char::ToString()
+    newobj instance void [mscorlib]System.InvalidOperationException::.ctor(string)
+    throw
+  }
+
+  .method static string ReadUntilAny(string) {
+    .locals init ([mscorlib]System.Text.StringBuilder sb, char c)
+    newobj void [mscorlib]System.Text.StringBuilder::.ctor()
+    stloc.0
+
+LOOP_START:
+    ldarg.0
+    call char Reader::Read()
+    stloc.1
+    ldloc.1
+    call instance bool string::Contains(char)
+    brtrue.s DONE
+
+    ldloc.0
+    ldloc.1
+    call instance [mscorlib]System.Text.StringBuilder [mscorlib]System.Text.StringBuilder::Append(char)
+    pop
+    br.s LOOP_START
+    
+DONE:
+    ldloc.0
+    callvirt string object::ToString()
+    ret
+  }
+
+  .method static string ReadUntilWhitespace() {
+    .locals init (string s)
+LOOP_START:
+    ldstr " \n\t"
+    call string Reader::ReadUntilAny(string)
+    stloc.0
+
+    ldloc.0
+    call instance int32 string::get_Length()
+    brfalse.s LOOP_START
+
+    // ldstr "ReadUntilWhitespace() >>"
+    // call void [mscorlib]System.Console::Write(string)
+    // ldloc.0
+    // call void [mscorlib]System.Console::Write(string)
+    // ldstr "<<"
+    // call void [mscorlib]System.Console::WriteLine(string)
+
+    ldloc.0
+    ret
+  }
+}
+
+.class abstract sealed Parser {
+  .method static void ParseAssembly() {
+    .locals init (string name, bool externed)
+    call string Reader::ReadUntilWhitespace()
+    stloc.0
+    ldloc.0
+    ldstr "extern"
+    call bool string::op_Equality(string, string)
+    brfalse.s NO_EXTERN
+
+    ldc.i4.1
+    stloc.1
+    call string Reader::ReadUntilWhitespace()
+    stloc.0
+
+NO_EXTERN:
+    ldstr "{"
+    call void Reader::ReadExpected(string)
+    ldstr "}"
+    call string Reader::ReadUntilAny(string)
+    pop
+
+    ldstr "ParseAssembly() "
+    call void [mscorlib]System.Console::Write(string)
+    ldloc.0
+    call void [mscorlib]System.Console::Write(string)
+    ldstr " ; extern: "
+    call void [mscorlib]System.Console::Write(string)
+    ldloc.1
+    call void [mscorlib]System.Console::WriteLine(bool)
+
+    ret
+  }
+
+  .method static void ParseMethod() {
+    ldstr "ParseMethod() DEF=" // TODO parse the method body
+    call void [mscorlib]System.Console::Write(string)
+
+    ldstr "}"
+    call string Reader::ReadUntilAny(string)
+    call void [mscorlib]System.Console::WriteLine(string)
+
+    ret
+  }
+
+  .method static void ParseClass() {
+    .locals init (string name)
+    call string Reader::ReadUntilWhitespace()
+    stloc.0
+
+    call void Parser::ParseMethod() // TODO loop until }
+
+    ldstr "ParseClass() "
+    call void [mscorlib]System.Console::WriteLine(string)
+
+    ret
+  }
+
+  .method static void ParseTop() {
+    .locals init (string text)
+    call string Reader::ReadUntilWhitespace()
+    stloc.0
+
+    ldloc.0
+    ldstr ".assembly"
+    call bool string::op_Equality(string, string)
+    brfalse.s CHECK_CLASS
+    call void Parser::ParseAssembly()
+    ret
+
+CHECK_CLASS:
+    ldloc.0
+    ldstr ".class"
+    call bool string::op_Equality(string, string)
+    brfalse.s FAILED
+    call void Parser::ParseClass()
+    ret
+
+FAILED:
+    ldloc.0
+    newobj instance void [mscorlib]System.NotImplementedException::.ctor(string)
+    throw
+  }
+
+
+  .method static void Parse() {
+    call void Parser::ParseTop()
+    call void Parser::ParseTop() // TODO this should loop until EOF
+
+    ldstr "<><><><>"
+    call void [mscorlib]System.Console::WriteLine(string)
+    ret
+  }
+}
