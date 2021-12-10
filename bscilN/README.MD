@@ -4,6 +4,10 @@ The end goal with language version N (maybe 5 or so) is to have a full working C
 
 To help me get back into the project, I'm taking on the last phase of the project, writing a CIL assembler in CIL. This will also help in determining which language features are needed. (i.e. multiple functions will probably be needed, but is it possible without classes or generics?)
 
+## References
+
+- [CIL grammar like YACC](https://github.com/dotnet/runtime/blob/v6.0.0/src/coreclr/ilasm/prebuilt/asmparse.grammar). 
+- [Op code definitions](https://github.com/dotnet/runtime/blob/v6.0.0/src/coreclr/inc/opcode.def)
 
 ## TODOs
 
@@ -25,7 +29,6 @@ That would answer questions, like how different `src/` implementations are parsi
 - Platform Adaptation Layer [coreclr/pal/inc/rt/ntimage.h](https://github.com/dotnet/runtime/blob/2f0341dc46d40b2c7c0654d8afcac9ae417d19c5/src/coreclr/pal/inc/rt/ntimage.h#L185)
 - ReadyToRun (like NGEN) [coreclr/inc/readytorun.h](https://github.com/dotnet/runtime/blob/f179b7634370fc9181610624cc095370ec53e072/src/coreclr/inc/readytorun.h#L32)
 - mono [mono/mono/utils/mono-proclib.h](https://github.com/dotnet/runtime/blob/2f0341dc46d40b2c7c0654d8afcac9ae417d19c5/src/mono/mono/utils/mono-proclib.h#L130)
-
 
 
  

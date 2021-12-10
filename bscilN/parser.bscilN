@@ -166,6 +166,7 @@ FAILED:
 
 
   .method static void Parse() {
+    // TODO rewrite using official grammar
     call void Parser::ParseTop()
     call void Parser::ParseTop() // TODO this should loop until EOF
 
