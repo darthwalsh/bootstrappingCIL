@@ -16,9 +16,9 @@
   .method static void ReadExpected(string) {
     .locals init (char c)
     call char Reader::Read()
-    stloc.0
+    stloc.s c
 
-    ldloca.s 0
+    ldloca.s c
     call instance string char::ToString()
     ldarg.0
     call bool string::op_Equality(string, string)
@@ -26,7 +26,7 @@
     ret
 
 ERROR:
-    ldloca.s 0
+    ldloca.s c
     call instance string char::ToString()
     newobj instance void [mscorlib]System.InvalidOperationException::.ctor(string)
     throw
@@ -35,24 +35,24 @@ ERROR:
   .method static string ReadUntilAny(string) {
     .locals init ([mscorlib]System.Text.StringBuilder sb, char c)
     newobj void [mscorlib]System.Text.StringBuilder::.ctor()
-    stloc.0
+    stloc.s sb
 
 LOOP_START:
     ldarg.0
     call char Reader::Read()
-    stloc.1
-    ldloc.1
+    stloc.s c
+    ldloc.s c
     call instance bool string::Contains(char)
     brtrue.s DONE
 
-    ldloc.0
-    ldloc.1
+    ldloc.s sb
+    ldloc.s c
     call instance [mscorlib]System.Text.StringBuilder [mscorlib]System.Text.StringBuilder::Append(char)
     pop
     br.s LOOP_START
     
 DONE:
-    ldloc.0
+    ldloc.s sb
     callvirt string object::ToString()
     ret
   }
@@ -62,20 +62,20 @@ DONE:
 LOOP_START:
     ldstr " \n\t"
     call string Reader::ReadUntilAny(string)
-    stloc.0
+    stloc.s s
 
-    ldloc.0
+    ldloc.s s
     call instance int32 string::get_Length()
     brfalse.s LOOP_START
 
     // ldstr "ReadUntilWhitespace() >>"
     // call void [mscorlib]System.Console::Write(string)
-    // ldloc.0
+    // ldloc.s s
     // call void [mscorlib]System.Console::Write(string)
     // ldstr "<<"
     // call void [mscorlib]System.Console::WriteLine(string)
 
-    ldloc.0
+    ldloc.s s
     ret
   }
 }
@@ -84,16 +84,16 @@ LOOP_START:
   .method static void ParseAssembly() {
     .locals init (string name, bool externed)
     call string Reader::ReadUntilWhitespace()
-    stloc.0
-    ldloc.0
+    stloc.s name
+    ldloc.s name
     ldstr "extern"
     call bool string::op_Equality(string, string)
     brfalse.s NO_EXTERN
 
     ldc.i4.1
-    stloc.1
+    stloc.s externed
     call string Reader::ReadUntilWhitespace()
-    stloc.0
+    stloc.s name
 
 NO_EXTERN:
     ldstr "{"
@@ -104,11 +104,11 @@ NO_EXTERN:
 
     ldstr "ParseAssembly() "
     call void [mscorlib]System.Console::Write(string)
-    ldloc.0
+    ldloc.s name
     call void [mscorlib]System.Console::Write(string)
     ldstr " ; extern: "
     call void [mscorlib]System.Console::Write(string)
-    ldloc.1
+    ldloc.s externed
     call void [mscorlib]System.Console::WriteLine(bool)
 
     ret
@@ -128,7 +128,7 @@ NO_EXTERN:
   .method static void ParseClass() {
     .locals init (string name)
     call string Reader::ReadUntilWhitespace()
-    stloc.0
+    stloc.s name
 
     call void Parser::ParseMethod() // TODO loop until }
 
@@ -141,9 +141,9 @@ NO_EXTERN:
   .method static void ParseTop() {
     .locals init (string text)
     call string Reader::ReadUntilWhitespace()
-    stloc.0
+    stloc.s text
 
-    ldloc.0
+    ldloc.s text
     ldstr ".assembly"
     call bool string::op_Equality(string, string)
     brfalse.s CHECK_CLASS
@@ -151,7 +151,7 @@ NO_EXTERN:
     ret
 
 CHECK_CLASS:
-    ldloc.0
+    ldloc.s text
     ldstr ".class"
     call bool string::op_Equality(string, string)
     brfalse.s FAILED
@@ -159,13 +159,13 @@ CHECK_CLASS:
     ret
 
 FAILED:
-    ldloc.0
+    ldloc.s text
     newobj instance void [mscorlib]System.NotImplementedException::.ctor(string)
     throw
   }
 
 
-  .method static void Parse() {
+  .method public static void Parse() {
     // TODO rewrite using official grammar
     call void Parser::ParseTop()
     call void Parser::ParseTop() // TODO this should loop until EOF

@@ -40,11 +40,11 @@ INSERT:
     ldsfld [mscorlib]System.IO.Stream StringHeap::data
     callvirt instance int64 class [mscorlib]System.IO.Stream::get_Position()
     conv.i4
-    stloc.0
+    stloc.s pos
     
     ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string,int32> StringHeap::cache
     ldarg.0
-    ldloc.0
+    ldloc.s pos
     callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string,int32>::set_Item(!0, !1)
 
     ldsfld [mscorlib]System.IO.StreamWriter StringHeap::writer
@@ -54,7 +54,7 @@ INSERT:
     ldc.i4.0
     callvirt instance void [mscorlib]System.IO.StreamWriter::Write(char)
 
-    ldloc.0
+    ldloc.s pos
     ret
   }
 
