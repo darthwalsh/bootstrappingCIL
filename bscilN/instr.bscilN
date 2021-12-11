@@ -1,0 +1,121 @@
+.class abstract sealed InstrParser {
+  // .method static void InstrNone() { }
+  // .method static void InstrVar() { }
+  // .method static void InstrI() { }
+  // .method static void InstrI8() { }
+  // .method static void InstrR() { }
+  // .method static void InstrBrtarget() { }
+  // .method static void InstrMethod() { }
+  // .method static void InstrField() { }
+  // .method static void InstrType() { }
+  // .method static void InstrString() { }
+  // .method static void InstrSig() { }
+  // .method static void InstrTok() { }
+  // .method static void InstrSwitch() { }
+  // .method static void InstrRHead() { }
+
+  .method public static bool Instr() {
+    // TODO this implementation will read a shorter instructions if it is a prefix to a longer one
+    // ???Instead, parse [a-z.0-9]+ and use lookup table, then revert stream.Pos if not in table
+
+    // instr_none 
+    ldstr "ret"
+    call bool Reader::TryRead(string)
+    brfalse.s INSTR_I
+
+    ldstr "FOUND ret"
+    call void [mscorlib]System.Console::WriteLine(string)
+
+    ldc.i4.1
+    ret
+
+    // instr_var int32 
+    // instr_var id 
+
+    // instr_i int32 
+INSTR_I:
+    ldstr "ldc.i4.s"
+    call bool Reader::TryRead(string)
+    brfalse.s INSTR_METHOD
+
+    call int32 Parser::Int32()
+
+    ldstr "FOUND ldc.i4.s: "
+    call void [mscorlib]System.Console::Write(string)
+    call void [mscorlib]System.Console::WriteLine(int32)
+
+    ldc.i4.1
+    ret
+
+
+    // instr_i8 int64 
+    // instr_r float64 
+    // instr_r int64 
+    // instr_r_head bytes ')' 
+    // instr_brtarget int32 
+    // instr_brtarget id 
+    // instr_method methodRef 
+INSTR_METHOD:
+    ldstr "call"
+    call bool Reader::TryRead(string)
+    brfalse.s INSTR_TYPE
+
+    // TODO methodRef
+    ldstr "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ, []():."
+    call string Reader::ReadOfAny(string)
+
+    ldstr "FOUND call "
+    call void [mscorlib]System.Console::Write(string)
+    call void [mscorlib]System.Console::WriteLine(string)
+
+    ldc.i4.1
+    ret
+
+    // instr_field type typeSpec '::' dottedName 
+    // instr_field type dottedName 
+    // instr_field mdtoken 
+    // instr_field TYPEDEF_F 
+    // instr_field TYPEDEF_MR 
+    // instr_type typeSpec 
+INSTR_TYPE:
+    ldstr "box"
+    call bool Reader::TryRead(string)
+    brfalse.s INSTR_STRING
+
+    // TODO typeSpec
+    ldstr "[mscorlib]System.Int32" // TODO(hardcoded)
+    call void Reader::ReadExpected(string)
+
+    ldstr "FOUND box hardcoded int "
+    call void [mscorlib]System.Console::WriteLine(string)
+
+    ldc.i4.1
+    ret
+
+    // instr_string compQstring 
+INSTR_STRING:
+    ldstr "ldstr"
+    call bool Reader::TryRead(string)
+    brfalse.s FAILED
+
+    // TODO other syntax
+    // instr_string 'ansi' '(' compQstring ')' 
+    // instr_string bytearrayhead bytes ')' ' 
+    call string Parser::CompQstring()
+
+    ldstr "FOUND ldstr: '"
+    call void [mscorlib]System.Console::Write(string)
+    call void [mscorlib]System.Console::WriteLine(string)
+
+    ldc.i4.1
+    ret
+
+    // instr_sig callConv type '(' sigArgs0 ')' 
+    // instr_tok ownerType /* ownerType ::= memberRef | typeSpec */ 
+    // instr_switch '(' labels ')
+
+FAILED:
+    ldc.i4.0
+    ret
+  }
+}

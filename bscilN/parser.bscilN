@@ -13,14 +13,22 @@
     ret
   }
 
-  .method static void ReadExpected(string) { // TODO remove?
+  .method static void ReadExpected(string) {
     ldarg.0
     call bool Reader::TryRead(string)
     brfalse.s ERROR
     ret
 
 ERROR:
+    ldstr "Expected: >>"
     ldarg.0
+    ldstr "<< != >>"
+    call string string::Concat(string, string, string)
+    ldarg.0
+    call instance int32 string::get_Length()
+    call string Reader::ReadLength(int32)
+    ldstr "<<"
+    call string string::Concat(string, string, string)
     newobj instance void [mscorlib]System.InvalidOperationException::.ctor(string)
     throw
   }
@@ -59,18 +67,13 @@ DONE:
     ret
   }
 
-  .method static bool TryRead(string) {
-    .locals init ([mscorlib]System.Text.StringBuilder sb, int64 pos)
+  .method static string ReadLength(int32) {
+    .locals init ([mscorlib]System.Text.StringBuilder sb)
     newobj void [mscorlib]System.Text.StringBuilder::.ctor()
     stloc.s sb
 
-    ldsfld [mscorlib]System.IO.Stream Reader::input
-    callvirt instance int64 class [mscorlib]System.IO.Stream::get_Position()
-    stloc.s pos
-
 LOOP_START:
     ldarg.0
-    call instance int32 string::get_Length()
     ldloc.s sb
     call instance int32 [mscorlib]System.Text.StringBuilder::get_Length()
     beq.s LOOP_END
@@ -78,12 +81,27 @@ LOOP_START:
     ldloc.s sb
     call char Reader::Read()
     call instance [mscorlib]System.Text.StringBuilder [mscorlib]System.Text.StringBuilder::Append(char)
+    pop
     br.s LOOP_START
 
 LOOP_END:
-
     ldloc.s sb
     callvirt string object::ToString()
+    call void Reader::ConsumeWhiteSpaceComments()
+    ret
+  }
+
+  .method static bool TryRead(string) {
+    .locals init (int64 pos)
+
+    ldsfld [mscorlib]System.IO.Stream Reader::input
+    callvirt instance int64 class [mscorlib]System.IO.Stream::get_Position()
+    stloc.s pos
+
+    ldarg.0
+    call instance int32 string::get_Length()
+    call string Reader::ReadLength(int32)
+
     ldarg.0
     call bool string::op_Equality(string, string)
     dup
@@ -108,7 +126,6 @@ LOOP_END:
     callvirt instance void class [mscorlib]System.IO.Stream::set_Position(int64)
 
 DONE:
-    call void Reader::ConsumeWhiteSpaceComments()
     ret
   }
 
@@ -141,6 +158,13 @@ LOOP_START:
 }
 
 .class abstract sealed Parser {
+  .method static void Decls() {
+  LOOP:
+    call bool Parser::Decl()
+    brtrue.s LOOP
+    ret
+  }
+
   .method static bool Decl() {
     ldstr ".class"
     call bool Reader::TryRead(string)
@@ -149,6 +173,15 @@ LOOP_START:
     call void Parser::Class()
     ldc.i4.1
     ret
+
+    // nameSpaceHead '{' decls '}' 
+    // methodHead  methodDecls '}' 
+    // fieldDecl
+    // dataDecl
+    // vtableDecl
+    // vtfixupDecl
+    // extSourceSpec
+    // fileDecl
 
 ASSEMBLY:
     ldstr ".assembly"
@@ -159,10 +192,45 @@ ASSEMBLY:
     ldc.i4.1
     ret
 
+    // exptypeHead '{' exptypeDecls '}' 
+    // manifestResHead '{' manifestResDecls '}' 
+    // moduleHead
+    // secDecl
+    // customAttrDecl
+    // '.subsystem' int32 
+    // '.corflags' int32 
+    // '.file' 'alignment' int32 
+    // '.imagebase' int64 
+    // '.stackreserve' int64 
+    // languageDecl
+    // typedefDecl
+    // compControl
+    // '.typelist' '{' classNameSeq '}'
+    // '.mscorlib' 
+
 FAILED:
     ldc.i4.0
     ret
   }
+
+  // .method static void ClassNameSeq() { }
+  .method static string CompQstring() {
+    ldstr "\""
+    call void Reader::ReadExpected(string)
+
+    // TODO (e.g.  "hi\n")
+    ldstr "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ, !"
+    call string Reader::ReadOfAny(string)
+
+    ldstr "\""
+    call void Reader::ReadExpected(string)
+
+    // TODO compQstring '+' QSTRING 
+    ret
+  }
+  // .method static void LanguageDecl() { }
+  // .method static void Id() { }
+
 
   .method static string DottedName() {
     ldstr "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -176,14 +244,43 @@ FAILED:
     // TODO SQSTRING
   }
 
-  .method static void Decls() {
-  LOOP:
-    call bool Parser::Decl()
-    brtrue.s LOOP
+  .method static int32 Int32() {
+    ldstr "0123456789" // TODO 0x syntax
+    call string Reader::ReadOfAny(string)
+    call int32 [mscorlib]System.Int32::Parse(string)
     ret
-  }
+   }
+  // .method static void Int64() { }
+  // .method static void Float64() { }
+  // .method static void TypedefDecl() { }
+    // '.typedef' type 'as' dottedName 
+    // '.typedef' className 'as' dottedName 
+    // '.typedef' memberRef 'as' dottedName 
+    // '.typedef' customDescr 'as' dottedName 
+    // '.typedef' customDescrWithOwner 'as' dottedName 
+  // .method static void CompControl() { }
+  // .method static void CustomDescr() { }
+  // .method static void CustomDescrWithOwner() { }
+  // .method static void CustomHead() { }
+  // .method static void CustomHeadWithOwner() { }
+  // .method static void CustomType() { }
+  // .method static void OwnerType() { }
+  // .method static void CustomBlobDescr() { }
+  // .method static void CustomBlobArgs() { }
+  // .method static void CustomBlobNvPairs() { }
+  // .method static void FieldOrProp() { }
+  // .method static void CustomAttrDecl() { }
+  // .method static void SerializType() { }
+  // .method static void ModuleHead() { }
+  // .method static void VtfixupDecl() { }
+  // .method static void VtfixupAttr() { }
+  // .method static void VtableDecl() { }
+  // .method static void VtableHead() { }
+  // .method static void NameSpaceHead() { }
 
   .method static void Class() {
+    // TODO classAttr
+
     call string Parser::DottedName()
 
     ldstr "FOUND .class named: "
@@ -196,10 +293,309 @@ FAILED:
     ldstr "{"
     call void Reader::ReadExpected(string)
 
-    // TODO classDecls
+    call void Parser::ClassDecls()
     
+    ldstr "}"
+    call void Reader::ReadExpected(string)
+
     ret
   }
+  // .method static void ClassAttr() { }
+  // .method static void ExtendsClause() { }
+  // .method static void ImplClause() { }
+
+  .method static void ClassDecls() {
+  LOOP:
+    call bool Parser::ClassDecl()
+    brtrue.s LOOP
+    ret
+  }
+
+  // .method static void ImplList() { }
+  // .method static void TypeList() { }
+  // .method static void TypeListNotEmpty() { }
+  // .method static void TyparsClause() { }
+  // .method static void TyparAttrib() { }
+  // .method static void TyparAttribs() { }
+  // .method static void Typars() { }
+  // .method static void TyparsRest() { }
+  // .method static void TyBound() { }
+  // .method static void GenArity() { }
+  // .method static void GenArityNotEmpty() { }
+
+  .method static bool ClassDecl() {
+    ldstr ".method"
+    call bool Reader::TryRead(string)
+    brfalse.s FAILED
+
+    call void Parser::Method()
+    ldc.i4.1
+    ret
+
+    // classHead '{' classDecls '}' 
+    // eventHead '{' eventDecls '}' 
+    // propHead '{' propDecls '}' 
+    // fieldDecl
+    // dataDecl
+    // secDecl
+    // extSourceSpec
+    // customAttrDecl
+    // '.size' int32 
+    // '.pack' int32 
+    // exportHead '{' exptypeDecls '}' 
+    // '.override' typeSpec '::' methodName 'with' callConv type typeSpec '::' methodName '(' sigArgs0 ')' 
+    // '.override' 'method' callConv type typeSpec '::' methodName genArity '(' sigArgs0 ')' 'with' 'method' callConv type typeSpec '::' methodName genArity '(' sigArgs0 ')' 
+    // languageDecl
+    // compControl
+    // '.param' 'type' '[' int32 ']' 
+    // '.param' 'type' dottedName 
+    // '.param' 'constraint' '[' int32 ']' ',' typeSpec 
+    // '.param' 'constraint' dottedName ',' typeSpec 
+    // '.interfaceimpl' 'type' typeSpec customDescr 
+FAILED:
+    ldc.i4.0
+    ret
+  }
+
+  // .method static void FieldDecl() { }
+  // .method static void FieldAttr() { }
+    // fieldAttr 'static' 
+    // fieldAttr 'public' 
+    // fieldAttr 'private' 
+    // fieldAttr 'family' 
+    // fieldAttr 'initonly' 
+    // fieldAttr 'rtspecialname'  /**/
+    // fieldAttr 'specialname' 
+    // fieldAttr 'marshal' '(' marshalBlob ')' 
+    // fieldAttr 'assembly' 
+    // fieldAttr 'famandassem' 
+    // fieldAttr 'famorassem' 
+    // fieldAttr 'privatescope' 
+    // fieldAttr 'literal' 
+    // fieldAttr 'notserialized' 
+    // fieldAttr 'flags' '(' int32 ')' 
+  // .method static void AtOpt() { }
+  // .method static void InitOpt() { }
+  // .method static void RepeatOpt() { }
+  // .method static void MethodRef() { }
+  // .method static void CallConv() { }
+  // .method static void CallKind() { }
+  // .method static void Mdtoken() { }
+  // .method static void MemberRef() { }
+  // .method static void EventHead() { }
+  // .method static void EventAttr() { }
+  // .method static void EventDecls() { }
+  // .method static void EventDecl() { }
+    // '.addon' methodRef 
+    // '.removeon' methodRef 
+    // '.fire' methodRef 
+    // '.other' methodRef 
+    // extSourceSpec
+    // customAttrDecl
+    // languageDecl
+    // compControl
+  // .method static void PropHead() { }
+  // .method static void PropAttr() { }
+  // .method static void PropDecls() { }
+  // .method static void PropDecl() { }
+    // '.set' methodRef 
+    // '.get' methodRef 
+    // '.other' methodRef 
+    // customAttrDecl
+    // extSourceSpec
+    // languageDecl
+    // compControl
+
+  .method static void Method() {
+    // TODO methAttr
+    ldstr "static" // TODO(hardcoded)
+    call void Reader::ReadExpected(string)
+
+    // TODO callConv
+    // TODO paramAttr
+
+    // TODO type
+    ldstr "void" // TODO(hardcoded)
+    call void Reader::ReadExpected(string)
+
+    // TODO marshalClause
+    // TODO methodName
+    call string Parser::DottedName()
+
+    // TODO typarsClause
+
+    ldstr "("
+    call void Reader::ReadExpected(string)
+    // TODO sigArgs0 
+    
+    ldstr ")"
+    call void Reader::ReadExpected(string)
+    //TODO implAttr
+
+    ldstr "{"
+    call void Reader::ReadExpected(string)
+
+    ldstr "FOUND .method named: "
+    call void [mscorlib]System.Console::Write(string)
+    call void [mscorlib]System.Console::WriteLine(string)
+
+    call void Parser::MethodDecls()
+
+    ldstr "}"
+    call void Reader::ReadExpected(string)
+
+    ret
+  }
+  // .method static void MarshalClause() { }
+  // .method static void MarshalBlob() { }
+  // .method static void MarshalBlobHead() { }
+  // .method static void MethodHead() { }
+  // .method static void MethAttr() { }
+  // .method static void PinvAttr() { }
+  // .method static void MethodName() { }
+  // .method static void ParamAttr() { }
+  // .method static void ImplAttr() { }
+  // .method static void LocalsHead() { }
+
+  .method static void MethodDecls() {
+  LOOP:
+    call bool Parser::MethodDecl()
+    brtrue.s LOOP
+    ret
+  }
+
+  .method static bool MethodDecl() {
+    // '.emitbyte' int32 
+    // sehBlock 
+    // '.maxstack' int32 
+    // localsHead '(' sigArgs0 ')' 
+    // localsHead 'init' '(' sigArgs0 ')' 
+
+    ldstr ".entrypoint"
+    call bool Reader::TryRead(string)
+    brfalse.s INSTR
+
+    ldstr "FOUND .entrypoint"
+    call void [mscorlib]System.Console::WriteLine(string)
+
+    ldc.i4.1
+    ret
+
+    // '.zeroinit' 
+    // dataDecl
+
+INSTR:
+    call bool Parser::Instr()
+    brfalse.s FAILED
+    ldc.i4.1
+    ret
+
+    // id ':' 
+    // secDecl
+    // extSourceSpec
+    // languageDecl
+    // customAttrDecl
+    // compControl
+    // '.export' '[' int32 ']' 
+    // '.export' '[' int32 ']' 'as' id 
+    // '.vtentry' int32 ':' int32 
+    // '.override' typeSpec '::' methodName 
+    // '.override' 'method' callConv type typeSpec '::' methodName genArity '(' sigArgs0 ')' 
+    // scopeBlock
+    // '.param' 'type' '[' int32 ']' 
+    // '.param' 'type' dottedName 
+    // '.param' 'constraint' '[' int32 ']' ',' typeSpec 
+    // '.param' 'constraint' dottedName ',' typeSpec 
+    // '.param' '[' int32 ']' initOpt 
+
+FAILED:
+    ldc.i4.0
+    ret
+
+  }
+
+
+  // .method static void ScopeBlock() { }
+  // .method static void ScopeOpen() { }
+  // .method static void SehBlock() { }
+  // .method static void SehClauses() { }
+  // .method static void TryBlock() { }
+  // .method static void TryHead() { }
+  // .method static void SehClause() { }
+  // .method static void FilterClause() { }
+  // .method static void FilterHead() { }
+  // .method static void CatchClause() { }
+  // .method static void FinallyClause() { }
+  // .method static void FaultClause() { }
+  // .method static void HandlerBlock() { }
+  // .method static void DataDecl() { }
+  // .method static void DdHead() { }
+  // .method static void Tls() { }
+  // .method static void DdBody() { }
+  // .method static void DdItemList() { }
+  // .method static void DdItemCount() { }
+  // .method static void DdItem() { }
+  // .method static void FieldSerInit() { }
+  // .method static void Bytearrayhead() { }
+  // .method static void Bytes() { }
+  // .method static void Hexbytes() { }
+  // .method static void FieldInit() { }
+  // .method static void SerInit() { }
+  // .method static void F32seq() { }
+  // .method static void F64seq() { }
+  // .method static void I64seq() { }
+  // .method static void I32seq() { }
+  // .method static void I16seq() { }
+  // .method static void I8seq() { }
+  // .method static void BoolSeq() { }
+  // .method static void SqstringSeq() { }
+  // .method static void ClassSeq() { }
+  // .method static void ObjSeq() { }
+  // .method static void MethodSpec() { }
+
+  .method static bool Instr() { 
+    call bool InstrParser::Instr()
+    ret
+  }
+
+  // .method static void Labels() { }
+  // .method static void TyArgs0() { }
+  // .method static void TyArgs1() { }
+  // .method static void TyArgs2() { }
+  // .method static void SigArgs0() { }
+  // .method static void SigArgs1() { }
+  // .method static void SigArg() { }
+  // .method static void ClassName() { }
+  // .method static void SlashedName() { }
+  // .method static void TypeSpec() { }
+  // .method static void NativeType() { }
+  // .method static void IidParamIndex() { }
+  // .method static void VariantType() { }
+  // .method static void Type() { }
+  // .method static void SimpleType() { }
+  // .method static void Bounds1() { }
+  // .method static void Bound() { }
+  // .method static void SecDecl() { }
+    // '.permission' secAction typeSpec '(' nameValPairs ')' 
+    // '.permission' secAction typeSpec '=' '{' customBlobDescr '}' 
+    // '.permission' secAction typeSpec 
+    // psetHead bytes ')' 
+    // '.permissionset' secAction compQstring 
+    // '.permissionset' secAction '=' '{' secAttrSetBlob '}' 
+  // .method static void SecAttrSetBlob() { }
+  // .method static void SecAttrBlob() { }
+  // .method static void PsetHead() { }
+  // .method static void NameValPairs() { }
+  // .method static void NameValPair() { }
+  // .method static void Truefalse() { }
+  // .method static void CaValue() { }
+  // .method static void SecAction() { }
+  // .method static void EsHead() { }
+  // .method static void ExtSourceSpec() { }
+  // .method static void FileDecl() { }
+  // .method static void FileAttr() { }
+  // .method static void FileEntry() { }
+  // .method static void HashHead() { }
 
 
   .method static void Assembly() {
@@ -224,6 +620,27 @@ FAILED:
     
     ret
   }
+
+  // .method static void AsmAttr() { }
+  // .method static void AssemblyDecls() { }
+  // .method static void AssemblyDecl() { }
+  // .method static void IntOrWildcard() { }
+  // .method static void AsmOrRefDecl() { }
+  // .method static void PublicKeyHead() { }
+  // .method static void PublicKeyTokenHead() { }
+  // .method static void LocaleHead() { }
+  // .method static void AssemblyRefHead() { }
+  // .method static void AssemblyRefDecls() { }
+  // .method static void AssemblyRefDecl() { }
+  // .method static void ExptypeHead() { }
+  // .method static void ExportHead() { }
+  // .method static void ExptAttr() { }
+  // .method static void ExptypeDecls() { }
+  // .method static void ExptypeDecl() { }
+  // .method static void ManifestResHead() { }
+  // .method static void ManresAttr() { }
+  // .method static void ManifestResDecls() { }
+  // .method static void ManifestResDecl() { }
 
   .method public static void Parse() {
     call void Parser::Decls()
