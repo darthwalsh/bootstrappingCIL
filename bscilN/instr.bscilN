@@ -82,11 +82,9 @@ INSTR_TYPE:
     call bool Reader::TryRead(string)
     brfalse.s INSTR_STRING
 
-    // TODO typeSpec
-    ldstr "[mscorlib]System.Int32" // TODO(hardcoded)
-    call void Reader::ReadExpected(string)
+    call void Parser::TypeSpec()
 
-    ldstr "FOUND box hardcoded int "
+    ldstr "FOUND box"
     call void [mscorlib]System.Console::WriteLine(string)
 
     ldc.i4.1

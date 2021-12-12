@@ -565,9 +565,70 @@ FAILED:
   // .method static void SigArgs0() { }
   // .method static void SigArgs1() { }
   // .method static void SigArg() { }
-  // .method static void ClassName() { }
-  // .method static void SlashedName() { }
-  // .method static void TypeSpec() { }
+  .method static void ClassName() {
+    // '[' dottedName ']' slashedName 
+    ldstr "["
+    call bool Reader::TryRead(string)
+    brfalse.s FAILED
+
+    call string Parser::DottedName()
+    ldstr "]"
+    call void Reader::ReadExpected(string)
+
+    call string Parser::SlashedName()
+
+    ldstr "FOUND class name: "
+    call void [mscorlib]System.Console::Write(string)
+    call void [mscorlib]System.Console::Write(string)
+
+    ldstr " in assembly: "
+    call void [mscorlib]System.Console::Write(string)
+    call void [mscorlib]System.Console::WriteLine(string)
+
+    ret
+    
+    // '[' mdtoken ']' slashedName 
+    // '[' '*' ']' slashedName 
+    // '[' '.module' dottedName ']' slashedName
+    // slashedName 
+    // mdtoken 
+    // TYPEDEF_T 
+    // '.this' 
+    // '.base' 
+    // '.nester' 
+
+FAILED:
+    ret
+  }
+  .method static string SlashedName() { 
+    call string Parser::DottedName()
+
+LOOP_START:
+    ldstr "/"
+    call bool Reader::TryRead(string)
+    brfalse.s DONE
+
+    call string Parser::DottedName()
+    call string string::Concat(string, string)
+
+    br.s LOOP_START
+
+
+DONE:
+    ret
+  }
+
+  .method static void TypeSpec() {
+    // className
+    call void Parser::ClassName()
+
+    // '[' dottedName ']' 
+    // '[' '.module' dottedName ']' 
+    // type 
+
+    ret
+  }
+
   // .method static void NativeType() { }
   // .method static void IidParamIndex() { }
   // .method static void VariantType() { }
@@ -647,7 +708,7 @@ FAILED:
     // call void Parser::ParseTop() // TODO this should loop until EOF
 
 
-    ldstr "<><><><>"
+    ldstr "DONE PARSING\n--------------"
     call void [mscorlib]System.Console::WriteLine(string)
     ret
   }
