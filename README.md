@@ -64,3 +64,9 @@ CI testing runs on [AppVeyor](http://www.appveyor.com/) for Windows Cloud testin
 Visual Studio's ildasm.exe is helpful to view PE files, but this project doesn't copy any code from other tools.
 
 You, for reading!
+
+
+Future work
+-----------
+
+- [ ] Use [Peverify](https://learn.microsoft.com/en-us/dotnet/framework/tools/peverify-exe-peverify-tool) to validate output binary not only runs, but is verifiable. (dotnet core version [available](https://stackoverflow.com/a/71981768/771768)!)
