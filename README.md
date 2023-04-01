@@ -69,4 +69,4 @@ You, for reading!
 Future work
 -----------
 
-- [ ] Use [Peverify](https://learn.microsoft.com/en-us/dotnet/framework/tools/peverify-exe-peverify-tool) to validate output binary not only runs, but is verifiable. (dotnet core version [available](https://stackoverflow.com/a/71981768/771768)!)
+- [ ] Use [Peverify](https://learn.microsoft.com/en-us/dotnet/framework/tools/peverify-exe-peverify-tool) to validate output binary not only runs, but is verifiable. (dotnet core version is [available](https://stackoverflow.com/a/71981768/771768)!)
