@@ -18,7 +18,7 @@ BeforeAll {
   }
 
   Function Log($s) {
-    Write-Host "$($sw.ElapsedMilliseconds)ms $($s -replace (Root),'')" -Foreground DarkBlue
+    Write-Host "$($sw.ElapsedMilliseconds)ms $($s.Replace((Root),''))" -Foreground DarkBlue
   }
 
   Function CreateRuntimeConfig($name) {
