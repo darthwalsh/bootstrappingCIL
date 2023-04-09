@@ -1,5 +1,8 @@
 $ErrorActionPreference = "Stop"
 
+# Ensure CI/CD build has the right version of pester
+Install-Module Pester -Scope CurrentUser -MinimumVersion 5.4.0 -MaximumVersion 5.4.999
+
 BeforeAll {
   $sw = [system.diagnostics.stopwatch]::startNew()
   $here = $PSScriptRoot
