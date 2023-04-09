@@ -22,7 +22,10 @@ And verifying each language can self-host:
 Running Tests
 -------------
 
-    .\test\bscil.Tests.ps1
+```powershell
+Install-Module Pester
+.\test\bscil.Tests.ps1
+```
 
 Windows test status: [![Build status](https://ci.appveyor.com/api/projects/status/cnd0aqt66wc98ncm)](https://ci.appveyor.com/project/darthwalsh/bootstrappingcil)
 

@@ -63,6 +63,8 @@ http://www.microsoft.com/whdc/system/platform/firmware/PECOFF.mspx or https://ms
 http://www.codeproject.com/Articles/362076/Understanding-Common-Intermediate-Language-CIL
 Many times https://www.simple-talk.com/blogs/2011/03/28/anatomy-of-a-net-assembly-the-clr-loader-stub/
 
+[Conversion of CLI ... To Register by Koutsouridis](https://pergamos.lib.uoa.gr/uoa/dl/frontend/file/lib/default/data/2921082/theFile) gives a good overview of the execution engine stack and branching. 
+
 //AddR.exe [2048 bytes]
 
 //MS-DOS image header _IMAGE_DOS_HEADER [0x000: 64 bytes] //KEEP EXACTLY
