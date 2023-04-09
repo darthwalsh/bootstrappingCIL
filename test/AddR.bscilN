@@ -3,10 +3,6 @@
   .method static void Main() {
     .entrypoint
     ldstr "Hello, World!"
-    ldc.i4.s 44
-    box [mscorlib]System.Int32
-    call string [mscorlib]System.String::Concat(object, object)
-    call void [mscorlib]System.Console::WriteLine(string)
     ret
   }
 }

@@ -6,6 +6,19 @@
     ret
   }
 
+  .method public static int64 GetPos() {
+    ldsfld [mscorlib]System.IO.Stream Reader::input
+    callvirt instance int64 class [mscorlib]System.IO.Stream::get_Position()
+    ret
+  }
+
+  .method public static void SetPos(int64) {
+    ldsfld [mscorlib]System.IO.Stream Reader::input
+    ldarg.0
+    callvirt instance void class [mscorlib]System.IO.Stream::set_Position(int64)
+    ret
+  }
+
   .method static char Read() {
     ldsfld [mscorlib]System.IO.Stream Reader::input
     callvirt instance int32 [mscorlib]System.IO.Stream::ReadByte()
@@ -39,8 +52,7 @@ ERROR:
     stloc.s sb
 
 LOOP_START:
-    ldsfld [mscorlib]System.IO.Stream Reader::input
-    callvirt instance int64 class [mscorlib]System.IO.Stream::get_Position()
+    call int64 Reader::GetPos()
     stloc.s pos
 
     ldarg.0
@@ -57,9 +69,8 @@ LOOP_START:
     br.s LOOP_START
     
 DONE:
-    ldsfld [mscorlib]System.IO.Stream Reader::input
     ldloc.s pos
-    callvirt instance void class [mscorlib]System.IO.Stream::set_Position(int64)
+    call void Reader::SetPos(int64)
 
     ldloc.s sb
     callvirt string object::ToString()
@@ -94,8 +105,7 @@ LOOP_END:
   .method static bool TryRead(string) {
     .locals init (int64 pos)
 
-    ldsfld [mscorlib]System.IO.Stream Reader::input
-    callvirt instance int64 class [mscorlib]System.IO.Stream::get_Position()
+    call int64 Reader::GetPos()
     stloc.s pos
 
     ldarg.0
@@ -121,9 +131,8 @@ LOOP_END:
 
     brtrue.s DONE
 
-    ldsfld [mscorlib]System.IO.Stream Reader::input
     ldloc.s pos
-    callvirt instance void class [mscorlib]System.IO.Stream::set_Position(int64)
+    call void Reader::SetPos(int64)
 
 DONE:
     ret
@@ -132,8 +141,7 @@ DONE:
   .method static void ConsumeWhiteSpaceComments() {
     .locals init (int64 pos)
 LOOP_START:
-    ldsfld [mscorlib]System.IO.Stream Reader::input
-    callvirt instance int64 class [mscorlib]System.IO.Stream::get_Position()
+    call int64 Reader::GetPos()
     stloc.s pos
 
     call char Reader::Read()
@@ -150,9 +158,9 @@ LOOP_START:
 
     // TODO consume // single line comments and /* multi line comments */
 
-    ldsfld [mscorlib]System.IO.Stream Reader::input
     ldloc.s pos
-    callvirt instance void class [mscorlib]System.IO.Stream::set_Position(int64)
+    call void Reader::SetPos(int64)
+
     ret
   }
 }

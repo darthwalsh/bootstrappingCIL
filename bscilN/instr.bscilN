@@ -1,4 +1,50 @@
 .class abstract sealed InstrParser {
+  .field static class [mscorlib]System.Collections.Generic.Dictionary`2<string, OpDef> ops
+  // .field static class [mscorlib]System.Collections.Generic.List`1<OpDef> ops
+
+  .method static hidebysig specialname rtspecialname 
+    default void .cctor() 
+  {
+    newobj instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, OpDef>::.ctor()
+    stsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, OpDef> InstrParser::ops
+
+    //OPDEF(CEE_LDSTR,"ldstr",Pop0,PushRef,InlineString,IObjModel,1,0xFF,0x72,NEXT)
+
+    ldstr "ldstr" ldstr "InlineString" ldc.i4.s 0xFF ldc.i4.s 0x72
+    call void InstrParser::OPDEF(string, string, unsigned int8, unsigned int8)
+
+    ret
+  }
+
+  .method static void OPDEF(string name, string param, unsigned int8 b1, unsigned int8 b2) {
+    .locals init (OpDef op)
+    newobj instance void class OpDef::.ctor()
+    stloc.s op
+    
+    ldloc.s op
+    ldarg.s name
+    stfld string OpDef::name
+    
+    ldloc.s op
+    ldarg.s param
+    stfld string OpDef::paramFormat
+    
+    ldloc.s op
+    ldarg.s b1
+    stfld unsigned int8 OpDef::byte1
+    
+    ldloc.s op
+    ldarg.s b2
+    stfld unsigned int8 OpDef::byte2
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, OpDef> InstrParser::ops
+    ldarg.s name
+    ldloc.s op
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, OpDef>::Add(!0, !1)
+
+    ret
+  }
+
   // .method static void InstrNone() { }
   // .method static void InstrVar() { }
   // .method static void InstrI() { }
@@ -15,92 +61,26 @@
   // .method static void InstrRHead() { }
 
   .method public static bool Instr() {
-    // TODO this implementation will read a shorter instructions if it is a prefix to a longer one
-    // ???Instead, parse [a-z.0-9]+ and use lookup table, then revert stream.Pos if not in table
+    .locals init (int64 pos, string op)
+    call int64 Reader::GetPos()
+    stloc.s pos
 
-    // instr_none 
-    ldstr "ret"
-    call bool Reader::TryRead(string)
-    brfalse.s INSTR_I
-
-    ldstr "FOUND ret"
-    call void [mscorlib]System.Console::WriteLine(string)
-
-    ldc.i4.1
-    ret
-
-    // instr_var int32 
-    // instr_var id 
-
-    // instr_i int32 
-INSTR_I:
-    ldstr "ldc.i4.s"
-    call bool Reader::TryRead(string)
-    brfalse.s INSTR_METHOD
-
-    call int32 Parser::Int32()
-
-    ldstr "FOUND ldc.i4.s: "
-    call void [mscorlib]System.Console::Write(string)
-    call void [mscorlib]System.Console::WriteLine(int32)
-
-    ldc.i4.1
-    ret
-
-
-    // instr_i8 int64 
-    // instr_r float64 
-    // instr_r int64 
-    // instr_r_head bytes ')' 
-    // instr_brtarget int32 
-    // instr_brtarget id 
-    // instr_method methodRef 
-INSTR_METHOD:
-    ldstr "call"
-    call bool Reader::TryRead(string)
-    brfalse.s INSTR_TYPE
-
-    // TODO methodRef
-    ldstr "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ, []():."
+    ldstr "abcdefghijklmnopqrstuvwxyz.0123456789"
     call string Reader::ReadOfAny(string)
+    stloc.s op
 
-    ldstr "FOUND call "
-    call void [mscorlib]System.Console::Write(string)
-    call void [mscorlib]System.Console::WriteLine(string)
-
-    ldc.i4.1
-    ret
-
-    // instr_field type typeSpec '::' dottedName 
-    // instr_field type dottedName 
-    // instr_field mdtoken 
-    // instr_field TYPEDEF_F 
-    // instr_field TYPEDEF_MR 
-    // instr_type typeSpec 
-INSTR_TYPE:
-    ldstr "box"
-    call bool Reader::TryRead(string)
-    brfalse.s INSTR_STRING
-
-    call void Parser::TypeSpec()
-
-    ldstr "FOUND box"
-    call void [mscorlib]System.Console::WriteLine(string)
-
-    ldc.i4.1
-    ret
-
-    // instr_string compQstring 
-INSTR_STRING:
-    ldstr "ldstr"
-    call bool Reader::TryRead(string)
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, OpDef> InstrParser::ops
+    ldloc.s op
+    callvirt instance bool class [mscorlib]System.Collections.Generic.Dictionary`2<string, OpDef>::ContainsKey(!0)
     brfalse.s FAILED
 
-    // TODO other syntax
-    // instr_string 'ansi' '(' compQstring ')' 
-    // instr_string bytearrayhead bytes ')' ' 
-    call string Parser::CompQstring()
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, OpDef> InstrParser::ops
+    ldloc.s op
+    callvirt instance !1 class [mscorlib]System.Collections.Generic.Dictionary`2<string, OpDef>::get_Item(!0)
+    pop
 
+    // TODO use paramFormat==InlineString based on table VI.C.4 to call instr_string
+    call string Parser::CompQstring()
     ldstr "FOUND ldstr: '"
     call void [mscorlib]System.Console::Write(string)
     call void [mscorlib]System.Console::WriteLine(string)
@@ -108,12 +88,131 @@ INSTR_STRING:
     ldc.i4.1
     ret
 
-    // instr_sig callConv type '(' sigArgs0 ')' 
-    // instr_tok ownerType /* ownerType ::= memberRef | typeSpec */ 
-    // instr_switch '(' labels ')
-
 FAILED:
+
+    ldloc.s op
+    ldstr "Unknown opcode, rolling back: "
+    call void [mscorlib]System.Console::Write(string)
+    call void [mscorlib]System.Console::WriteLine(string)
+
+    ldloc.s pos
+    call void Reader::SetPos(int64)
     ldc.i4.0
     ret
+
+    // TODO this implementation will read a shorter instructions if it is a prefix to a longer one
+    // ???Instead, parse [a-z.0-9]+ and use lookup table, then revert stream.Pos if not in table
+
+//     // instr_none 
+//     ldstr "ret"
+//     call bool Reader::TryRead(string)
+//     brfalse.s INSTR_I
+
+//     ldstr "FOUND ret"
+//     call void [mscorlib]System.Console::WriteLine(string)
+
+//     ldc.i4.1
+//     ret
+
+//     // instr_var int32 
+//     // instr_var id 
+
+//     // instr_i int32 
+// INSTR_I:
+//     ldstr "ldc.i4.s"
+//     call bool Reader::TryRead(string)
+//     brfalse.s INSTR_METHOD
+
+//     call int32 Parser::Int32()
+
+//     ldstr "FOUND ldc.i4.s: "
+//     call void [mscorlib]System.Console::Write(string)
+//     call void [mscorlib]System.Console::WriteLine(int32)
+
+//     ldc.i4.1
+//     ret
+
+
+//     // instr_i8 int64 
+//     // instr_r float64 
+//     // instr_r int64 
+//     // instr_r_head bytes ')' 
+//     // instr_brtarget int32 
+//     // instr_brtarget id 
+//     // instr_method methodRef 
+// INSTR_METHOD:
+//     ldstr "call"
+//     call bool Reader::TryRead(string)
+//     brfalse.s INSTR_TYPE
+
+//     // TODO methodRef
+//     ldstr "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ, []():."
+//     call string Reader::ReadOfAny(string)
+
+//     ldstr "FOUND call "
+//     call void [mscorlib]System.Console::Write(string)
+//     call void [mscorlib]System.Console::WriteLine(string)
+
+//     ldc.i4.1
+//     ret
+
+//     // instr_field type typeSpec '::' dottedName 
+//     // instr_field type dottedName 
+//     // instr_field mdtoken 
+//     // instr_field TYPEDEF_F 
+//     // instr_field TYPEDEF_MR 
+//     // instr_type typeSpec 
+// INSTR_TYPE:
+//     ldstr "box"
+//     call bool Reader::TryRead(string)
+//     brfalse.s INSTR_STRING
+
+//     call void Parser::TypeSpec()
+
+//     ldstr "FOUND box"
+//     call void [mscorlib]System.Console::WriteLine(string)
+
+//     ldc.i4.1
+//     ret
+
+//     // instr_string compQstring 
+// INSTR_STRING:
+//     ldstr "ldstr"
+//     call bool Reader::TryRead(string)
+//     brfalse.s FAILED
+
+//     // TODO other syntax
+//     // instr_string 'ansi' '(' compQstring ')' 
+//     // instr_string bytearrayhead bytes ')' ' 
+//     call string Parser::CompQstring()
+
+//     ldstr "FOUND ldstr: '"
+//     call void [mscorlib]System.Console::Write(string)
+//     call void [mscorlib]System.Console::WriteLine(string)
+
+//     ldc.i4.1
+//     ret
+
+//     // instr_sig callConv type '(' sigArgs0 ')' 
+//     // instr_tok ownerType /* ownerType ::= memberRef | typeSpec */ 
+//     // instr_switch '(' labels ')
+
+// FAILED:
+//     ldc.i4.0
+//     ret
+  }
+}
+
+.class OpDef {
+  .field public string name
+  .field public string paramFormat
+  .field public unsigned int8 byte1
+  .field public unsigned int8 byte2
+
+  .method public specialname rtspecialname instance default void '.ctor' () 
+  {
+	  ldarg.0 
+	  call instance void object::'.ctor'()
+	  ret 
   }
 }
