@@ -4,6 +4,7 @@
 Packages
 .DS_Store
 test/bin/
+TestsResults.xml
 bscil*.runtimeconfig.json
 
 .obsidian/
