@@ -1,6 +1,6 @@
 .class abstract sealed StringHeap {
-  .field static [mscorlib]System.IO.Stream data
-  .field static [mscorlib]System.IO.StreamWriter writer
+  .field static class [mscorlib]System.IO.Stream data
+  .field static class [mscorlib]System.IO.StreamWriter writer
   .field static class [mscorlib]System.Collections.Generic.Dictionary`2<string,int32> cache
 
   .method static hidebysig specialname rtspecialname 
@@ -8,10 +8,10 @@
   {
     newobj instance void [mscorlib]System.IO.MemoryStream::.ctor()
     dup
-    stsfld [mscorlib]System.IO.Stream StringHeap::data
-    newobj instance void [mscorlib]System.IO.StreamWriter::.ctor([mscorlib]System.IO.Stream)
+    stsfld class [mscorlib]System.IO.Stream StringHeap::data
+    newobj instance void [mscorlib]System.IO.StreamWriter::.ctor(class [mscorlib]System.IO.Stream)
     dup
-    stsfld [mscorlib]System.IO.StreamWriter StringHeap::writer
+    stsfld class [mscorlib]System.IO.StreamWriter StringHeap::writer
     ldc.i4.1
     callvirt instance void [mscorlib]System.IO.StreamWriter::set_AutoFlush(bool)
 
@@ -37,7 +37,7 @@
 
 INSERT:
     
-    ldsfld [mscorlib]System.IO.Stream StringHeap::data
+    ldsfld class [mscorlib]System.IO.Stream StringHeap::data
     callvirt instance int64 class [mscorlib]System.IO.Stream::get_Position()
     conv.i4
     stloc.s pos
@@ -47,10 +47,10 @@ INSERT:
     ldloc.s pos
     callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string,int32>::set_Item(!0, !1)
 
-    ldsfld [mscorlib]System.IO.StreamWriter StringHeap::writer
+    ldsfld class [mscorlib]System.IO.StreamWriter StringHeap::writer
     ldarg.0
     callvirt instance void [mscorlib]System.IO.StreamWriter::Write(string)
-    ldsfld [mscorlib]System.IO.StreamWriter StringHeap::writer
+    ldsfld class [mscorlib]System.IO.StreamWriter StringHeap::writer
     ldc.i4.0
     callvirt instance void [mscorlib]System.IO.StreamWriter::Write(char)
 
@@ -58,13 +58,13 @@ INSERT:
     ret
   }
 
-  .method public static void WriteHeap([mscorlib]System.IO.Stream) {
+  .method public static void WriteHeap(class [mscorlib]System.IO.Stream) {
     // Reposition the stream to the beginning
-    ldsfld [mscorlib]System.IO.Stream StringHeap::data
+    ldsfld class [mscorlib]System.IO.Stream StringHeap::data
     ldc.i4.0
     callvirt instance void [mscorlib]System.IO.Stream::set_Position(int64)
     
-    ldsfld [mscorlib]System.IO.Stream StringHeap::data
+    ldsfld class [mscorlib]System.IO.Stream StringHeap::data
     ldarg.0
     callvirt instance void [mscorlib]System.IO.Stream::CopyTo(class [mscorlib]System.IO.Stream)
 

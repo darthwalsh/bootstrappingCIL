@@ -1,18 +1,18 @@
 .assembly A {}
 .class C {
-.field static [mscorlib]System.IO.Stream output
+.field static class [mscorlib]System.IO.Stream output
 
 .method static void Write(unsigned int8 b) {
-  ldsfld [mscorlib]System.IO.Stream C::output
+  ldsfld class [mscorlib]System.IO.Stream C::output
   ldarg b
-  callvirt void [mscorlib]System.IO.Stream::WriteByte(unsigned int8)
+  callvirt instance void [mscorlib]System.IO.Stream::WriteByte(unsigned int8)
   ret
 }
 
 .method static void ZeroUntil(unsigned int32 n) {
 LOOP_START:
-  ldsfld [mscorlib]System.IO.Stream C::output
-  callvirt int64 [mscorlib]System.IO.Stream::get_Position()
+  ldsfld class [mscorlib]System.IO.Stream C::output
+  callvirt instance int64 [mscorlib]System.IO.Stream::get_Position()
   ldarg n
   conv.i8
   bge.s LOOP_END // while .Position < n
@@ -31,8 +31,8 @@ call void C::SeedStringHeap()
 ldarg.0
 ldc.i4.0
 ldelem.ref
-call [mscorlib]System.IO.FileStream [mscorlib]System.IO.File::OpenRead(string)
-call void Reader::Init([mscorlib]System.IO.Stream)
+call class [mscorlib]System.IO.FileStream class [mscorlib]System.IO.File::OpenRead(string)
+call void Reader::Init(class [mscorlib]System.IO.Stream)
 call void Parser::Parse()
 
 // output = args[1]
@@ -42,7 +42,7 @@ ldelem.ref
 
 // output.Split('')
 ldc.i4.2 
-newarr [mscorlib]System.Char
+newarr class [mscorlib]System.Char
 dup
 ldc.i4.0 
 ldc.i4.s 0x3d
@@ -56,14 +56,14 @@ ldc.i4.1
 ldelem.ref 
 
 ldc.i4.2 // FileMode.Create
-call [mscorlib]System.IO.FileStream [mscorlib]System.IO.File::Open(string, valuetype [mscorlib]System.IO.FileMode)
-stsfld [mscorlib]System.IO.Stream C::output
+call class [mscorlib]System.IO.FileStream class [mscorlib]System.IO.File::Open(string, valuetype [mscorlib]System.IO.FileMode)
+stsfld class [mscorlib]System.IO.Stream C::output
 
 call void C::WritePEHeader()
 call void C::WriteTextSection()
 call void C::WriteRelocSection()
 
-ldsfld [mscorlib]System.IO.Stream C::output
+ldsfld class [mscorlib]System.IO.Stream C::output
 callvirt instance void class [mscorlib]System.IDisposable::Dispose()
 
 ret
@@ -1855,8 +1855,8 @@ ldc.i4.s 0x00
 call void C::Write(unsigned int8)
  
 // StringHeap
-ldsfld [mscorlib]System.IO.Stream C::output
-call void StringHeap::WriteHeap([mscorlib]System.IO.Stream)
+ldsfld class [mscorlib]System.IO.Stream C::output
+call void StringHeap::WriteHeap(class [mscorlib]System.IO.Stream)
 
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)

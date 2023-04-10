@@ -1,13 +1,13 @@
 .class abstract sealed Reader {
-  .field static [mscorlib]System.IO.Stream input
-  .method static void Init([mscorlib]System.IO.Stream) {
+  .field static class [mscorlib]System.IO.Stream input
+  .method static void Init(class [mscorlib]System.IO.Stream) {
     ldarg.0
-    stsfld [mscorlib]System.IO.Stream Reader::input
+    stsfld class [mscorlib]System.IO.Stream Reader::input
     ret
   }
 
   .method static char Read() {
-    ldsfld [mscorlib]System.IO.Stream Reader::input
+    ldsfld class [mscorlib]System.IO.Stream Reader::input
     callvirt instance int32 [mscorlib]System.IO.Stream::ReadByte()
     conv.u2
     ret
@@ -34,12 +34,12 @@ ERROR:
   }
 
   .method static string ReadOfAny(string) {
-    .locals init ([mscorlib]System.Text.StringBuilder sb, char c, int64 pos)
-    newobj void [mscorlib]System.Text.StringBuilder::.ctor()
+    .locals init (class [mscorlib]System.Text.StringBuilder sb, char c, int64 pos)
+    newobj instance void [mscorlib]System.Text.StringBuilder::.ctor()
     stloc.s sb
 
 LOOP_START:
-    ldsfld [mscorlib]System.IO.Stream Reader::input
+    ldsfld class [mscorlib]System.IO.Stream Reader::input
     callvirt instance int64 class [mscorlib]System.IO.Stream::get_Position()
     stloc.s pos
 
@@ -52,24 +52,24 @@ LOOP_START:
 
     ldloc.s sb
     ldloc.s c
-    call instance [mscorlib]System.Text.StringBuilder [mscorlib]System.Text.StringBuilder::Append(char)
+    call instance class [mscorlib]System.Text.StringBuilder [mscorlib]System.Text.StringBuilder::Append(char)
     pop
     br.s LOOP_START
     
 DONE:
-    ldsfld [mscorlib]System.IO.Stream Reader::input
+    ldsfld  class [mscorlib]System.IO.Stream Reader::input
     ldloc.s pos
     callvirt instance void class [mscorlib]System.IO.Stream::set_Position(int64)
 
     ldloc.s sb
-    callvirt string object::ToString()
+    callvirt instance string object::ToString()
     call void Reader::ConsumeWhiteSpaceComments()
     ret
   }
 
   .method static string ReadLength(int32) {
-    .locals init ([mscorlib]System.Text.StringBuilder sb)
-    newobj void [mscorlib]System.Text.StringBuilder::.ctor()
+    .locals init ( class [mscorlib]System.Text.StringBuilder sb)
+    newobj instance void [mscorlib]System.Text.StringBuilder::.ctor()
     stloc.s sb
 
 LOOP_START:
@@ -80,13 +80,13 @@ LOOP_START:
 
     ldloc.s sb
     call char Reader::Read()
-    call instance [mscorlib]System.Text.StringBuilder [mscorlib]System.Text.StringBuilder::Append(char)
+    call instance class [mscorlib]System.Text.StringBuilder [mscorlib]System.Text.StringBuilder::Append(char)
     pop
     br.s LOOP_START
 
 LOOP_END:
     ldloc.s sb
-    callvirt string object::ToString()
+    callvirt instance string object::ToString()
     call void Reader::ConsumeWhiteSpaceComments()
     ret
   }
@@ -94,7 +94,7 @@ LOOP_END:
   .method static bool TryRead(string) {
     .locals init (int64 pos)
 
-    ldsfld [mscorlib]System.IO.Stream Reader::input
+    ldsfld class [mscorlib]System.IO.Stream Reader::input
     callvirt instance int64 class [mscorlib]System.IO.Stream::get_Position()
     stloc.s pos
 
@@ -121,7 +121,7 @@ LOOP_END:
 
     brtrue.s DONE
 
-    ldsfld [mscorlib]System.IO.Stream Reader::input
+    ldsfld class [mscorlib]System.IO.Stream Reader::input
     ldloc.s pos
     callvirt instance void class [mscorlib]System.IO.Stream::set_Position(int64)
 
@@ -132,7 +132,7 @@ DONE:
   .method static void ConsumeWhiteSpaceComments() {
     .locals init (int64 pos)
 LOOP_START:
-    ldsfld [mscorlib]System.IO.Stream Reader::input
+    ldsfld class [mscorlib]System.IO.Stream Reader::input
     callvirt instance int64 class [mscorlib]System.IO.Stream::get_Position()
     stloc.s pos
 
@@ -150,7 +150,7 @@ LOOP_START:
 
     // TODO consume // single line comments and /* multi line comments */
 
-    ldsfld [mscorlib]System.IO.Stream Reader::input
+    ldsfld class [mscorlib]System.IO.Stream Reader::input
     ldloc.s pos
     callvirt instance void class [mscorlib]System.IO.Stream::set_Position(int64)
     ret

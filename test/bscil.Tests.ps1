@@ -97,7 +97,7 @@ BeforeAll {
 
   $script:compilers = @{
     bscil0 = Root "bscil0\bscil0.exe"
-    "ilasm" = "ilasm"
+    "ilasm" = if ($IsWindows) { "C:\Windows\Microsoft.NET\Framework\v4.0.30319\ilasm.exe" } else { "ilasm" }
   }
 
   Function Get-Compiler($target = $null) {
