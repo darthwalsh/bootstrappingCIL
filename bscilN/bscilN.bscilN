@@ -40,18 +40,21 @@ ldarg.0
 ldc.i4.1
 ldelem.ref
 
-// output.Split('')
+// output.Split(['=', ':'], 2)
+// Only split into two parts, in case the output path contains '=' or ':'
 ldc.i4.2 
-newarr class [mscorlib]System.Char
+newarr char
 dup
 ldc.i4.0 
-ldc.i4.s 0x3d
+ldc.i4.s 0x3d // '='
 stelem.i2 
 dup 
 ldc.i4.1 
-ldc.i4.s 0x3a
+ldc.i4.s 0x3a // ':'
 stelem.i2 
-callvirt instance string[] string::Split(char[])
+
+ldc.i4.2
+callvirt instance string[] string::Split(char[], int32)
 ldc.i4.1 
 ldelem.ref 
 

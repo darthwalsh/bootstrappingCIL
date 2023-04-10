@@ -45,10 +45,13 @@ LOOP_START:
 
     ldarg.0
     call char Reader::Read()
+
     stloc.s c
     ldloc.s c
-    call instance bool string::Contains(char)
-    brfalse.s DONE
+    call instance int32 string::IndexOf(char) // string::Contains(char) is only in dotnet core
+
+    ldc.i4.m1
+    beq.s DONE
 
     ldloc.s sb
     ldloc.s c
