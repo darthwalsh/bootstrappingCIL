@@ -11,6 +11,9 @@ To help me get back into the project, I'm taking on the last phase of the projec
 
 ## TODOs
 
+- [ ] Create object model that replicates the AddR EXE
+  - [ ] Create more StreamHeader objects
+
 Explanation of variable TODO categories:
 
 ### `TODO(no-reloc-section)`

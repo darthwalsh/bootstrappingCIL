@@ -53,6 +53,8 @@ BeforeAll {
     Log "exec compile $compiler $name"
     if (Get-Command cmd -ErrorAction SilentlyContinue) {
       cmd /c $line
+
+      # TODO invoke peverify here, fail if compiler isn't valid PE
     }
     else {
       if ((Get-Description) -ne "ilasm") { # can remove this hack when bscil0 -> bscil1 -> bscilN
@@ -82,6 +84,9 @@ BeforeAll {
   Function RunTest($target, $instream, $expected) {
     $target = Here $target
     $exe = Compile $target
+
+    # Helper blurb. git add todo.txt as a baseline, then if the exe is different you will see
+    format-hex $exe > (Here todo.txt)
       
     $output = RunExe $exe $instream
     if (-not $output) {
@@ -282,7 +287,7 @@ Function TestBSCILN() {
 # }
 
 Describe "ilasm" {
-  TestBSCILN
+  # TestBSCILN # Re-enable if writing new test cases
   Add-CompilerN
 }
 

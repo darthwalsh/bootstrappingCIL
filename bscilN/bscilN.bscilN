@@ -1307,35 +1307,11 @@ ldc.i4.s 0x00
 call void C::Write(unsigned int8)
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
-ldc.i4.s 0x05
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x6C
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0xBC
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
- 
-ldc.i4.s 0x23
-call void C::Write(unsigned int8)
-ldc.i4.s 0x7E
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+
+// StreamHeaders
+ldsfld class [mscorlib]System.IO.Stream C::output
+call void StreamHeader::Write(class [mscorlib]System.IO.Stream)
+
 ldc.i4.s 0x28
 call void C::Write(unsigned int8)
 ldc.i4.s 0x01
