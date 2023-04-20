@@ -10,21 +10,10 @@
       IL_0006: ret
   }
 
-  .field static public class StreamHeader[] headers
-  .method static hidebysig specialname rtspecialname default void .cctor() 
-  {
+  .method static class StreamHeader TildeStream() {
     .locals init (class StreamHeader h)
-
-    ldc.i4.5
-    newarr class StreamHeader
-    stsfld class StreamHeader[] StreamHeader::headers
-
-    ldsfld class StreamHeader[] StreamHeader::headers
-    ldc.i4.0
     newobj instance void StreamHeader::.ctor()
     stloc.0
-    ldloc.0
-    stelem.ref
 
     ldloc.0
     ldc.i4 0x6C // TODO read this from first-pass StringHeap.START_RVA
@@ -38,42 +27,46 @@
     ldstr "#~"
     stfld string StreamHeader::name
 
+    ldloc.0
     ret
   }
 
   .method public static void Write(class [mscorlib]System.IO.Stream) {
-    .locals init (class [mscorlib]System.IO.BinaryWriter writer, class StreamHeader h)
+    // write 0x0005
     ldarg.0
+    ldc.i4.5
+    callvirt instance void [mscorlib]System.IO.Stream::WriteByte(uint8)
+    ldarg.0
+    ldc.i4.0
+    callvirt instance void [mscorlib]System.IO.Stream::WriteByte(uint8)
+
+    // TODO for all 5 headers
+    call class StreamHeader StreamHeader::TildeStream()
+    ldarg.0
+    call instance void StreamHeader::WriteStreamHeader(class [mscorlib]System.IO.Stream)
+
+    ret
+  }
+
+  .method void WriteStreamHeader(class [mscorlib]System.IO.Stream) {
+    .locals init (class [mscorlib]System.IO.BinaryWriter writer)
+    ldarg.1
     newobj instance void [mscorlib]System.IO.BinaryWriter::.ctor(class [mscorlib]System.IO.Stream)
     stloc.0
 
     ldloc.0
-    ldsfld class StreamHeader[] StreamHeader::headers
-    ldlen
-    conv.i2
-    callvirt instance void [mscorlib]System.IO.BinaryWriter::Write(int16)
-
-
-    // TODO loop over all 5, instance StreamHeader write func
-    ldsfld class StreamHeader[] StreamHeader::headers
-    ldc.i4.0
-    ldelem.ref
-    stloc.1
-
-    ldloc.0
-    ldloc.1
+    ldarg.0
     ldfld int32 StreamHeader::offset
     callvirt instance void [mscorlib]System.IO.BinaryWriter::Write(int32)
 
     ldloc.0
-    ldloc.1
+    ldarg.0
     ldfld int32 StreamHeader::size
     callvirt instance void [mscorlib]System.IO.BinaryWriter::Write(int32)
 
-
     ldloc.0
     call class [mscorlib]System.Text.Encoding [mscorlib]System.Text.Encoding::get_UTF8()
-    ldloc.1
+    ldarg.0
     ldfld string StreamHeader::name
     callvirt instance uint8[] [mscorlib]System.Text.Encoding::GetBytes(string)
     callvirt instance void [mscorlib]System.IO.BinaryWriter::Write(uint8[])
@@ -92,6 +85,9 @@
 }
 
 .class abstract sealed StringHeap {
+  .field public static int64 fileStart
+  .field public static int64 fileEnd
+
   .field static class [mscorlib]System.IO.Stream data
   .field static class [mscorlib]System.IO.StreamWriter writer
   .field static class [mscorlib]System.Collections.Generic.Dictionary`2<string,int32> cache
@@ -149,6 +145,10 @@ INSERT:
   }
 
   .method public static void WriteHeap(class [mscorlib]System.IO.Stream) {
+    ldarg.0
+    callvirt instance int64 class [mscorlib]System.IO.Stream::get_Position()
+    stsfld int64 StringHeap::fileStart
+
     // Reposition the stream to the beginning
     ldsfld class [mscorlib]System.IO.Stream StringHeap::data
     ldc.i8 0
@@ -157,6 +157,10 @@ INSERT:
     ldsfld class [mscorlib]System.IO.Stream StringHeap::data
     ldarg.0
     callvirt instance void [mscorlib]System.IO.Stream::CopyTo(class [mscorlib]System.IO.Stream)
+
+    ldarg.0
+    callvirt instance int64 class [mscorlib]System.IO.Stream::get_Position()
+    stsfld int64 StringHeap::fileEnd
 
     ret
   }
