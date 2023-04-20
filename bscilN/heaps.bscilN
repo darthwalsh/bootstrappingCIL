@@ -1,6 +1,11 @@
+.class abstract sealed MetadataRoot {
+  .field public static int64 fileStart
+}
+
 .class StreamHeader {
-  .field public int32 offset
-  .field public int32 size
+  // the object model would have offset and size, but they are calculated
+  .field public int64 fileStart
+  .field public int64 fileEnd
   .field public string name
 
   .method public hidebysig specialname rtspecialname instance void .ctor ()
@@ -16,12 +21,12 @@
     stloc.0
 
     ldloc.0
-    ldc.i4 0x6C // TODO read this from first-pass StringHeap.START_RVA
-    stfld int32 StreamHeader::offset
+    ldsfld int64 TildeStream::fileStart
+    stfld int64 StreamHeader::fileStart
 
     ldloc.0
-    ldc.i4 0xBC
-    stfld int32 StreamHeader::size
+    ldsfld int64 TildeStream::fileEnd
+    stfld int64 StreamHeader::fileEnd
 
     ldloc.0
     ldstr "#~"
@@ -55,13 +60,22 @@
     stloc.0
 
     ldloc.0
+    // offset = this.fileStart - MetadataRoot.fileStart
     ldarg.0
-    ldfld int32 StreamHeader::offset
+    ldfld int64 StreamHeader::fileStart
+    ldsfld int64 MetadataRoot::fileStart
+    sub
+    conv.i4
     callvirt instance void [mscorlib]System.IO.BinaryWriter::Write(int32)
 
     ldloc.0
+    // size = this.fileEnd - this.fileStart
     ldarg.0
-    ldfld int32 StreamHeader::size
+    ldfld int64 StreamHeader::fileEnd
+    ldarg.0
+    ldfld int64 StreamHeader::fileStart
+    sub
+    conv.i4
     callvirt instance void [mscorlib]System.IO.BinaryWriter::Write(int32)
 
     ldloc.0
@@ -82,6 +96,11 @@
 
     ret
   }
+}
+
+.class abstract sealed TildeStream {
+  .field public static int64 fileStart
+  .field public static int64 fileEnd
 }
 
 .class abstract sealed StringHeap {

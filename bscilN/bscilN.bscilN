@@ -1263,8 +1263,12 @@ call void C::Write(unsigned int8)
 ldc.i4.s 0x0A
 call void C::Write(unsigned int8)
 ldc.i4.s 0x2A
-// MetadataRoot
 call void C::Write(unsigned int8)
+// MetadataRoot
+// Move this into MetadataRoot::Write()
+  ldsfld class [mscorlib]System.IO.Stream C::output
+  callvirt instance int64 [mscorlib]System.IO.Stream::get_Position()
+  stsfld int64 MetadataRoot::fileStart
 ldc.i4.s 0x42
 call void C::Write(unsigned int8)
 ldc.i4.s 0x53
@@ -1463,8 +1467,12 @@ call void C::Write(unsigned int8)
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
 ldc.i4.s 0x00
-// TildeStream
 call void C::Write(unsigned int8)
+// TildeStream
+// Move this into TildeStream::Write()
+  ldsfld class [mscorlib]System.IO.Stream C::output
+  callvirt instance int64 [mscorlib]System.IO.Stream::get_Position()
+  stsfld int64 TildeStream::fileStart
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
 ldc.i4.s 0x00
@@ -1852,19 +1860,22 @@ ldc.i4.s 0x00
 call void C::Write(unsigned int8)
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
+  ldsfld class [mscorlib]System.IO.Stream C::output
+  callvirt instance int64 [mscorlib]System.IO.Stream::get_Position()
+  stsfld int64 TildeStream::fileEnd
  
 // StringHeap
 ldsfld class [mscorlib]System.IO.Stream C::output
 call void StringHeap::WriteHeap(class [mscorlib]System.IO.Stream)
 
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(unsigned int8) // TODO this byte should be written by StringHeap
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(unsigned int8) // fix above, then: probably need to pad to multiple of 4 
 // UserStringHeap
 ldc.i4.s 0x1B
 call void C::Write(unsigned int8)
