@@ -56,6 +56,13 @@ BeforeAll {
     Log "exec compile $compiler $name"
     if (Get-Command cmd -ErrorAction SilentlyContinue) {
       $out = cmd /c $line
+
+      # Helper blurb. In ../bootstrappingCIL_TODO commit todo.txt as a baseline, then if the exe is different you will see it
+      $repo_with_todo = $root + '_TODO'
+      if ((Test-path $repo_with_todo) -and $shortname -eq 'AddR_bscilN') {
+        format-hex $name > (Join-path $repo_with_todo todo.txt)
+      }
+
       if ($LastExitCode -ne 0) {
         foreach ($line in $out) {
           Log $line
@@ -107,9 +114,6 @@ BeforeAll {
   Function RunTest($target, $instream, $expected) {
     $target = Here $target
     $exe = Compile $target
-
-    # Helper blurb. git add todo.txt as a baseline, then if the exe is different you will see
-    format-hex $exe > (Here todo.txt)
       
     $output = RunExe $exe $instream
     if (-not $output) {
