@@ -24,10 +24,12 @@ LOOP_END:
 }
 
 // Expects args: "source" "-OUTPUT=output.exe"
+//   eventually will need to implement parsing reading multiple input files
 .method static void M(string[] args) {
 .entrypoint
 call void C::SeedStringHeap()
 
+// input = args[0]
 ldarg.0
 ldc.i4.0
 ldelem.ref
@@ -62,13 +64,31 @@ ldc.i4.2 // FileMode.Create
 call class [mscorlib]System.IO.FileStream class [mscorlib]System.IO.File::Open(string, valuetype [mscorlib]System.IO.FileMode)
 stsfld class [mscorlib]System.IO.Stream C::output
 
-call void C::WritePEHeader()
-call void C::WriteTextSection()
-call void C::WriteRelocSection()
+call void C::WriteFileTwice()
 
 ldsfld class [mscorlib]System.IO.Stream C::output
 callvirt instance void class [mscorlib]System.IDisposable::Dispose()
 
+ret
+}
+
+// In order to calculate forward RVAs and offsets, we need at least two passes through the output.
+// The first pass will write garbage for forward offsets, then writing the link target will save the position.
+.method static void WriteFileTwice() {
+call void C::WriteFile()
+
+ldsfld class [mscorlib]System.IO.Stream C::output
+ldc.i8 0
+callvirt instance void [mscorlib]System.IO.Stream::set_Position(int64)
+
+call void C::WriteFile()
+ret
+}
+
+.method static void WriteFile() {
+call void C::WritePEHeader()
+call void C::WriteTextSection()
+call void C::WriteRelocSection()
 ret
 }
 
