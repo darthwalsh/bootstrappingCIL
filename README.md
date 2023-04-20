@@ -24,7 +24,10 @@ Running Tests
 
 ```powershell
 Install-Module Pester
-.\test\bscil.Tests.ps1
+
+$pesterConfig = New-PesterConfiguration
+$pesterConfig.Run.SkipRemainingOnFailure = 'Run'
+Invoke-Pester -Configuration $pesterConfig
 ```
 
 Windows test status: [![Build status](https://ci.appveyor.com/api/projects/status/cnd0aqt66wc98ncm)](https://ci.appveyor.com/project/darthwalsh/bootstrappingcil)
@@ -72,4 +75,5 @@ You, for reading!
 Future work
 -----------
 
-- [ ] Use [Peverify](https://learn.microsoft.com/en-us/dotnet/framework/tools/peverify-exe-peverify-tool) to validate output binary not only runs, but is verifiable. (dotnet core version is [available](https://stackoverflow.com/a/71981768/771768)!)
+- [x] Use [Peverify](https://learn.microsoft.com/en-us/dotnet/framework/tools/peverify-exe-peverify-tool) to validate output binary not only runs, but is verifiable. 
+  - [ ] Also use [dotnet core version](https://stackoverflow.com/a/71981768/771768)

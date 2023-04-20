@@ -60,6 +60,14 @@ BeforeAll {
         throw "Failed to compile $target"
       }
 
+      $out = PEVerify.exe $name
+      if ($LastExitCode -ne 0) {
+        foreach ($line in $out) {
+          Write-Host $line -ForegroundColor Yellow
+        }
+        throw "Invalid MSIL in $name"
+      }
+
       # TODO invoke peverify here, fail if compiler isn't valid PE
     }
     else {
