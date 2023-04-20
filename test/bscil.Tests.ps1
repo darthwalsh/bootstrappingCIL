@@ -1,6 +1,9 @@
 $ErrorActionPreference = "Stop"
 
 BeforeAll {
+  $ILASM_EXE = "C:\Windows\Microsoft.NET\Framework\v4.0.30319\ilasm.exe"
+  $PEVERIFY_EXE = "C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\PEVerify.exe"
+
   $sw = [system.diagnostics.stopwatch]::startNew()
   $here = $PSScriptRoot
   $root = Split-Path -Parent $here
@@ -60,7 +63,7 @@ BeforeAll {
         throw "Failed to compile $target"
       }
 
-      $out = PEVerify.exe $name
+      $out = & $PEVERIFY_EXE $name
       if ($LastExitCode -ne 0) {
         foreach ($line in $out) {
           Write-Host $line -ForegroundColor Yellow
@@ -116,7 +119,7 @@ BeforeAll {
 
   $script:compilers = @{
     bscil0 = Root "bscil0\bscil0.exe"
-    "ilasm" = if ($IsWindows) { "C:\Windows\Microsoft.NET\Framework\v4.0.30319\ilasm.exe" } else { "ilasm" }
+    "ilasm" = if ($IsWindows) { $ILASM_EXE } else { "ilasm" }
   }
 
   Function Get-Compiler($target = $null) {
