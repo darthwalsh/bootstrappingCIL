@@ -46,13 +46,19 @@ BeforeAll {
     $line = "$compiler < $target > $name" # MAYBE sc -raw (powershell destroys binary data in stream)
 
     if ((Get-Description) -in @("ilasm", "bscilN.bscilN")) {
-      $line = "$compiler $target -OUTPUT=$name >&2"
+      $line = "$compiler $target -OUTPUT=$name"
     }
     Log("LINE $line")
 
     Log "exec compile $compiler $name"
     if (Get-Command cmd -ErrorAction SilentlyContinue) {
-      cmd /c $line
+      $out = cmd /c $line
+      if ($LastExitCode -ne 0) {
+        foreach ($line in $out) {
+          Log $line
+        }
+        throw "Failed to compile $target"
+      }
 
       # TODO invoke peverify here, fail if compiler isn't valid PE
     }
@@ -123,7 +129,11 @@ BeforeAll {
     #   $script:compilers[$moniker] = Compile $source
     # }
 
-    $script:compilers[$moniker]
+    $val = $script:compilers[$moniker]
+    if (-not $val) {
+      throw "No compiler for $moniker"
+    }
+    $val
   }
 
   New-Item (BinDir) -ItemType Directory -Force
