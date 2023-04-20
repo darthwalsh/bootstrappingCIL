@@ -78,7 +78,13 @@ BeforeAll {
         $line = "dotnet $line"
       }
       
-      bash -c $line
+      $out = bash -c $line
+      if ($LastExitCode -ne 0) {
+        foreach ($line in $out) {
+          Log $line
+        }
+        throw "Failed to compile $target"
+      }
       CreateRuntimeConfig $name
     }
     
