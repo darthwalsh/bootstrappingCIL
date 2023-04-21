@@ -1351,72 +1351,7 @@ call void C::Write(unsigned int8)
 ldsfld class [mscorlib]System.IO.Stream C::output
 call void StreamHeader::Write(class [mscorlib]System.IO.Stream)
 
-ldc.i4.s 0x28
-call void C::Write(unsigned int8)
-ldc.i4.s 0x01
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x64
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x23
-call void C::Write(unsigned int8)
-ldc.i4.s 0x53
-call void C::Write(unsigned int8)
-ldc.i4.s 0x74
-call void C::Write(unsigned int8)
-ldc.i4.s 0x72
-call void C::Write(unsigned int8)
- 
-ldc.i4.s 0x69
-call void C::Write(unsigned int8)
-ldc.i4.s 0x6E
-call void C::Write(unsigned int8)
-ldc.i4.s 0x67
-call void C::Write(unsigned int8)
-ldc.i4.s 0x73
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x8C
-call void C::Write(unsigned int8)
-ldc.i4.s 0x01
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x20
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
- 
-ldc.i4.s 0x23
-call void C::Write(unsigned int8)
-ldc.i4.s 0x55
-call void C::Write(unsigned int8)
-ldc.i4.s 0x53
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+// StreamHeaders[3]
 ldc.i4.s 0xAC
 call void C::Write(unsigned int8)
 ldc.i4.s 0x01
@@ -1882,14 +1817,10 @@ call void C::Write(unsigned int8)
 // StringHeap
 ldsfld class [mscorlib]System.IO.Stream C::output
 call void StringHeap::WriteHeap(class [mscorlib]System.IO.Stream)
-ldc.i4.4
-call void C::ZeroUntilMultiple(unsigned int32)
 
 // UserStringHeap
 ldsfld class [mscorlib]System.IO.Stream C::output
 call void UserStringHeap::WriteHeap(class [mscorlib]System.IO.Stream)
-ldc.i4.4
-call void C::ZeroUntilMultiple(unsigned int32) 
 
 // GuidHeap
 ldc.i4.s 0xF1

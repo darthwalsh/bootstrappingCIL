@@ -38,6 +38,22 @@
     ret
   }
 
+  .method static class StreamHeader StringHeap() {
+    ldsfld int64 StringHeap::fileStart
+    ldsfld int64 StringHeap::fileEnd
+    ldstr "#Strings"
+    newobj instance void StreamHeader::.ctor(int64, int64, string)
+    ret
+  }
+
+  .method static class StreamHeader UserStringHeap() {
+    ldsfld int64 UserStringHeap::fileStart
+    ldsfld int64 UserStringHeap::fileEnd
+    ldstr "#US"
+    newobj instance void StreamHeader::.ctor(int64, int64, string)
+    ret
+  }
+
   .method public static void Write(class [mscorlib]System.IO.Stream) {
     // write 0x0005
     ldarg.0
@@ -49,6 +65,14 @@
 
     // TODO for all 5 headers
     call class StreamHeader StreamHeader::TildeStream()
+    ldarg.0
+    call instance void StreamHeader::WriteStreamHeader(class [mscorlib]System.IO.Stream)
+
+    call class StreamHeader StreamHeader::StringHeap()
+    ldarg.0
+    call instance void StreamHeader::WriteStreamHeader(class [mscorlib]System.IO.Stream)
+
+    call class StreamHeader StreamHeader::UserStringHeap()
     ldarg.0
     call instance void StreamHeader::WriteStreamHeader(class [mscorlib]System.IO.Stream)
 
@@ -176,6 +200,10 @@ INSERT:
     ldarg.0
     callvirt instance void [mscorlib]System.IO.Stream::CopyTo(class [mscorlib]System.IO.Stream)
 
+    
+    ldc.i4.4
+    call void C::ZeroUntilMultiple(unsigned int32) // TODO should probably always use global C:: methods
+
     ldarg.0
     callvirt instance int64 class [mscorlib]System.IO.Stream::get_Position()
     stsfld int64 StringHeap::fileEnd
@@ -281,6 +309,9 @@ INSERT:
     ldsfld class [mscorlib]System.IO.Stream UserStringHeap::data
     ldarg.0
     callvirt instance void [mscorlib]System.IO.Stream::CopyTo(class [mscorlib]System.IO.Stream)
+
+    ldc.i4.4
+    call void C::ZeroUntilMultiple(unsigned int32) 
 
     ldarg.0
     callvirt instance int64 class [mscorlib]System.IO.Stream::get_Position()
