@@ -1791,48 +1791,9 @@ call void UserStringHeap::WriteHeap(class [mscorlib]System.IO.Stream)
 ldsfld class [mscorlib]System.IO.Stream C::output
 call void GuidHeap::WriteHeap(class [mscorlib]System.IO.Stream)
 
-// BlobHeap
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x01
-call void C::Write(unsigned int8)
-ldc.i4.s 0x08
-call void C::Write(unsigned int8)
-ldc.i4.s 0x03
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x01
-call void C::Write(unsigned int8)
-ldc.i4.s 0x05
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x02
-call void C::Write(unsigned int8)
-ldc.i4.s 0x0E
-call void C::Write(unsigned int8)
-ldc.i4.s 0x1C
-call void C::Write(unsigned int8)
- 
-ldc.i4.s 0x1C
-call void C::Write(unsigned int8)
-ldc.i4.s 0x04
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x01
-call void C::Write(unsigned int8)
-ldc.i4.s 0x01
-call void C::Write(unsigned int8)
-ldc.i4.s 0x0E
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+ldsfld class [mscorlib]System.IO.Stream C::output
+call void BlobHeap::WriteHeap(class [mscorlib]System.IO.Stream)
+
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
 ldc.i4.s 0x00
@@ -2068,6 +2029,7 @@ ret
 .method static void SeedHeaps() {
   call void C::SeedStringHeap()
   call void C::SeedUserStringHeap()
+  call void C::SeedBlobHeap()
   ret
 }
 
@@ -2136,6 +2098,93 @@ ret
   // TODO load these strings by parsing the assembly input. Right now seed these in the specific order that was chosen by ilasm.
   ldstr "Hello, World!"
   call int32 UserStringHeap::Add(string)
+  pop
+  
+  ret
+}
+
+.method static void SeedBlobHeap() {
+  // TODO load these by parsing the assembly input. Right now seed these in the specific order that was chosen by ilasm.
+  // []
+  ldc.i4.0
+  newarr uint8
+  call int32 BlobHeap::Add(uint8[])
+  pop
+  
+  // [08] TypeSpecSig int32
+  ldc.i4.1
+  newarr uint8
+  dup
+  ldc.i4.0
+  ldc.i4.s 8
+  stelem.i1
+  call int32 BlobHeap::Add(uint8[])
+  pop
+  
+  // [00 00 01] MethodDefSig static void ()
+  ldc.i4.3
+  newarr uint8
+  dup
+  ldc.i4.0
+  ldc.i4.0
+  stelem.i1
+  dup
+  ldc.i4.1
+  ldc.i4.0
+  stelem.i1
+  dup
+  ldc.i4.2
+  ldc.i4.1
+  stelem.i1
+  call int32 BlobHeap::Add(uint8[])
+  pop
+
+  // [00 02 0E 1C 1C] MethodRefSig static string (object, object)
+  ldc.i4.5
+  newarr uint8
+  dup
+  ldc.i4.0
+  ldc.i4.0
+  stelem.i1
+  dup
+  ldc.i4.1
+  ldc.i4.2
+  stelem.i1
+  dup
+  ldc.i4.2
+  ldc.i4.s 0x0E 
+  stelem.i1
+  dup
+  ldc.i4.3
+  ldc.i4.s 0x1C
+  stelem.i1
+  dup
+  ldc.i4.4
+  ldc.i4.s 0x1C
+  stelem.i1
+  call int32 BlobHeap::Add(uint8[])
+  pop
+
+  // [00 01 01 0E] MethodRefSig static void (string)
+  ldc.i4.4
+  newarr uint8
+  dup
+  ldc.i4.0
+  ldc.i4.0
+  stelem.i1
+  dup
+  ldc.i4.1
+  ldc.i4.1
+  stelem.i1
+  dup
+  ldc.i4.2
+  ldc.i4.1
+  stelem.i1
+  dup
+  ldc.i4.3
+  ldc.i4.s 0x0E
+  stelem.i1
+  call int32 BlobHeap::Add(uint8[])
   pop
   
   ret

@@ -333,6 +333,95 @@ INSERT:
   }
 }
 
+.class abstract sealed BlobHeap {
+  .field public static int64 fileStart
+  .field public static int64 fileEnd
+
+  .field static class [mscorlib]System.IO.Stream data
+  .field static class [mscorlib]System.IO.BinaryWriter writer
+  .field static class [mscorlib]System.Collections.Generic.Dictionary`2<string,int32> cache
+
+  .method static hidebysig specialname rtspecialname default void .cctor() {
+    newobj instance void [mscorlib]System.IO.MemoryStream::.ctor()
+    dup
+    stsfld class [mscorlib]System.IO.Stream BlobHeap::data
+    newobj instance void [mscorlib]System.IO.BinaryWriter::.ctor(class [mscorlib]System.IO.Stream)
+    stsfld class [mscorlib]System.IO.BinaryWriter BlobHeap::writer
+
+    newobj instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string,int32>::.ctor()
+    stsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string,int32> BlobHeap::cache
+
+    ret
+  }
+
+  // Returns index into the BlobHeap, useable for a BlobHeapIndex
+  .method public static int32 Add(unsigned int8[]) {
+    .locals init (int32 pos, string key)
+    ldarg.0
+    call string [mscorlib]System.Convert::ToBase64String(unsigned int8[])
+    stloc.s key
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string,int32> BlobHeap::cache
+    ldloc.s key
+    callvirt instance bool class [mscorlib]System.Collections.Generic.Dictionary`2<string, int32>::ContainsKey(!0)
+    brfalse.s INSERT
+    
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string,int32> BlobHeap::cache
+    ldloc.s key
+    callvirt instance !1 class [mscorlib]System.Collections.Generic.Dictionary`2<string, int32>::get_Item(!0)
+    ret
+
+INSERT:
+    ldsfld class [mscorlib]System.IO.Stream BlobHeap::data
+    callvirt instance int64 class [mscorlib]System.IO.Stream::get_Position()
+    conv.i4
+    stloc.s pos
+    
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string,int32> BlobHeap::cache
+    ldloc.s key
+    ldloc.s pos
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string,int32>::set_Item(!0, !1)
+
+    // Write byte count
+    //TODO(not-implemented) This will be wrong if the length is greater than 0x7F; should use [10bbbbbb, x] => bbbbbb2 << 8 + x
+    ldsfld class [mscorlib]System.IO.Stream BlobHeap::data
+    ldarg.0
+    ldlen
+    callvirt instance void [mscorlib]System.IO.Stream::WriteByte(unsigned int8)
+
+    ldsfld class [mscorlib]System.IO.BinaryWriter BlobHeap::writer
+    ldarg.0
+    callvirt instance void [mscorlib]System.IO.BinaryWriter::Write(uint8[])
+
+    ldloc.s pos
+    ret
+  }
+
+  .method public static void WriteHeap(class [mscorlib]System.IO.Stream) {
+    ldarg.0
+    callvirt instance int64 class [mscorlib]System.IO.Stream::get_Position()
+    stsfld int64 BlobHeap::fileStart
+
+    // Reposition the stream to the beginning
+    ldsfld class [mscorlib]System.IO.Stream BlobHeap::data
+    ldc.i8 0
+    callvirt instance void [mscorlib]System.IO.Stream::set_Position(int64)
+    
+    ldsfld class [mscorlib]System.IO.Stream BlobHeap::data
+    ldarg.0
+    callvirt instance void [mscorlib]System.IO.Stream::CopyTo(class [mscorlib]System.IO.Stream)
+
+    ldc.i4.4
+    call void C::ZeroUntilMultiple(unsigned int32) 
+
+    ldarg.0
+    callvirt instance int64 class [mscorlib]System.IO.Stream::get_Position()
+    stsfld int64 BlobHeap::fileEnd
+
+    ret
+  }
+}
+
 .class abstract sealed GuidHeap {
   .field public static int64 fileStart
   .field public static int64 fileEnd
