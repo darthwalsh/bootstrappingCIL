@@ -33,5 +33,7 @@ That would answer questions, like how different `src/` implementations are parsi
 - ReadyToRun (like NGEN) [coreclr/inc/readytorun.h](https://github.com/dotnet/runtime/blob/f179b7634370fc9181610624cc095370ec53e072/src/coreclr/inc/readytorun.h#L32)
 - mono [mono/mono/utils/mono-proclib.h](https://github.com/dotnet/runtime/blob/2f0341dc46d40b2c7c0654d8afcac9ae417d19c5/src/mono/mono/utils/mono-proclib.h#L130)
 
+### `TODO(not-implemented)`
 
+These are more complicated patterns not implemented, but are needed for a correct CIL assembler.
  

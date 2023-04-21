@@ -42,7 +42,7 @@ LOOP_END:
 //   eventually will need to implement parsing reading multiple input files
 .method static void M(string[] args) {
 .entrypoint
-call void C::SeedStringHeap()
+call void C::SeedHeaps()
 
 // input = args[0]
 ldarg.0
@@ -1882,76 +1882,15 @@ call void C::Write(unsigned int8)
 // StringHeap
 ldsfld class [mscorlib]System.IO.Stream C::output
 call void StringHeap::WriteHeap(class [mscorlib]System.IO.Stream)
-
 ldc.i4.4
 call void C::ZeroUntilMultiple(unsigned int32)
+
 // UserStringHeap
-ldc.i4.s 0x00
-call void C::Write(unsigned int8) // Not sure why, but the first byte inside the heap doesn't have content
-ldc.i4.s 0x1B
-call void C::Write(unsigned int8)
-ldc.i4.s 0x48
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x65
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x6C
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x6C
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x6F
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
- 
-ldc.i4.s 0x2C
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x20
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x57
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x6F
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x72
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x6C
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x64
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x21
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
- 
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+ldsfld class [mscorlib]System.IO.Stream C::output
+call void UserStringHeap::WriteHeap(class [mscorlib]System.IO.Stream)
+ldc.i4.4
+call void C::ZeroUntilMultiple(unsigned int32) 
+
 // GuidHeap
 ldc.i4.s 0xF1
 call void C::Write(unsigned int8)
@@ -2260,64 +2199,79 @@ call void C::ZeroUntil(unsigned int32)
 ret
 }
 
+.method static void SeedHeaps() {
+  call void C::SeedStringHeap()
+  call void C::SeedUserStringHeap()
+  ret
+}
+
 .method static void SeedStringHeap() {
   // TODO load these strings by parsing the assembly input. Right now seed these in the specific order that was chosen by ilasm.
-ldstr ""
-call int32 StringHeap::Add(string)
-pop
+  ldstr ""
+  call int32 StringHeap::Add(string)
+  pop
 
-ldstr "Addr.exe"
-call int32 StringHeap::Add(string)
-pop
+  ldstr "Addr.exe"
+  call int32 StringHeap::Add(string)
+  pop
 
-ldstr "World"
-call int32 StringHeap::Add(string)
-pop
- 
-ldstr "<Module>"
-call int32 StringHeap::Add(string)
-pop
+  ldstr "World"
+  call int32 StringHeap::Add(string)
+  pop
+  
+  ldstr "<Module>"
+  call int32 StringHeap::Add(string)
+  pop
 
-ldstr "mscorlib"
-call int32 StringHeap::Add(string)
-pop
+  ldstr "mscorlib"
+  call int32 StringHeap::Add(string)
+  pop
 
-ldstr "Hello"
-call int32 StringHeap::Add(string)
-pop
+  ldstr "Hello"
+  call int32 StringHeap::Add(string)
+  pop
 
-ldstr "Int32"
-call int32 StringHeap::Add(string)
-pop
+  ldstr "Int32"
+  call int32 StringHeap::Add(string)
+  pop
 
-ldstr "System"
-call int32 StringHeap::Add(string)
-pop
+  ldstr "System"
+  call int32 StringHeap::Add(string)
+  pop
 
-ldstr "String"
-call int32 StringHeap::Add(string)
-pop
+  ldstr "String"
+  call int32 StringHeap::Add(string)
+  pop
 
-ldstr "Console"
-call int32 StringHeap::Add(string)
-pop
+  ldstr "Console"
+  call int32 StringHeap::Add(string)
+  pop
 
-ldstr "Main"
-call int32 StringHeap::Add(string)
-pop
+  ldstr "Main"
+  call int32 StringHeap::Add(string)
+  pop
 
-ldstr "Object"
-call int32 StringHeap::Add(string)
-pop
+  ldstr "Object"
+  call int32 StringHeap::Add(string)
+  pop
 
-ldstr "Concat"
-call int32 StringHeap::Add(string)
-pop
+  ldstr "Concat"
+  call int32 StringHeap::Add(string)
+  pop
 
-ldstr "WriteLine"
-call int32 StringHeap::Add(string)
-pop
+  ldstr "WriteLine"
+  call int32 StringHeap::Add(string)
+  pop
 
-ret
+  ret
+}
+
+.method static void SeedUserStringHeap() {
+  // TODO load these strings by parsing the assembly input. Right now seed these in the specific order that was chosen by ilasm.
+  ldstr "Hello, World!"
+  call int32 UserStringHeap::Add(string)
+  pop
+  
+  ret
 }
 }
