@@ -54,6 +54,14 @@
     ret
   }
 
+  .method static class StreamHeader GuidHeap() {
+    ldsfld int64 GuidHeap::fileStart
+    ldsfld int64 GuidHeap::fileEnd
+    ldstr "#GUID"
+    newobj instance void StreamHeader::.ctor(int64, int64, string)
+    ret
+  }
+
   .method public static void Write(class [mscorlib]System.IO.Stream) {
     // write 0x0005
     ldarg.0
@@ -73,6 +81,10 @@
     call instance void StreamHeader::WriteStreamHeader(class [mscorlib]System.IO.Stream)
 
     call class StreamHeader StreamHeader::UserStringHeap()
+    ldarg.0
+    call instance void StreamHeader::WriteStreamHeader(class [mscorlib]System.IO.Stream)
+
+    call class StreamHeader StreamHeader::GuidHeap()
     ldarg.0
     call instance void StreamHeader::WriteStreamHeader(class [mscorlib]System.IO.Stream)
 
@@ -316,6 +328,58 @@ INSERT:
     ldarg.0
     callvirt instance int64 class [mscorlib]System.IO.Stream::get_Position()
     stsfld int64 UserStringHeap::fileEnd
+
+    ret
+  }
+}
+
+.class abstract sealed GuidHeap {
+  .field public static int64 fileStart
+  .field public static int64 fileEnd
+
+  .method public static void WriteHeap(class [mscorlib]System.IO.Stream) {
+    ldarg.0
+    callvirt instance int64 class [mscorlib]System.IO.Stream::get_Position()
+    stsfld int64 GuidHeap::fileStart
+
+    //TODO(not-implemented) Allow storing other GUIDS
+    ldc.i4.s 0xF1
+    call void C::Write(unsigned int8)
+    ldc.i4.s 0x8C
+    call void C::Write(unsigned int8)
+    ldc.i4.s 0xA3
+    call void C::Write(unsigned int8)
+    ldc.i4.s 0x6D
+    call void C::Write(unsigned int8)
+    ldc.i4.s 0x12
+    call void C::Write(unsigned int8)
+    ldc.i4.s 0x23
+    call void C::Write(unsigned int8)
+    ldc.i4.s 0x95
+    call void C::Write(unsigned int8)
+    ldc.i4.s 0x4B
+    call void C::Write(unsigned int8)
+    ldc.i4.s 0xBD
+    call void C::Write(unsigned int8)
+    ldc.i4.s 0xF6
+    call void C::Write(unsigned int8)
+    ldc.i4.s 0xA3
+    call void C::Write(unsigned int8)
+    ldc.i4.s 0x91
+    call void C::Write(unsigned int8)
+    
+    ldc.i4.s 0x03
+    call void C::Write(unsigned int8)
+    ldc.i4.s 0x2E
+    call void C::Write(unsigned int8)
+    ldc.i4.s 0xA6
+    call void C::Write(unsigned int8)
+    ldc.i4.s 0x85
+    call void C::Write(unsigned int8)
+
+    ldarg.0
+    callvirt instance int64 class [mscorlib]System.IO.Stream::get_Position()
+    stsfld int64 GuidHeap::fileEnd
 
     ret
   }
