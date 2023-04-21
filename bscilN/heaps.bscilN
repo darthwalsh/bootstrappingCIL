@@ -8,31 +8,33 @@
   .field public int64 fileEnd
   .field public string name
 
-  .method public hidebysig specialname rtspecialname instance void .ctor ()
-  {
-      IL_0000: ldarg.0
-      IL_0001: call instance void [mscorlib]System.Object::.ctor()
-      IL_0006: ret
+  .method public hidebysig specialname rtspecialname instance void .ctor (
+    int64 fileStart,
+    int64 fileEnd,
+    string name
+  ) {
+    ldarg.0
+    call instance void [mscorlib]System.Object::.ctor()
+
+    ldarg.0
+    ldarg.s fileStart
+    stfld int64 StreamHeader::fileStart
+
+    ldarg.0
+    ldarg.s fileEnd
+    stfld int64 StreamHeader::fileEnd
+
+    ldarg.s this
+    ldarg.s name
+    stfld string StreamHeader::name
+    ret
   }
 
   .method static class StreamHeader TildeStream() {
-    .locals init (class StreamHeader h)
-    newobj instance void StreamHeader::.ctor()
-    stloc.0
-
-    ldloc.0
     ldsfld int64 TildeStream::fileStart
-    stfld int64 StreamHeader::fileStart
-
-    ldloc.0
     ldsfld int64 TildeStream::fileEnd
-    stfld int64 StreamHeader::fileEnd
-
-    ldloc.0
     ldstr "#~"
-    stfld string StreamHeader::name
-
-    ldloc.0
+    newobj instance void StreamHeader::.ctor(int64, int64, string)
     ret
   }
 
@@ -55,7 +57,7 @@
 
   .method void WriteStreamHeader(class [mscorlib]System.IO.Stream) {
     .locals init (class [mscorlib]System.IO.BinaryWriter writer)
-    ldarg.1
+    ldarg.s writer
     newobj instance void [mscorlib]System.IO.BinaryWriter::.ctor(class [mscorlib]System.IO.Stream)
     stloc.0
 
@@ -139,7 +141,6 @@
     ret
 
 INSERT:
-    
     ldsfld class [mscorlib]System.IO.Stream StringHeap::data
     callvirt instance int64 class [mscorlib]System.IO.Stream::get_Position()
     conv.i4
