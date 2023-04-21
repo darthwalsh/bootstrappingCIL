@@ -1869,14 +1869,14 @@ ldsfld class [mscorlib]System.IO.Stream C::output
 call void StringHeap::WriteHeap(class [mscorlib]System.IO.Stream)
 
 ldc.i4.s 0x00
-call void C::Write(unsigned int8) // TODO this byte should be written by StringHeap
+call void C::Write(unsigned int8) // Write to next 4-byte boundary
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
 ldc.i4.s 0x00
 call void C::Write(unsigned int8)
-ldc.i4.s 0x00
-call void C::Write(unsigned int8) // fix above, then: probably need to pad to multiple of 4 
 // UserStringHeap
+ldc.i4.s 0x00
+call void C::Write(unsigned int8) // Not sure why, but the first byte inside the heap doesn't have content
 ldc.i4.s 0x1B
 call void C::Write(unsigned int8)
 ldc.i4.s 0x48
