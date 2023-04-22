@@ -31,6 +31,13 @@
   ret
 }
 
+.method static void WriteUTF8(string) {
+  ldarg.0
+  call class [mscorlib]System.Text.Encoding [mscorlib]System.Text.Encoding::get_UTF8()
+  call void C::Write(string, class [mscorlib]System.Text.Encoding)
+  ret
+}
+
 .method static void Write(string s, class [mscorlib]System.Text.Encoding e) {
   ldarg.s e
   ldarg.s s
@@ -1329,74 +1336,8 @@ ldc.i4.s 0x0A
 call void C::Write(uint8)
 ldc.i4.s 0x2A
 call void C::Write(uint8)
-// MetadataRoot
-// Move this into MetadataRoot::Write()
-  call int64 C::Pos()
-  stsfld int64 MetadataRoot::fileStart
-ldc.i4.s 0x42
-call void C::Write(uint8)
-ldc.i4.s 0x53
-call void C::Write(uint8)
-ldc.i4.s 0x4A
-call void C::Write(uint8)
-ldc.i4.s 0x42
-call void C::Write(uint8)
-ldc.i4.s 0x01
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x01
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
- 
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x0C
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x76
-call void C::Write(uint8)
-ldc.i4.s 0x34
-call void C::Write(uint8)
-ldc.i4.s 0x2E
-call void C::Write(uint8)
-ldc.i4.s 0x30
-call void C::Write(uint8)
-ldc.i4.s 0x2E
-call void C::Write(uint8)
-ldc.i4.s 0x33
-call void C::Write(uint8)
-ldc.i4.s 0x30
-call void C::Write(uint8)
-ldc.i4.s 0x33
-call void C::Write(uint8)
- 
-ldc.i4.s 0x31
-call void C::Write(uint8)
-ldc.i4.s 0x39
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
 
-call void StreamHeader::Write()
+call void MetadataRoot::Write()
 
 // TildeStream
 // Move this into TildeStream::Write()

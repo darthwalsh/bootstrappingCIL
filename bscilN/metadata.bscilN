@@ -1,0 +1,36 @@
+.class abstract sealed MetadataRoot {
+  .field public static int64 fileStart
+
+  .method public static void Write() {
+    call int64 C::Pos()
+    stsfld int64 MetadataRoot::fileStart
+
+    ldstr "BSJB"
+    call void C::WriteUTF8(string)
+
+    ldc.i4.1
+    call void C::Write(int16)
+    ldc.i4.1
+    call void C::Write(int16)
+
+    ldc.i4.0
+    call void C::Write(int32)
+
+    ldc.i4 12 // length of following string, with null terminal, to 4-byte alignment
+    call void C::Write(int32)
+
+    ldstr "v4.0.30319"
+    call void C::WriteUTF8(string)
+    ldc.i4.0
+    call void C::Write(uint8)
+    ldc.i4.4
+    call void C::ZeroUntilMultiple(uint32)
+
+    ldc.i4.0
+    call void C::Write(int16)
+
+    call void StreamHeader::Write()
+
+    ret
+  }
+}

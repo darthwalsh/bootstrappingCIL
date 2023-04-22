@@ -1,7 +1,3 @@
-.class abstract sealed MetadataRoot {
-  .field public static int64 fileStart
-}
-
 .class StreamHeader {
   // the object model would have offset and size, but they are calculated
   .field public int64 fileStart
@@ -112,8 +108,7 @@
 
     ldarg.0
     ldfld string StreamHeader::name
-    call class [mscorlib]System.Text.Encoding [mscorlib]System.Text.Encoding::get_UTF8()
-    call void C::Write(string, class [mscorlib]System.Text.Encoding)
+    call void C::WriteUTF8(string)
 
     ldc.i4.0
     call void C::Write(uint8)
@@ -388,7 +383,7 @@ INSERT:
   }
 }
 
-.class abstract sealed GuidHeap {
+.class abstract sealed GuidHeap { 
   .field public static int64 fileStart
   .field public static int64 fileEnd
 
