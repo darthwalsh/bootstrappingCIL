@@ -1351,40 +1351,6 @@ call void C::Write(uint8)
 ldsfld class [mscorlib]System.IO.Stream C::output
 call void StreamHeader::Write(class [mscorlib]System.IO.Stream)
 
-// StreamHeaders[4]
-ldc.i4.s 0xBC
-call void C::Write(uint8)
-ldc.i4.s 0x01
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x14
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x23
-call void C::Write(uint8)
-ldc.i4.s 0x42
-call void C::Write(uint8)
-ldc.i4.s 0x6C
-call void C::Write(uint8)
-ldc.i4.s 0x6F
-call void C::Write(uint8)
- 
-ldc.i4.s 0x62
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
 // TildeStream
 // Move this into TildeStream::Write()
   ldsfld class [mscorlib]System.IO.Stream C::output

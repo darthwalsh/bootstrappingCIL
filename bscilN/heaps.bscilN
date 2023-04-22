@@ -62,6 +62,14 @@
     ret
   }
 
+  .method static class StreamHeader BlobHeap() {
+    ldsfld int64 BlobHeap::fileStart
+    ldsfld int64 BlobHeap::fileEnd
+    ldstr "#Blob"
+    newobj instance void StreamHeader::.ctor(int64, int64, string)
+    ret
+  }
+
   .method public static void Write(class [mscorlib]System.IO.Stream) {
     // write 0x0005
     ldarg.0
@@ -71,7 +79,6 @@
     ldc.i4.0
     callvirt instance void [mscorlib]System.IO.Stream::WriteByte(uint8)
 
-    // TODO for all 5 headers
     call class StreamHeader StreamHeader::TildeStream()
     ldarg.0
     call instance void StreamHeader::WriteStreamHeader(class [mscorlib]System.IO.Stream)
@@ -85,6 +92,10 @@
     call instance void StreamHeader::WriteStreamHeader(class [mscorlib]System.IO.Stream)
 
     call class StreamHeader StreamHeader::GuidHeap()
+    ldarg.0
+    call instance void StreamHeader::WriteStreamHeader(class [mscorlib]System.IO.Stream)
+
+    call class StreamHeader StreamHeader::BlobHeap()
     ldarg.0
     call instance void StreamHeader::WriteStreamHeader(class [mscorlib]System.IO.Stream)
 
