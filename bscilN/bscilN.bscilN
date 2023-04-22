@@ -2,10 +2,10 @@
 .class C {
 .field static class [mscorlib]System.IO.Stream output
 
-.method static void Write(unsigned int8 b) {
+.method static void Write(uint8 b) {
   ldsfld class [mscorlib]System.IO.Stream C::output
   ldarg b
-  callvirt instance void [mscorlib]System.IO.Stream::WriteByte(unsigned int8)
+  callvirt instance void [mscorlib]System.IO.Stream::WriteByte(uint8)
   ret
 }
 
@@ -17,7 +17,7 @@ LOOP_START:
   conv.i8
   bge.s LOOP_END // while .Position < n
   ldc.i4.0
-  call void C::Write(unsigned int8)
+  call void C::Write(uint8)
   br.s LOOP_START
 LOOP_END:
   ret
@@ -32,7 +32,7 @@ LOOP_START:
   rem
   brfalse.s LOOP_END // while .Position % n != 0
   ldc.i4.0
-  call void C::Write(unsigned int8)
+  call void C::Write(uint8)
   br.s LOOP_START
 LOOP_END:
   ret
@@ -110,950 +110,950 @@ ret
 .method static void WritePEHeader() {
 // DosHeader
 ldc.i4.s 0x4D
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x5A
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x90
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x03
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x04
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0xFF
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0xFF
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0xB8
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x40
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x80
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x0E
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x1F
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0xBA
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x0E
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0xB4
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x09
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0xCD
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x21
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0xB8
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x01
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x4C
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0xCD
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x21
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x54
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x68
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x69
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x73
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x20
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x70
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x72
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x6F
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x67
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x72
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x61
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x6D
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x20
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x63
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x61
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x6E
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x6E
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x6F
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x74
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x20
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x62
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x65
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x20
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x72
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x75
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x6E
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x20
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x69
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x6E
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x20
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x44
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x4F
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x53
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x20
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x6D
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x6F
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x64
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x65
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x2E
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x0D
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x0D
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x0A
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x24
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 
 // PESignature then PEFileHeader
 ldc.i4.s 0x50
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x45
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x4C
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x01
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x02 //TODO(no-reloc-section) NumberOfSections could be 1 to remove .reloc section
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x63
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x53
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x6F
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x61
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0xE0
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x0E
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x01
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 // PEOptionalHeader
 ldc.i4.s 0x0B
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x01
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x06
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x04
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x02
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x8E
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x22
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x20
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x40
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x40
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x20
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x02
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x04
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x04
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x60
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x02
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x03
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x10
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x10
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x10
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x10
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x10
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x40
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x22
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x4B
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 
 //TODO(no-reloc-section) if no .reloc, then BaseRelocationTable RVA and Size should 0
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x40
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x0C
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x20
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x08
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x08
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x20
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x48
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 // SectionHeaders[0]
 ldc.i4.s 0x2E
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x74
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x65
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x78
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x74
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x94
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x02
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x20
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x04
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x02
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x20
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x60
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 // SectionHeaders[1]
 ldc.i4.s 0x2E
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x72
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x65
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x6C
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x6F
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x63
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x0C
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x40
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x02
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x06
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x40
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x42
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 
 ldc.i4 0x200
 call void C::ZeroUntil(unsigned int32)
@@ -1064,288 +1064,288 @@ ret
 .method static void WriteTextSection() {
 // ImportAddressTable
 ldc.i4.s 0x70
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x22
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 // CLIHeader
 ldc.i4.s 0x48
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x02
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x68
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x20
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0xD0
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x01
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x01
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x01
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x06
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 
 // Methods[0] Main 
 ldc.i4.s 0x5E
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x72
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x01
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x70
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x1F
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x2C
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x8C
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x01
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x1B
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x28
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x01
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x0A
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x28
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x02
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x0A
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x2A
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 // MetadataRoot
 // Move this into MetadataRoot::Write()
   ldsfld class [mscorlib]System.IO.Stream C::output
   callvirt instance int64 [mscorlib]System.IO.Stream::get_Position()
   stsfld int64 MetadataRoot::fileStart
 ldc.i4.s 0x42
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x53
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x4A
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x42
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x01
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x01
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x0C
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x76
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x34
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x2E
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x30
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x2E
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x33
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x30
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x33
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x31
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x39
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 
 // StreamHeaders
 ldsfld class [mscorlib]System.IO.Stream C::output
@@ -1353,430 +1353,430 @@ call void StreamHeader::Write(class [mscorlib]System.IO.Stream)
 
 // StreamHeaders[4]
 ldc.i4.s 0xBC
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x01
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x14
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x23
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x42
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x6C
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x6F
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x62
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 // TildeStream
 // Move this into TildeStream::Write()
   ldsfld class [mscorlib]System.IO.Stream C::output
   callvirt instance int64 [mscorlib]System.IO.Stream::get_Position()
   stsfld int64 TildeStream::fileStart
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x02
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x01
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x47
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x04
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x08
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x09
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x01
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x04
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x02
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x01
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x02
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x01
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x01
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x01
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x01
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x01
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x06
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x28
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x2E
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x06
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x35
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x2E
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x06
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x3C
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x2E
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x06
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x49
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x2E
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x10
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x01
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x01
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x22
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x11
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x01
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x01
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x50
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x20
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x10
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x44
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x03
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x01
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x11
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x50
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x07
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x19
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x57
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x0D
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x01
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x0A
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x19
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
   ldsfld class [mscorlib]System.IO.Stream C::output
   callvirt instance int64 [mscorlib]System.IO.Stream::get_Position()
   stsfld int64 TildeStream::fileEnd
@@ -1795,197 +1795,197 @@ ldsfld class [mscorlib]System.IO.Stream C::output
 call void BlobHeap::WriteHeap(class [mscorlib]System.IO.Stream)
 
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 
 // ImportTable
 ldc.i4.s 0x68
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x22
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x7E
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x22
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x20
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x70
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x22
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x5F
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x43
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x6F
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x72
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x45
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x78
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x65
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x4D
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x61
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x69
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x6E
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x6D
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x73
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x63
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x6F
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x72
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x65
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x65
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x2E
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x64
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x6C
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x6C
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 // NativeEntry x86 code
 ldc.i4.s 0xFF
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x25
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
  
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x20
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x40
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 
 ldc.i4 0x600
 call void C::ZeroUntil(unsigned int32)
@@ -1996,29 +1996,29 @@ ret
 .method static void WriteRelocSection() {
 //TODO(no-reloc-section) can we remove this?
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x20
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x0C
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x90
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x32
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 ldc.i4.s 0x00
-call void C::Write(unsigned int8)
+call void C::Write(uint8)
 
 ldc.i4 0x800
 call void C::ZeroUntil(unsigned int32)

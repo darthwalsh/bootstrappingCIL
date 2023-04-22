@@ -238,7 +238,7 @@ INSERT:
     stsfld class [mscorlib]System.IO.Stream UserStringHeap::data
     dup
     ldc.i4.0
-    callvirt instance void [mscorlib]System.IO.Stream::WriteByte(unsigned int8)
+    callvirt instance void [mscorlib]System.IO.Stream::WriteByte(uint8)
     call class [mscorlib]System.Text.Encoding [mscorlib]System.Text.Encoding::get_Unicode() // UTF-16
     newobj instance void [mscorlib]System.IO.StreamWriter::.ctor(class [mscorlib]System.IO.Stream, class [mscorlib]System.Text.Encoding)
     dup
@@ -292,7 +292,7 @@ INSERT:
     mul
     ldc.i4.1
     add
-    callvirt instance void [mscorlib]System.IO.Stream::WriteByte(unsigned int8)
+    callvirt instance void [mscorlib]System.IO.Stream::WriteByte(uint8)
 
     ldsfld class [mscorlib]System.IO.StreamWriter UserStringHeap::writer
     ldarg.0
@@ -302,7 +302,7 @@ INSERT:
     //TODO(not-implemented) always write the trailing byte as 0, 
     ldsfld class [mscorlib]System.IO.Stream UserStringHeap::data
     ldc.i4.0
-    callvirt instance void [mscorlib]System.IO.Stream::WriteByte(unsigned int8)
+    callvirt instance void [mscorlib]System.IO.Stream::WriteByte(uint8)
 
     ldloc.s pos
     ret
@@ -355,10 +355,10 @@ INSERT:
   }
 
   // Returns index into the BlobHeap, useable for a BlobHeapIndex
-  .method public static int32 Add(unsigned int8[]) {
+  .method public static int32 Add(uint8[]) {
     .locals init (int32 pos, string key)
     ldarg.0
-    call string [mscorlib]System.Convert::ToBase64String(unsigned int8[])
+    call string [mscorlib]System.Convert::ToBase64String(uint8[])
     stloc.s key
 
     ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string,int32> BlobHeap::cache
@@ -387,7 +387,7 @@ INSERT:
     ldsfld class [mscorlib]System.IO.Stream BlobHeap::data
     ldarg.0
     ldlen
-    callvirt instance void [mscorlib]System.IO.Stream::WriteByte(unsigned int8)
+    callvirt instance void [mscorlib]System.IO.Stream::WriteByte(uint8)
 
     ldsfld class [mscorlib]System.IO.BinaryWriter BlobHeap::writer
     ldarg.0
@@ -433,38 +433,38 @@ INSERT:
 
     //TODO(not-implemented) Allow storing other GUIDS
     ldc.i4.s 0xF1
-    call void C::Write(unsigned int8)
+    call void C::Write(uint8)
     ldc.i4.s 0x8C
-    call void C::Write(unsigned int8)
+    call void C::Write(uint8)
     ldc.i4.s 0xA3
-    call void C::Write(unsigned int8)
+    call void C::Write(uint8)
     ldc.i4.s 0x6D
-    call void C::Write(unsigned int8)
+    call void C::Write(uint8)
     ldc.i4.s 0x12
-    call void C::Write(unsigned int8)
+    call void C::Write(uint8)
     ldc.i4.s 0x23
-    call void C::Write(unsigned int8)
+    call void C::Write(uint8)
     ldc.i4.s 0x95
-    call void C::Write(unsigned int8)
+    call void C::Write(uint8)
     ldc.i4.s 0x4B
-    call void C::Write(unsigned int8)
+    call void C::Write(uint8)
     ldc.i4.s 0xBD
-    call void C::Write(unsigned int8)
+    call void C::Write(uint8)
     ldc.i4.s 0xF6
-    call void C::Write(unsigned int8)
+    call void C::Write(uint8)
     ldc.i4.s 0xA3
-    call void C::Write(unsigned int8)
+    call void C::Write(uint8)
     ldc.i4.s 0x91
-    call void C::Write(unsigned int8)
+    call void C::Write(uint8)
     
     ldc.i4.s 0x03
-    call void C::Write(unsigned int8)
+    call void C::Write(uint8)
     ldc.i4.s 0x2E
-    call void C::Write(unsigned int8)
+    call void C::Write(uint8)
     ldc.i4.s 0xA6
-    call void C::Write(unsigned int8)
+    call void C::Write(uint8)
     ldc.i4.s 0x85
-    call void C::Write(unsigned int8)
+    call void C::Write(uint8)
 
     ldarg.0
     callvirt instance int64 class [mscorlib]System.IO.Stream::get_Position()
