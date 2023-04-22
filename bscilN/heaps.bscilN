@@ -70,54 +70,37 @@
     ret
   }
 
-  .method public static void Write(class [mscorlib]System.IO.Stream) {
-    // write 0x0005
-    ldarg.0
+  .method public static void Write() {
     ldc.i4.5
-    callvirt instance void [mscorlib]System.IO.Stream::WriteByte(uint8)
-    ldarg.0
-    ldc.i4.0
-    callvirt instance void [mscorlib]System.IO.Stream::WriteByte(uint8)
-
+    call void C::Write(int16)
+    
     call class StreamHeader StreamHeader::TildeStream()
-    ldarg.0
-    call instance void StreamHeader::WriteStreamHeader(class [mscorlib]System.IO.Stream)
+    call instance void StreamHeader::WriteStreamHeader()
 
     call class StreamHeader StreamHeader::StringHeap()
-    ldarg.0
-    call instance void StreamHeader::WriteStreamHeader(class [mscorlib]System.IO.Stream)
+    call instance void StreamHeader::WriteStreamHeader()
 
     call class StreamHeader StreamHeader::UserStringHeap()
-    ldarg.0
-    call instance void StreamHeader::WriteStreamHeader(class [mscorlib]System.IO.Stream)
+    call instance void StreamHeader::WriteStreamHeader()
 
     call class StreamHeader StreamHeader::GuidHeap()
-    ldarg.0
-    call instance void StreamHeader::WriteStreamHeader(class [mscorlib]System.IO.Stream)
+    call instance void StreamHeader::WriteStreamHeader()
 
     call class StreamHeader StreamHeader::BlobHeap()
-    ldarg.0
-    call instance void StreamHeader::WriteStreamHeader(class [mscorlib]System.IO.Stream)
+    call instance void StreamHeader::WriteStreamHeader()
 
     ret
   }
 
-  .method void WriteStreamHeader(class [mscorlib]System.IO.Stream) {
-    .locals init (class [mscorlib]System.IO.BinaryWriter writer)
-    ldarg.1
-    newobj instance void [mscorlib]System.IO.BinaryWriter::.ctor(class [mscorlib]System.IO.Stream)
-    stloc.0
-
-    ldloc.0
+  .method void WriteStreamHeader() {
     // offset = this.fileStart - MetadataRoot.fileStart
     ldarg.0
     ldfld int64 StreamHeader::fileStart
     ldsfld int64 MetadataRoot::fileStart
     sub
     conv.i4
-    callvirt instance void [mscorlib]System.IO.BinaryWriter::Write(int32)
+    call void C::Write(int32)
 
-    ldloc.0
     // size = this.fileEnd - this.fileStart
     ldarg.0
     ldfld int64 StreamHeader::fileEnd
@@ -125,21 +108,18 @@
     ldfld int64 StreamHeader::fileStart
     sub
     conv.i4
-    callvirt instance void [mscorlib]System.IO.BinaryWriter::Write(int32)
+    call void C::Write(int32)
 
-    ldloc.0
-    call class [mscorlib]System.Text.Encoding [mscorlib]System.Text.Encoding::get_UTF8()
     ldarg.0
     ldfld string StreamHeader::name
-    callvirt instance uint8[] [mscorlib]System.Text.Encoding::GetBytes(string)
-    callvirt instance void [mscorlib]System.IO.BinaryWriter::Write(uint8[])
+    call class [mscorlib]System.Text.Encoding [mscorlib]System.Text.Encoding::get_UTF8()
+    call void C::Write(string, class [mscorlib]System.Text.Encoding)
 
-    ldloc.0
     ldc.i4.0
-    callvirt instance void [mscorlib]System.IO.BinaryWriter::Write(int8)
+    call void C::Write(uint8)
 
     ldc.i4.4
-    call void C::ZeroUntilMultiple(unsigned int32)
+    call void C::ZeroUntilMultiple(uint32)
 
     ret
   }
@@ -209,26 +189,17 @@ INSERT:
     ret
   }
 
-  .method public static void WriteHeap(class [mscorlib]System.IO.Stream) {
-    ldarg.0
-    callvirt instance int64 class [mscorlib]System.IO.Stream::get_Position()
+  .method public static void WriteHeap() {
+    call int64 C::Pos()
     stsfld int64 StringHeap::fileStart
-
-    // Reposition the stream to the beginning
-    ldsfld class [mscorlib]System.IO.Stream StringHeap::data
-    ldc.i8 0
-    callvirt instance void [mscorlib]System.IO.Stream::set_Position(int64)
     
     ldsfld class [mscorlib]System.IO.Stream StringHeap::data
-    ldarg.0
-    callvirt instance void [mscorlib]System.IO.Stream::CopyTo(class [mscorlib]System.IO.Stream)
+    call void C::WriteAll(class [mscorlib]System.IO.Stream)
 
-    
     ldc.i4.4
-    call void C::ZeroUntilMultiple(unsigned int32) // TODO should probably always use global C:: methods
+    call void C::ZeroUntilMultiple(uint32)
 
-    ldarg.0
-    callvirt instance int64 class [mscorlib]System.IO.Stream::get_Position()
+    call int64 C::Pos()
     stsfld int64 StringHeap::fileEnd
 
     ret
@@ -319,25 +290,17 @@ INSERT:
     ret
   }
 
-  .method public static void WriteHeap(class [mscorlib]System.IO.Stream) {
-    ldarg.0
-    callvirt instance int64 class [mscorlib]System.IO.Stream::get_Position()
+  .method public static void WriteHeap() {
+    call int64 C::Pos()
     stsfld int64 UserStringHeap::fileStart
-
-    // Reposition the stream to the beginning
-    ldsfld class [mscorlib]System.IO.Stream UserStringHeap::data
-    ldc.i8 0
-    callvirt instance void [mscorlib]System.IO.Stream::set_Position(int64)
     
     ldsfld class [mscorlib]System.IO.Stream UserStringHeap::data
-    ldarg.0
-    callvirt instance void [mscorlib]System.IO.Stream::CopyTo(class [mscorlib]System.IO.Stream)
+    call void C::WriteAll(class [mscorlib]System.IO.Stream)
 
     ldc.i4.4
-    call void C::ZeroUntilMultiple(unsigned int32) 
+    call void C::ZeroUntilMultiple(uint32) 
 
-    ldarg.0
-    callvirt instance int64 class [mscorlib]System.IO.Stream::get_Position()
+    call int64 C::Pos()
     stsfld int64 UserStringHeap::fileEnd
 
     ret
@@ -408,25 +371,17 @@ INSERT:
     ret
   }
 
-  .method public static void WriteHeap(class [mscorlib]System.IO.Stream) {
-    ldarg.0
-    callvirt instance int64 class [mscorlib]System.IO.Stream::get_Position()
+  .method public static void WriteHeap() {
+    call int64 C::Pos()
     stsfld int64 BlobHeap::fileStart
 
-    // Reposition the stream to the beginning
     ldsfld class [mscorlib]System.IO.Stream BlobHeap::data
-    ldc.i8 0
-    callvirt instance void [mscorlib]System.IO.Stream::set_Position(int64)
-    
-    ldsfld class [mscorlib]System.IO.Stream BlobHeap::data
-    ldarg.0
-    callvirt instance void [mscorlib]System.IO.Stream::CopyTo(class [mscorlib]System.IO.Stream)
+    call void C::WriteAll(class [mscorlib]System.IO.Stream)
 
     ldc.i4.4
-    call void C::ZeroUntilMultiple(unsigned int32) 
+    call void C::ZeroUntilMultiple(uint32) 
 
-    ldarg.0
-    callvirt instance int64 class [mscorlib]System.IO.Stream::get_Position()
+    call int64 C::Pos()
     stsfld int64 BlobHeap::fileEnd
 
     ret
@@ -437,9 +392,8 @@ INSERT:
   .field public static int64 fileStart
   .field public static int64 fileEnd
 
-  .method public static void WriteHeap(class [mscorlib]System.IO.Stream) {
-    ldarg.0
-    callvirt instance int64 class [mscorlib]System.IO.Stream::get_Position()
+  .method public static void WriteHeap() {
+    call int64 C::Pos()
     stsfld int64 GuidHeap::fileStart
 
     //TODO(not-implemented) Allow storing other GUIDS
@@ -477,8 +431,7 @@ INSERT:
     ldc.i4.s 0x85
     call void C::Write(uint8)
 
-    ldarg.0
-    callvirt instance int64 class [mscorlib]System.IO.Stream::get_Position()
+    call int64 C::Pos()
     stsfld int64 GuidHeap::fileEnd
 
     ret

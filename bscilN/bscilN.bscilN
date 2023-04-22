@@ -1,6 +1,7 @@
 .assembly A {}
 .class C {
 .field static class [mscorlib]System.IO.Stream output
+.field static class [mscorlib]System.IO.BinaryWriter binWriter
 
 .method static void Write(uint8 b) {
   ldsfld class [mscorlib]System.IO.Stream C::output
@@ -9,10 +10,51 @@
   ret
 }
 
-.method static void ZeroUntil(unsigned int32 n) {
-LOOP_START:
+.method static void Write(int32) {
+  ldsfld class [mscorlib]System.IO.BinaryWriter C::binWriter
+  ldarg.0
+  callvirt instance void [mscorlib]System.IO.BinaryWriter::Write(int32)
+  ret
+}
+
+.method static void Write(int16) {
+  ldsfld class [mscorlib]System.IO.BinaryWriter C::binWriter
+  ldarg.0
+  callvirt instance void [mscorlib]System.IO.BinaryWriter::Write(int16)
+  ret
+}
+
+.method static void Write(uint8[]) {
+  ldsfld class [mscorlib]System.IO.BinaryWriter C::binWriter
+  ldarg.0
+  callvirt instance void [mscorlib]System.IO.BinaryWriter::Write(uint8[])
+  ret
+}
+
+.method static void Write(string s, class [mscorlib]System.Text.Encoding e) {
+  ldarg.s e
+  ldarg.s s
+  callvirt instance uint8[] [mscorlib]System.Text.Encoding::GetBytes(string)
+  call void C::Write(uint8[])
+  ret
+}
+
+.method static void WriteAll(class [mscorlib]System.IO.Stream) {
+  // Reposition the stream to the beginning
+  ldarg.0
+  ldc.i8 0
+  callvirt instance void [mscorlib]System.IO.Stream::set_Position(int64)
+
+  ldarg.0
   ldsfld class [mscorlib]System.IO.Stream C::output
-  callvirt instance int64 [mscorlib]System.IO.Stream::get_Position()
+  callvirt instance void [mscorlib]System.IO.Stream::CopyTo(class [mscorlib]System.IO.Stream)
+
+  ret
+}
+
+.method static void ZeroUntil(uint32 n) {
+LOOP_START:
+  call int64 C::Pos()
   ldarg n
   conv.i8
   bge.s LOOP_END // while .Position < n
@@ -23,10 +65,9 @@ LOOP_END:
   ret
 }
 
-.method static void ZeroUntilMultiple(unsigned int32 n) {
+.method static void ZeroUntilMultiple(uint32 n) {
 LOOP_START:
-  ldsfld class [mscorlib]System.IO.Stream C::output
-  callvirt instance int64 [mscorlib]System.IO.Stream::get_Position()
+  call int64 C::Pos()
   ldarg n
   conv.i8
   rem
@@ -35,6 +76,12 @@ LOOP_START:
   call void C::Write(uint8)
   br.s LOOP_START
 LOOP_END:
+  ret
+}
+
+.method static int64 Pos() {
+  ldsfld class [mscorlib]System.IO.Stream C::output
+  callvirt instance int64 [mscorlib]System.IO.Stream::get_Position()
   ret
 }
 
@@ -77,7 +124,10 @@ ldelem.ref
 
 ldc.i4.2 // FileMode.Create
 call class [mscorlib]System.IO.FileStream class [mscorlib]System.IO.File::Open(string, valuetype [mscorlib]System.IO.FileMode)
+dup
 stsfld class [mscorlib]System.IO.Stream C::output
+newobj instance void class [mscorlib]System.IO.BinaryWriter::.ctor(class [mscorlib]System.IO.Stream)
+stsfld class [mscorlib]System.IO.BinaryWriter C::binWriter
 
 call void C::WriteFileTwice()
 
@@ -1056,7 +1106,7 @@ ldc.i4.s 0x42
 call void C::Write(uint8)
 
 ldc.i4 0x200
-call void C::ZeroUntil(unsigned int32)
+call void C::ZeroUntil(uint32)
 
 ret
 }
@@ -1281,8 +1331,7 @@ ldc.i4.s 0x2A
 call void C::Write(uint8)
 // MetadataRoot
 // Move this into MetadataRoot::Write()
-  ldsfld class [mscorlib]System.IO.Stream C::output
-  callvirt instance int64 [mscorlib]System.IO.Stream::get_Position()
+  call int64 C::Pos()
   stsfld int64 MetadataRoot::fileStart
 ldc.i4.s 0x42
 call void C::Write(uint8)
@@ -1347,14 +1396,11 @@ call void C::Write(uint8)
 ldc.i4.s 0x00
 call void C::Write(uint8)
 
-// StreamHeaders
-ldsfld class [mscorlib]System.IO.Stream C::output
-call void StreamHeader::Write(class [mscorlib]System.IO.Stream)
+call void StreamHeader::Write()
 
 // TildeStream
 // Move this into TildeStream::Write()
-  ldsfld class [mscorlib]System.IO.Stream C::output
-  callvirt instance int64 [mscorlib]System.IO.Stream::get_Position()
+  call int64 C::Pos()
   stsfld int64 TildeStream::fileStart
 ldc.i4.s 0x00
 call void C::Write(uint8)
@@ -1743,22 +1789,14 @@ ldc.i4.s 0x00
 call void C::Write(uint8)
 ldc.i4.s 0x00
 call void C::Write(uint8)
-  ldsfld class [mscorlib]System.IO.Stream C::output
-  callvirt instance int64 [mscorlib]System.IO.Stream::get_Position()
+  call int64 C::Pos()
   stsfld int64 TildeStream::fileEnd
  
 // Streams and Heaps
-ldsfld class [mscorlib]System.IO.Stream C::output
-call void StringHeap::WriteHeap(class [mscorlib]System.IO.Stream)
-
-ldsfld class [mscorlib]System.IO.Stream C::output
-call void UserStringHeap::WriteHeap(class [mscorlib]System.IO.Stream)
-
-ldsfld class [mscorlib]System.IO.Stream C::output
-call void GuidHeap::WriteHeap(class [mscorlib]System.IO.Stream)
-
-ldsfld class [mscorlib]System.IO.Stream C::output
-call void BlobHeap::WriteHeap(class [mscorlib]System.IO.Stream)
+call void StringHeap::WriteHeap()
+call void UserStringHeap::WriteHeap()
+call void GuidHeap::WriteHeap()
+call void BlobHeap::WriteHeap()
 
 ldc.i4.s 0x00
 call void C::Write(uint8)
@@ -1954,7 +1992,7 @@ ldc.i4.s 0x00
 call void C::Write(uint8)
 
 ldc.i4 0x600
-call void C::ZeroUntil(unsigned int32)
+call void C::ZeroUntil(uint32)
 
 ret
 }
@@ -1987,7 +2025,7 @@ ldc.i4.s 0x00
 call void C::Write(uint8)
 
 ldc.i4 0x800
-call void C::ZeroUntil(unsigned int32)
+call void C::ZeroUntil(uint32)
 
 ret
 }
