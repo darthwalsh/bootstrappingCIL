@@ -1569,195 +1569,21 @@ call void C::Write(uint8)
   call int64 C::Pos()
   stsfld int64 TildeStream::fileEnd
  
-// Streams and Heaps
-call void StringHeap::WriteHeap()
-call void UserStringHeap::WriteHeap()
-call void GuidHeap::WriteHeap()
-call void BlobHeap::WriteHeap()
+  // Streams and Heaps
+  call void StringHeap::WriteHeap()
+  call void UserStringHeap::WriteHeap()
+  call void GuidHeap::WriteHeap()
+  call void BlobHeap::WriteHeap()
 
-ldc.i4 0x10
-call void C::ZeroUntilMultiple(uint32)
+  ldc.i4 0x10
+  call void C::ZeroUntilMultiple(uint32)
 
-// ImportTable
-ldc.i4.s 0x68
-call void C::Write(uint8)
-ldc.i4.s 0x22
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x7E
-call void C::Write(uint8)
-ldc.i4.s 0x22
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
+  call void EndingImports::Write()
  
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x20
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
- 
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x70
-call void C::Write(uint8)
-ldc.i4.s 0x22
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
- 
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x5F
-call void C::Write(uint8)
-ldc.i4.s 0x43
-call void C::Write(uint8)
-ldc.i4.s 0x6F
-call void C::Write(uint8)
-ldc.i4.s 0x72
-call void C::Write(uint8)
-ldc.i4.s 0x45
-call void C::Write(uint8)
-ldc.i4.s 0x78
-call void C::Write(uint8)
-ldc.i4.s 0x65
-call void C::Write(uint8)
-ldc.i4.s 0x4D
-call void C::Write(uint8)
-ldc.i4.s 0x61
-call void C::Write(uint8)
-ldc.i4.s 0x69
-call void C::Write(uint8)
-ldc.i4.s 0x6E
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x6D
-call void C::Write(uint8)
-ldc.i4.s 0x73
-call void C::Write(uint8)
- 
-ldc.i4.s 0x63
-call void C::Write(uint8)
-ldc.i4.s 0x6F
-call void C::Write(uint8)
-ldc.i4.s 0x72
-call void C::Write(uint8)
-ldc.i4.s 0x65
-call void C::Write(uint8)
-ldc.i4.s 0x65
-call void C::Write(uint8)
-ldc.i4.s 0x2E
-call void C::Write(uint8)
-ldc.i4.s 0x64
-call void C::Write(uint8)
-ldc.i4.s 0x6C
-call void C::Write(uint8)
-ldc.i4.s 0x6C
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
-// NativeEntry x86 code
-ldc.i4.s 0xFF
-call void C::Write(uint8)
-ldc.i4.s 0x25
-call void C::Write(uint8)
- 
-ldc.i4.s 0x00
-call void C::Write(uint8)
-ldc.i4.s 0x20
-call void C::Write(uint8)
-ldc.i4.s 0x40
-call void C::Write(uint8)
-ldc.i4.s 0x00
-call void C::Write(uint8)
+  ldc.i4 0x600
+  call void C::ZeroUntil(uint32)
 
-ldc.i4 0x600
-call void C::ZeroUntil(uint32)
-
-ret
+  ret
 }
 
 .method static void WriteRelocSection() {
