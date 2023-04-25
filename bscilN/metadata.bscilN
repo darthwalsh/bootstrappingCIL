@@ -1,3 +1,43 @@
+.class abstract sealed ImportAddressTable {
+  .method public static void Write() {
+    ldc.i4 0x2270 // TODO(link) HintNameTableRVA
+    call void C::Write(int32)
+
+    ldc.i4.0
+    call void C::Write(int32)
+
+    ret
+  }
+}
+
+.class abstract sealed CLIHeader {
+  .method public static void Write() {
+    ldc.i4 0x48
+    call void C::Write(int32)
+
+    ldc.i4.2
+    call void C::Write(int16)
+    ldc.i4.0
+    call void C::Write(int16)
+
+    ldc.i4 0x2068 // TODO(link) MetadataRoot RVA
+    call void C::Write(int32)
+    ldc.i4 0x1D0 // TODO(link) MetadataRoot Begin => BlobHeap End = Size
+    call void C::Write(int32)
+
+    ldc.i4.1
+    call void C::Write(int32)
+    ldc.i4 0x6000001 // TODO(link) EntryPointToken MethodDef table first row
+    call void C::Write(int32)
+
+    ldc.i4 0x30 // Resources StrongNameSignature CodeManagerTable VTableFixups
+    newarr uint8
+    call void C::Write(uint8[])
+
+    ret
+  }
+}
+
 .class abstract sealed MetadataRoot {
   .field public static int64 fileStart
 
