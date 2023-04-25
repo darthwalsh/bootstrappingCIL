@@ -92,6 +92,8 @@ BeforeAll {
         }
         throw "Failed to compile $target"
       }
+
+      write-host "TODO use PEVERIFY on dotnet core" -ForegroundColor Yellow # https://stackoverflow.com/a/71981768/771768
       CreateRuntimeConfig $name
     }
     
