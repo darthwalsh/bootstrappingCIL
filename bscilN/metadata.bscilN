@@ -1,15 +1,3 @@
-.class abstract sealed ImportAddressTable {
-  .method public static void Write() {
-    ldc.i4 0x2270 // TODO(link) HintNameTableRVA
-    call void C::Write(int32)
-
-    ldc.i4.0
-    call void C::Write(int32)
-
-    ret
-  }
-}
-
 .class abstract sealed CLIHeader {
   .method public static void Write() {
     ldc.i4 0x48
