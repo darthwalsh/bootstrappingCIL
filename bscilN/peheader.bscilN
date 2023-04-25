@@ -1,0 +1,142 @@
+
+
+.class abstract sealed PEHeader {
+  .method public static void Write() {
+    call void DosHeader::Write()
+
+    ldstr "PE"
+    call void C::WriteUTF8(string)
+    ldc.i4.0
+    call void C::Write(int16)
+
+    call void PEFileHeader::Write()
+    
+    ret
+  }
+}
+
+
+.class abstract sealed DosHeader {
+  .method public static void Write() {
+    ldc.i4.s 0x4D
+    call void C::Write(uint8)
+    ldc.i4.s 0x5A
+    call void C::Write(uint8)
+    ldc.i4.s 0x90
+    call void C::Write(uint8)
+    ldc.i4.s 0x00
+    call void C::Write(uint8)
+    ldc.i4.s 0x03
+    call void C::Write(uint8)
+    ldc.i4.s 0x00
+    call void C::Write(uint8)
+    ldc.i4.s 0x00
+    call void C::Write(uint8)
+    ldc.i4.s 0x00
+    call void C::Write(uint8)
+    ldc.i4.s 0x04
+    call void C::Write(uint8)
+    ldc.i4.s 0x00
+    call void C::Write(uint8)
+    ldc.i4.s 0x00
+    call void C::Write(uint8)
+    ldc.i4.s 0x00
+    call void C::Write(uint8)
+    ldc.i4.s 0xFF
+    call void C::Write(uint8)
+    ldc.i4.s 0xFF
+    call void C::Write(uint8)
+    ldc.i4.s 0x00
+    call void C::Write(uint8)
+    ldc.i4.s 0x00
+    call void C::Write(uint8)
+
+    ldc.i4.s 0xB8
+    call void C::Write(uint8)
+    ldc.i4.s 0x00
+    call void C::Write(uint8)
+    ldc.i4.s 0x00
+    call void C::Write(uint8)
+    ldc.i4.s 0x00
+    call void C::Write(uint8)
+    ldc.i4.s 0x00
+    call void C::Write(uint8)
+    ldc.i4.s 0x00
+    call void C::Write(uint8)
+    ldc.i4.s 0x00
+    call void C::Write(uint8)
+    ldc.i4.s 0x00
+    call void C::Write(uint8)
+    ldc.i4.s 0x40
+    call void C::Write(uint8)
+
+    ldc.i4.s 0x3C
+    call void C::ZeroUntil(uint32)
+
+    ldc.i4 0x80 // LfaNew
+    call void C::Write(int32)
+
+    // DosCode
+    ldc.i4.s 0x0E
+    call void C::Write(uint8)
+    ldc.i4.s 0x1F
+    call void C::Write(uint8)
+    ldc.i4.s 0xBA
+    call void C::Write(uint8)
+    ldc.i4.s 0x0E
+    call void C::Write(uint8)
+    ldc.i4.s 0x00
+    call void C::Write(uint8)
+    ldc.i4.s 0xB4
+    call void C::Write(uint8)
+    ldc.i4.s 0x09
+    call void C::Write(uint8)
+    ldc.i4.s 0xCD
+    call void C::Write(uint8)
+    ldc.i4.s 0x21
+    call void C::Write(uint8)
+    ldc.i4.s 0xB8
+    call void C::Write(uint8)
+    ldc.i4.s 0x01
+    call void C::Write(uint8)
+    ldc.i4.s 0x4C
+    call void C::Write(uint8)
+    ldc.i4.s 0xCD
+    call void C::Write(uint8)
+    ldc.i4.s 0x21
+    call void C::Write(uint8)
+
+    ldstr "This program cannot be run in DOS mode.\r\r\n$"
+    call void C::WriteUTF8(string)
+
+    ldc.i4 0x80
+    call void C::ZeroUntil(uint32)
+
+    ret
+  }
+}
+
+.class abstract sealed PEFileHeader {
+  .method public static void Write() {
+    ldc.i4 0x014C // I386
+    call void C::Write(int16)
+
+    ldc.i4.2 //TODO(no-reloc-section) NumberOfSections could be 1 to remove .reloc section
+    call void C::Write(int16)
+
+    ldc.i4 0x616F5363 // TimeDateStamp
+    call void C::Write(int32)
+
+    ldc.i4.0
+    call void C::Write(int32)
+    ldc.i4.0
+    call void C::Write(int32)
+
+    ldc.i4 0xE0 //TODO(no-reloc-section) OptionalHeaderSize make sure to decrease 
+    call void C::Write(int16)
+    ldc.i4 0x10E // Characteristics TODO(no-reloc-section) check flags
+    call void C::Write(int16)
+
+    ret
+  }
+}
