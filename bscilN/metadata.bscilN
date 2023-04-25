@@ -22,7 +22,12 @@
 
     ldc.i4 0x2068 // TODO(link) MetadataRoot RVA
     call void C::Write(int32)
-    ldc.i4 0x1D0 // TODO(link) MetadataRoot Begin => BlobHeap End = Size
+    
+    // Metadata Size
+    ldsfld int64 BlobHeap::fileEnd
+    ldsfld int64 MetadataRoot::fileStart
+    sub
+    conv.i4
     call void C::Write(int32)
 
     ldc.i4.1
