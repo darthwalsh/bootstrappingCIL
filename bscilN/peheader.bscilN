@@ -1,6 +1,6 @@
 
 
-.class abstract sealed PEHeader {
+.class abstract sealed PEHeader { // II.25.2
   .method public static void Write() {
     call void DosHeader::Write()
 
@@ -16,7 +16,7 @@
 }
 
 
-.class abstract sealed DosHeader {
+.class abstract sealed DosHeader { // II.25.2.1
   .method public static void Write() {
     ldc.i4.s 0x4D
     call void C::Write(uint8)
@@ -116,7 +116,7 @@
   }
 }
 
-.class abstract sealed PEFileHeader {
+.class abstract sealed PEFileHeader { // II.25.2.2
   .method public static void Write() {
     ldc.i4 0x014C // I386
     call void C::Write(int16)

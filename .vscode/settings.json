@@ -1,0 +1,9 @@
+{
+  "cSpell.enabled": false,
+  "autolink.queries": [
+    {
+      "linkPattern": "(III?\\.[.\\d]+)",
+      "linkText": "https://darthwalsh.github.io/ecma-335?section=${0}"
+    },
+  ],
+}
