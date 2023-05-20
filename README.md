@@ -63,6 +63,6 @@ This should be an educational exploration. Buckle up, and let's get started!
 References
 ----------
 
-[EMCA-335](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-335.pdf) describes in great detail the binary file format assemblers must produce.
+[EMCA-335](https://www.ecma-international.org/publications/files/ECMA-ST/ECMA-335.pdf) describes in great detail the binary file format assemblers must produce.
 
 Visual Studio's ildasm.exe is helpful to view PE files, but this project doesn't copy any code from other tools.

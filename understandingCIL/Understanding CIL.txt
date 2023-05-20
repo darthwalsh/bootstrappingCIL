@@ -53,14 +53,15 @@ Hello, World!44
 Understanding the entire PE format is a big undertaking, so I'll probably just go through a subset to explain the bytes of AddR.exe.
 
 The following resources will help in understanding more of the format:
-http://msdn.microsoft.com/en-us/magazine/ms809762.aspx
+https://learn.microsoft.com/en-us/previous-versions/ms809762(v=msdn.10)
 http://www.pelib.com/resources/kath.txt
-http://msdn.microsoft.com/en-us/magazine/cc301805.aspx
+https://learn.microsoft.com/en-us/archive/msdn-magazine/2002/february/inside-windows-win32-portable-executable-file-format-in-detail
 http://brahms.di.uminho.pt/discip/minf/ac0304/icca04/Proc/11000_CLR.pdf
-http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-335.pdf
-http://www.csn.ul.ie/~caolan/pub/winresdump/winresdump/doc/pefile2.html
-http://www.microsoft.com/whdc/system/platform/firmware/PECOFF.mspx or https://msdn.microsoft.com/en-us/windows/hardware/gg463119.aspx
-http://www.codeproject.com/Articles/362076/Understanding-Common-Intermediate-Language-CIL
+https://www.ecma-international.org/publications/files/ECMA-ST/ECMA-335.pdf
+https://web.archive.org/web/20221220191913/http://www.csn.ul.ie/~caolan/pub/winresdump/winresdump/doc/pefile2.html
+https://download.microsoft.com/download/9/C/5/9C5B2167-8017-4BAE-9FDE-D599BAC8184A/pecoff.docx
+https://learn.microsoft.com/en-us/windows/win32/debug/pe-format
+https://www.codeproject.com/Articles/362076/Understanding-Common-Intermediate-Language-CIL
 Many times https://www.simple-talk.com/blogs/2011/03/28/anatomy-of-a-net-assembly-the-clr-loader-stub/
 
 [Conversion of CLI ... To Register by Koutsouridis](https://pergamos.lib.uoa.gr/uoa/dl/frontend/file/lib/default/data/2921082/theFile) gives a good overview of the execution engine stack and branching. 
