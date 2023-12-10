@@ -77,8 +77,6 @@ BeforeAll {
         }
         throw "Invalid MSIL in $name"
       }
-
-      # TODO invoke peverify here, fail if compiler isn't valid PE
     }
     else {
       if ((Get-Description) -ne "ilasm") { # can remove this hack when bscil0 -> bscil1 -> bscilN
