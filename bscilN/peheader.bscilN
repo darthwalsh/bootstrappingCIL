@@ -10,6 +10,13 @@
     call void C::Write(int16)
 
     call void PEFileHeader::Write()
+
+    call void PEOptionalHeader::Write()
+
+    call void SectionHeaders::Write()
+    
+    ldc.i4 0x200
+    call void C::ZeroUntil(uint32)
     
     ret
   }
@@ -136,6 +143,226 @@
     call void C::Write(int16)
     ldc.i4 0x10E // Characteristics TODO(no-reloc-section) check flags
     call void C::Write(int16)
+
+    ret
+  }
+}
+
+.class abstract sealed PEOptionalHeader { // II.25.2.3
+  .method public static void Write() {
+    call void PEOptionalHeader::StandardFields()
+
+    ldc.i4 0x4000 // BaseOfData, Only present in PE32, not the 64-bit PE32+
+    call void C::Write(int32)
+
+    call void PEOptionalHeader::WindowsNtSpecificFields()
+
+    call void PEOptionalHeader::DataDirectories()
+
+    ret
+  }
+
+  .method static void StandardFields() {
+    ldc.i4 0x10B // Magic
+    call void C::Write(int16)
+    ldc.i4.6 // LMajor
+    call void C::Write(uint8)
+    ldc.i4.0 // LMinor
+    call void C::Write(uint8)
+
+    ldc.i4 0x400 // CodeSize
+    call void C::Write(int32)
+    ldc.i4 0x200 // InitializedDataSize
+    call void C::Write(int32)
+    ldc.i4.0 // UninitializedDataSize
+    call void C::Write(int32)
+
+    ldc.i4 0x228E // EntryPointRVA
+    call void C::Write(int32)
+    ldc.i4 0x2000 // BaseOfCode
+    call void C::Write(int32)
+
+    ret
+  }
+
+  .method static void WindowsNtSpecificFields() {
+    ldc.i4 0x400000 // ImageBase
+    call void C::Write(int32)
+
+    ldc.i4 0x2000 // SectionAlignment
+    call void C::Write(int32)
+    ldc.i4 0x200 // FileAlignment
+    call void C::Write(int32)
+
+    ldc.i4.s 0x04 // OSMajor
+    call void C::Write(int16)
+    ldc.i4.s 0x00 // OSMinor
+    call void C::Write(int16)
+    ldc.i4.s 0x00 // UserMajor
+    call void C::Write(int16)
+    ldc.i4.s 0x00 // UserMinor
+    call void C::Write(int16)
+    ldc.i4.s 0x04 // SubSysMajor
+    call void C::Write(int16)
+    ldc.i4.s 0x00 // SubSysMinor
+    call void C::Write(int16)
+
+    ldc.i4.0 // Reserved Win32VersionValue
+    call void C::Write(int32)
+
+    ldc.i4 0x6000 // ImageSize
+    call void C::Write(int32)
+    ldc.i4 0x200 // HeaderSize
+    call void C::Write(int32)
+    ldc.i4.0 // CheckSum
+    call void C::Write(int32)
+
+    ldc.i4 0x03 // SubSystem
+    call void C::Write(int16)
+    ldc.i4 0x0000 // DLLCharacteristics
+    call void C::Write(int16)
+
+    ldc.i4 0x100000 // StackReserveSize
+    call void C::Write(int32)
+    ldc.i4 0x1000 // StackCommitSize
+    call void C::Write(int32)
+    ldc.i4 0x100000 // HeapReserveSize
+    call void C::Write(int32)
+    ldc.i4 0x1000 // HeapCommitSize
+    call void C::Write(int32)
+
+    ldc.i4.0 // LoaderFlags
+    call void C::Write(int32)
+
+    ldc.i4 0x10 // NumberOfRvaAndSizes
+    call void C::Write(int32)
+
+    ret
+  }
+
+  .method static void DataDirectories() {
+    ldc.i8 0 // ExportTable
+    call void C::Write(int64)
+
+    // ImportTable
+    ldc.i4 0x2240
+    call void C::Write(int32)
+    ldc.i4 0x4B
+    call void C::Write(int32)
+
+    ldc.i8 0 // ResourceTable
+    call void C::Write(int64)
+    ldc.i8 0 // ExceptionTable
+    call void C::Write(int64)
+    ldc.i8 0 // CertificateTable
+    call void C::Write(int64)
+
+    // BaseRelocationTable
+    ldc.i4 0x4000 //TODO(no-reloc-section) if no .reloc, then BaseRelocationTable RVA and Size should 0
+    call void C::Write(int32)
+    ldc.i4 0xC
+    call void C::Write(int32)
+
+    ldc.i8 0 // Debug
+    call void C::Write(int64)
+    ldc.i8 0 // Architecture
+    call void C::Write(int64)
+    ldc.i8 0 // GlobalPtr
+    call void C::Write(int64)
+    ldc.i8 0 // TLSTable
+    call void C::Write(int64)
+    ldc.i8 0 // LoadConfigTable
+    call void C::Write(int64)
+    ldc.i8 0 // BoundImport
+    call void C::Write(int64)
+
+    // ImportAddressTable
+    ldc.i4 0x2000
+    call void C::Write(int32)
+    ldc.i4 0x8
+    call void C::Write(int32)
+
+    ldc.i8 0 // DelayImportDescriptor
+    call void C::Write(int64)
+
+    // CLIHeader
+    ldc.i4 0x2008
+    call void C::Write(int32)
+    ldc.i4 0x48
+    call void C::Write(int32)
+
+    ldc.i8 0 // Reserved
+    call void C::Write(int64)
+    ret
+  }
+}
+
+.class abstract sealed SectionHeaders { // II.25.3
+  .method public static void Write() {
+    call void SectionHeaders::Text()
+    call void SectionHeaders::Reloc()
+    ret
+  }
+
+  .method static void Text() {
+    ldstr ".text"
+    call void C::WriteUTF8(string)
+    ldc.i4 0x4
+    call void C::ZeroUntilMultiple(uint32)
+
+
+    ldc.i4 0x294 // VirtualSize
+    call void C::Write(int32)
+    ldc.i4 0x2000 // VirtualAddress
+    call void C::Write(int32)
+
+    ldc.i4 0x400 // SizeOfRawData
+    call void C::Write(int32)
+    ldc.i4 0x200 // PointerToRawData
+    call void C::Write(int32)
+
+    ldc.i4.0 // PointerToRelocations
+    call void C::Write(int32)
+    ldc.i4.0 // PointerToLinenumbers
+    call void C::Write(int32)
+    ldc.i4.0 // NumberOfRelocations
+    call void C::Write(int16)
+    ldc.i4.0 // NumberOfLinenumbers
+    call void C::Write(int16)
+
+    ldc.i4 0x60000020 // Characteristics
+    call void C::Write(int32)
+
+    ret
+  }
+
+  .method static void Reloc() {
+    ldstr ".reloc"
+    call void C::WriteUTF8(string)
+    ldc.i4 0x4
+    call void C::ZeroUntilMultiple(uint32)
+
+    ldc.i4 0xC // VirtualSize
+    call void C::Write(int32)
+    ldc.i4 0x4000 // VirtualAddress
+    call void C::Write(int32)
+
+    ldc.i4 0x200 // SizeOfRawData
+    call void C::Write(int32)
+    ldc.i4 0x600 // PointerToRawData
+    call void C::Write(int32)
+
+    ldc.i4.0 // PointerToRelocations
+    call void C::Write(int32)
+    ldc.i4.0 // PointerToLinenumbers
+    call void C::Write(int32)
+    ldc.i4.0 // NumberOfRelocations
+    call void C::Write(int16)
+    ldc.i4.0 // NumberOfLinenumbers
+    call void C::Write(int16)
+
+    ldc.i4 0x42000040 // Characteristics
+    call void C::Write(int32)
 
     ret
   }
