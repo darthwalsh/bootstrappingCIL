@@ -1,4 +1,4 @@
-.class abstract sealed CLIHeader {
+.class abstract sealed CLIHeader { // II.25.3.3
   .method public static void Write() {
     ldc.i4 0x48
     call void C::Write(int32)
@@ -31,7 +31,7 @@
   }
 }
 
-.class abstract sealed MetadataRoot {
+.class abstract sealed MetadataRoot { // II.24.2.1
   .field public static int64 fileStart
 
   .method public static void Write() {
@@ -63,6 +63,109 @@
     call void C::Write(int16)
 
     call void StreamHeader::Write()
+
+    ret
+  }
+}
+
+.class abstract sealed TildeStream { // II.24.2.6
+  .field public static int64 fileStart
+  .field public static int64 fileEnd
+
+  .field private static uint8[][] tables // TODO write to this
+
+  .method static hidebysig specialname rtspecialname default void .cctor() {
+    ldc.i4 0x2D
+    newarr uint8[]
+    stsfld uint8[][] TildeStream::tables
+    ret
+  }
+
+  .method public static void Write() {
+    call int64 C::Pos()
+    stsfld int64 TildeStream::fileStart
+
+    call void TildeStream::WriteHeader()
+    call void TildeStream::WriteRowCounts()
+
+    ret
+  }
+
+  .method private static void WriteHeader() {
+    ldc.i4.0 // Reserved
+    call void C::Write(int32)
+
+    ldc.i4.2 // MajorVersion
+    call void C::Write(int8)
+    ldc.i4.0 // MinorVersion
+    call void C::Write(int8)
+
+    ldc.i4.0 // HeapSizes
+    call void C::Write(int8)
+
+    ldc.i4.1 // Reserved
+    call void C::Write(int8)
+
+// TODO build up this bit vector of valid tables based on seeded rows
+ldc.i4.s 0x47
+call void C::Write(uint8)
+ldc.i4.s 0x04
+call void C::Write(uint8)
+ldc.i4.s 0x00
+call void C::Write(uint8)
+ldc.i4.s 0x08
+call void C::Write(uint8)
+ldc.i4.s 0x09
+call void C::Write(uint8)
+ldc.i4.s 0x00
+call void C::Write(uint8)
+ldc.i4.s 0x00
+call void C::Write(uint8)
+ldc.i4.s 0x00
+call void C::Write(uint8)
+
+    ldc.i8 0 // Sorted 
+    call void C::Write(int64)
+
+    ret
+  }
+
+  .method private static void WriteRowCounts() {
+    // TODO write based on valid tables based on seeded rows
+    ldc.i4 1
+    call void C::Write(int32)
+
+    ldc.i4 4
+    call void C::Write(int32)
+
+    ldc.i4 2
+    call void C::Write(int32)
+
+    ldc.i4 1
+    call void C::Write(int32)
+
+    ldc.i4 2
+    call void C::Write(int32)
+
+    ldc.i4 1
+    call void C::Write(int32)
+
+    ldc.i4 1
+    call void C::Write(int32)
+
+    ldc.i4 1
+    call void C::Write(int32)
+
+    ret
+  }
+
+  .method private static void AddRow(uint8 table, uint8[] data) {
+    // TODO
+    ret
+  }
+
+  // TODO return a table index
+  .method public static void AddModule(uint16 gen, string name) {
 
     ret
   }

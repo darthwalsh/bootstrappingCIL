@@ -120,11 +120,6 @@
   }
 }
 
-.class abstract sealed TildeStream {
-  .field public static int64 fileStart
-  .field public static int64 fileEnd
-}
-
 .class abstract sealed StringHeap {
   .field public static int64 fileStart
   .field public static int64 fileEnd
