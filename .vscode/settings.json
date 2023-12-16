@@ -6,4 +6,5 @@
       "linkText": "https://darthwalsh.github.io/ecma-335?section=${0}"
     },
   ],
+  "dotnet-test-explorer.testProjectPath": "test/bscilN/Tests.csproj",
 }

@@ -29,7 +29,7 @@ BeforeAll {
       runtimeOptions = @{
         framework = @{
           name    = 'Microsoft.NETCore.App'
-          version = "5.0.0"
+          version = "7.0.0"
         }
       }
     } | ConvertTo-Json | Set-Content ($name -replace '\.exe$', '.runtimeconfig.json')
@@ -48,7 +48,7 @@ BeforeAll {
     $compiler = Get-Compiler $target
     $line = "$compiler < $target > $name" # MAYBE sc -raw (powershell destroys binary data in stream)
 
-    if ((Get-Description) -in @("ilasm", "bscilN.bscilN")) {
+    if ((Get-Description) -in @("ilasm", "bscilN.bscilN", "bscilN.unit")) {
       $line = "$compiler $target -OUTPUT=$name"
     }
     Log("LINE $line")
@@ -131,6 +131,7 @@ BeforeAll {
     bscil0 = Root "bscil0\bscil0.exe"
     "ilasm" = if ($IsWindows) { $ILASM_EXE } else { "ilasm" }
   }
+  $script:compilers["bscilN.unit"] = $script:compilers["ilasm"]
 
   Function Get-Compiler($target = $null) {
     $moniker = Get-Description
@@ -180,6 +181,7 @@ Function Add-Compiler() {
 Function Add-CompilerN() {
   It "compiles next tool" {
     $moniker = "bscilN.bscilN"
+    if ($script:compilers[$moniker]) { return }
     $sourceDir = Root "bscilN"
     $source = @(Root "bscilN/bscilN.bscilN")
     $source += Get-ChildItem $sourceDir/*.bscilN | ForEach-Object FullName
@@ -324,4 +326,21 @@ Describe "ilasm" {
 
 Describe "bscilN.bscilN" {
   TestBSCILN
+}
+
+Describe "bscilN.unit" {
+  Add-CompilerN
+  It "sets up DLL for unit test" {
+    $bscilN = $script:compilers["bscilN.bscilN"]
+    Copy-Item $bscilN (BinDir "A.dll")
+  }
+  It "dotnet test" {
+    $dotnetOut = dotnet test (Here bscilN)
+    if ($LastExitCode) {
+      foreach ($line in $dotnetOut) {
+        Write-Host $line -ForegroundColor DarkRed
+      }
+    }
+    $LastExitCode | Should -Be 0 -Because "dotnet test exit code"
+  }
 }
