@@ -7,4 +7,6 @@
     },
   ],
   "dotnet-test-explorer.testProjectPath": "test/bscilN/Tests.csproj",
+  "dotnet.codeLens.enableTestsCodeLens": true,
+  "dotnet.codeLens.enableReferencesCodeLens": true
 }
