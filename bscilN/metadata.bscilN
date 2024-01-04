@@ -257,6 +257,8 @@ LOOP_END:
     ret
   }
 
+  // NOTE! in II.22 many of the other tables (MethodImpl, NestedClass, etc) are required to be sorted by primary key... that might be a pain... one idea: take two passes to build the metadata, sorting after the first pass -- but no, after sorting all the internal indices will be wrong...? Need to store references that can mutate with the index, instead of returning ints.
+
   // TODO return a table index
   .method public static void Module(string name, int16 mvidIndex) {
     .locals init (class RowBuilder row)
