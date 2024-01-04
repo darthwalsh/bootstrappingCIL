@@ -1,11 +1,9 @@
 namespace Tests;
 
 [TestClass]
-public class HeapTests
-{
+public class HeapTests {
   [TestMethod]
-  public void AddReturnsIndex()
-  {
+  public void AddReturnsIndex() {
     var a = StringHeap.Add("A");
     var b = StringHeap.Add("BBB");
     Assert.AreNotEqual(a, b);

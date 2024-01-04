@@ -233,90 +233,9 @@ call void C::Write(uint8)
 ldc.i4.s 0x2A
 call void C::Write(uint8)
 
-  call void MetadataRoot::Write()
-
-  call void TildeStream::Write()
-
-  // TODO once TildeStream::methods below don't immediately write to stream, move to Seed() helper
-  ldstr "Addr.exe"
-  ldc.i4.s 0x01
-  call void TildeStream::Module(string, int16)
-
-  ldc.i4.6 //TODO ResolutionScope AssemblyRef => index 1 ditto below
-  ldstr "Int32"
-  ldstr "System"
-  call void TildeStream::TypeRef(uint16, string, string)
-
-  ldc.i4.6 //TODO ditto below
-  ldstr "String"
-  ldstr "System"
-  call void TildeStream::TypeRef(uint16, string, string)
-
-  ldc.i4.6
-  ldstr "Console"
-  ldstr "System"
-  call void TildeStream::TypeRef(uint16, string, string)
-
-  ldc.i4.6
-  ldstr "Object"
-  ldstr "System"
-  call void TildeStream::TypeRef(uint16, string, string)
-
-  ldc.i4.0 // Flags
-  ldstr "<Module>"
-  ldstr ""
-  ldc.i4.0 // Extends
-  ldc.i4.1 // FieldList
-  ldc.i4.1 // MethodList
-  call void TildeStream::TypeDef(uint32, string, string, uint16, uint16, uint16)
-
-  ldc.i4.0 // Flags
-  ldstr "Hello"
-  ldstr ""
-  ldc.i4 0x11 // Extends System.Object
-  ldc.i4.1 // FieldList
-  ldc.i4.1 // MethodList
-  call void TildeStream::TypeDef(uint32, string, string, uint16, uint16, uint16)
-
-  ldc.i4 0x2050 // RVA
-  ldc.i4.0 // ImplFlags
-  ldc.i4 0x10 // Flags
-  ldstr "Main" // Name
-  ldc.i4 0x03 // Signature
-  ldc.i4 1 // ParamList
-  call void TildeStream::MethodDef(uint32, uint16, uint16, string, uint16, uint16)
-
-  ldc.i4 0x11 // Class MemberRefParent of System.String
-  ldstr "Concat"
-  ldc.i4 0x07 // Signature
-  call void TildeStream::MemberRef(uint16, string, uint16)
-
-  ldc.i4 0x19 // Class MemberRefParent of System.Console
-  ldstr "WriteLine"
-  ldc.i4 0x0D // Signature
-  call void TildeStream::MemberRef(uint16, string, uint16)
-
-  ldc.i4 0x01 // blob heap index
-  call void TildeStream::TypeSepc(uint16)
-
-  ldc.i4.0 // HashAlgId AssemblyHashAlgorithm.None
-  ldc.i4.0 // Flags
-  ldc.i4.0 // PublicKey
-  ldstr "World"
-  ldstr "" // Culture
-  call void TildeStream::Assembly(uint32, uint32, uint16, string, string)
-  
-  ldc.i4.0 // Flags
-  ldc.i4.0 // PublicKey
-  ldstr "mscorlib"
-  ldstr "" // Culture
-  ldc.i4.0 // HashValue
-  call void TildeStream::AssemblyRef(uint32, uint16, string, string, uint16)
-
-  call int64 C::Pos()
-  stsfld int64 TildeStream::fileEnd
- 
   // Streams and Heaps
+  call void MetadataRoot::Write()
+  call void TildeStream::Write()
   call void StringHeap::WriteHeap()
   call void UserStringHeap::WriteHeap()
   call void GuidHeap::WriteHeap()
@@ -370,6 +289,7 @@ ret
   call void C::SeedStringHeap()
   call void C::SeedUserStringHeap()
   call void C::SeedBlobHeap()
+  call void C::SeedTildeStream()
   ret
 }
 
@@ -527,6 +447,85 @@ ret
   call int32 BlobHeap::Add(uint8[])
   pop
   
+  ret
+}
+
+.method static void SeedTildeStream() {
+  ldstr "Addr.exe"
+  ldc.i4.s 0x01
+  call void TildeStream::Module(string, int16)
+
+  ldc.i4.6 //TODO ResolutionScope AssemblyRef => index 1 ditto below
+  ldstr "Int32"
+  ldstr "System"
+  call void TildeStream::TypeRef(uint16, string, string)
+
+  ldc.i4.6 //TODO ditto below
+  ldstr "String"
+  ldstr "System"
+  call void TildeStream::TypeRef(uint16, string, string)
+
+  ldc.i4.6
+  ldstr "Console"
+  ldstr "System"
+  call void TildeStream::TypeRef(uint16, string, string)
+
+  ldc.i4.6
+  ldstr "Object"
+  ldstr "System"
+  call void TildeStream::TypeRef(uint16, string, string)
+
+  ldc.i4.0 // Flags
+  ldstr "<Module>"
+  ldstr ""
+  ldc.i4.0 // Extends
+  ldc.i4.1 // FieldList
+  ldc.i4.1 // MethodList
+  call void TildeStream::TypeDef(uint32, string, string, uint16, uint16, uint16)
+
+  ldc.i4.0 // Flags
+  ldstr "Hello"
+  ldstr ""
+  ldc.i4 0x11 // Extends System.Object
+  ldc.i4.1 // FieldList
+  ldc.i4.1 // MethodList
+  call void TildeStream::TypeDef(uint32, string, string, uint16, uint16, uint16)
+
+  ldc.i4 0x2050 // RVA
+  ldc.i4.0 // ImplFlags
+  ldc.i4 0x10 // Flags
+  ldstr "Main" // Name
+  ldc.i4 0x03 // Signature
+  ldc.i4 1 // ParamList
+  call void TildeStream::MethodDef(uint32, uint16, uint16, string, uint16, uint16)
+
+  ldc.i4 0x11 // Class MemberRefParent of System.String
+  ldstr "Concat"
+  ldc.i4 0x07 // Signature
+  call void TildeStream::MemberRef(uint16, string, uint16)
+
+  ldc.i4 0x19 // Class MemberRefParent of System.Console
+  ldstr "WriteLine"
+  ldc.i4 0x0D // Signature
+  call void TildeStream::MemberRef(uint16, string, uint16)
+
+  ldc.i4 0x01 // blob heap index
+  call void TildeStream::TypeSepc(uint16)
+
+  ldc.i4.0 // HashAlgId AssemblyHashAlgorithm.None
+  ldc.i4.0 // Flags
+  ldc.i4.0 // PublicKey
+  ldstr "World"
+  ldstr "" // Culture
+  call void TildeStream::Assembly(uint32, uint32, uint16, string, string)
+  
+  ldc.i4.0 // Flags
+  ldc.i4.0 // PublicKey
+  ldstr "mscorlib"
+  ldstr "" // Culture
+  ldc.i4.0 // HashValue
+  call void TildeStream::AssemblyRef(uint32, uint16, string, string, uint16)
+
   ret
 }
 }

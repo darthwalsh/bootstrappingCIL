@@ -72,12 +72,38 @@
   .field public static int64 fileStart
   .field public static int64 fileEnd
 
-  .field private static uint8[][] tables // TODO write to this
+  .field private static class MetaRow[] tables
 
   .method static hidebysig specialname rtspecialname default void .cctor() {
+    .locals init (int32 i)
+
     ldc.i4 0x2D
-    newarr uint8[]
-    stsfld uint8[][] TildeStream::tables
+    newarr MetaRow
+    stsfld class MetaRow[] TildeStream::tables
+
+    ldc.i4.0
+    stloc i
+
+    br.s LOOP_END
+
+LOOP:
+    ldsfld class MetaRow[] TildeStream::tables
+    ldloc i
+    newobj instance void MetaRow::.ctor()
+    stelem.ref
+
+    ldloc i
+    ldc.i4.1
+    add
+    stloc i
+
+LOOP_END:
+    ldloc i
+    ldsfld class MetaRow[] TildeStream::tables
+    ldlen
+    conv.i4
+    blt.s LOOP
+  
     ret
   }
 
@@ -87,6 +113,10 @@
 
     call void TildeStream::WriteHeader()
     call void TildeStream::WriteRowCounts()
+    call void TildeStream::WriteTables()
+
+    call int64 C::Pos()
+    stsfld int64 TildeStream::fileEnd
 
     ret
   }
@@ -159,11 +189,39 @@ call void C::Write(uint8)
     ret
   }
 
-  .method private static void AddRow(uint8 table, uint8[] data) {
-    
+  .method private static void WriteTables() {
+    .locals init (int32 i)
 
+    br.s LOOP_END
+
+LOOP_BODY:
+    ldsfld class MetaRow[] TildeStream::tables
+    ldloc i
+    ldelem.ref
+    callvirt instance void MetaRow::Write()
+
+    ldloc i
+    ldc.i4.1
+    add
+    stloc i
+
+LOOP_END:
+    ldloc i
+    ldsfld class MetaRow[] TildeStream::tables
+    ldlen
+    conv.i4
+    blt LOOP_BODY
+
+    ret
+  }
+
+  .method private static void AddRow(uint8 table, uint8[] data) {
+    ldsfld class MetaRow[] TildeStream::tables
+    ldarg table
+    ldelem.ref
     ldarg data
-    call void C::Write(uint8[]) // TODO store into table for later instead of writing immediately
+    callvirt instance int32 MetaRow::Add(uint8[])
+    pop // will need to return metadata token with this
 
     ret
   }
@@ -249,7 +307,7 @@ call void C::Write(uint8)
 
     ldloc row
     ldarg extendz
-    call instance void RowBuilder::Add(int16)
+    call instance void RowBuilder::Add(int16)  // TODO coded index CodedIndex.TypeDefOrRef
 
     ldloc row
     ldarg fieldList
@@ -497,6 +555,79 @@ call void C::Write(uint8)
     ldarg.0
     ldfld class [mscorlib]System.IO.BinaryWriter RowBuilder::writer
     callvirt instance void [mscorlib]System.IDisposable::Dispose()
+
+    ret
+  }
+}
+
+.class public sealed MetaRow {
+  .field class [mscorlib]System.Collections.Generic.List`1<uint8[]> data
+  .field class [mscorlib]System.Collections.Generic.Dictionary`2<string, int32> cache
+
+  .method public hidebysig specialname rtspecialname instance void .ctor () {
+    ldarg.0
+    call instance void [mscorlib]System.Object::.ctor()
+
+    ldarg.0
+    newobj instance void class [mscorlib]System.Collections.Generic.List`1<uint8[]>::.ctor()
+    stfld class [mscorlib]System.Collections.Generic.List`1<uint8[]> MetaRow::data
+
+    ldarg.0
+    newobj instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string,int32>::.ctor()
+    stfld class [mscorlib]System.Collections.Generic.Dictionary`2<string,int32> MetaRow::cache
+    
+    ret
+  }
+
+  .method public instance int32 Add(uint8[] val) {
+    // TODO check cache. Can validate by seeding something twice
+    .locals init (int32 index)
+
+    ldarg.0
+    ldfld class [mscorlib]System.Collections.Generic.List`1<uint8[]> MetaRow::data
+    callvirt instance int32 class [mscorlib]System.Collections.Generic.List`1<uint8[]>::get_Count()
+    stloc index
+
+    ldarg.0
+    ldfld class [mscorlib]System.Collections.Generic.List`1<uint8[]> MetaRow::data
+    ldarg val
+    callvirt instance void class [mscorlib]System.Collections.Generic.List`1<uint8[]>::Add(!0)
+
+    ldloc index
+    ret
+  }
+
+
+  .method public instance int32 GetCount() {
+    ldarg.0
+    ldfld class [mscorlib]System.Collections.Generic.List`1<uint8[]> MetaRow::data
+    callvirt instance int32 class [mscorlib]System.Collections.Generic.List`1<uint8[]>::get_Count()
+    ret
+  }
+
+  .method public instance void Write() {
+    .locals init (int32 i)
+
+    br.s LOOP_START
+
+LOOP_BODY:
+    ldarg.0
+    ldfld class [mscorlib]System.Collections.Generic.List`1<uint8[]> MetaRow::data
+    ldloc i
+    callvirt instance !0 class [mscorlib]System.Collections.Generic.List`1<uint8[]>::get_Item(int32)
+    call void C::Write(uint8[])
+
+    ldloc i
+    ldc.i4.1
+    add
+    stloc i
+
+LOOP_START:
+    ldloc i
+    ldarg.0
+    ldfld class [mscorlib]System.Collections.Generic.List`1<uint8[]> MetaRow::data
+    callvirt instance int32 class [mscorlib]System.Collections.Generic.List`1<uint8[]>::get_Count()
+    blt LOOP_BODY
 
     ret
   }
