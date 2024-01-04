@@ -19,8 +19,7 @@ public class MetadataTests {
     Assert.AreEqual(2, row.GetCount());
     Assert.AreNotEqual(a, b);
 
-    // TODO cache not implemented yet
-    // Assert.AreEqual(a, row.Add(A));
-    // Assert.AreEqual(b, row.Add(B));
+    Assert.AreEqual(a, row.Add(A));
+    Assert.AreEqual(b, row.Add(B));
   }
 }

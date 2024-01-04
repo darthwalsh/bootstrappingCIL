@@ -580,13 +580,35 @@ LOOP_END:
   }
 
   .method public instance int32 Add(uint8[] val) {
-    // TODO check cache. Can validate by seeding something twice
-    .locals init (int32 index)
+    .locals init (string key, int32 index)
 
+    ldarg val
+    call string [mscorlib]System.Convert::ToBase64String(uint8[])
+    stloc key
+
+    ldarg.0
+    ldfld class [mscorlib]System.Collections.Generic.Dictionary`2<string,int32> MetaRow::cache
+    ldloc key
+    callvirt instance bool class [mscorlib]System.Collections.Generic.Dictionary`2<string,int32>::ContainsKey(!0)
+    brfalse.s NOT_FOUND
+
+    ldarg.0
+    ldfld class [mscorlib]System.Collections.Generic.Dictionary`2<string,int32> MetaRow::cache
+    ldloc key
+    callvirt instance !1 class [mscorlib]System.Collections.Generic.Dictionary`2<string,int32>::get_Item(!0)
+    ret
+
+NOT_FOUND:
     ldarg.0
     ldfld class [mscorlib]System.Collections.Generic.List`1<uint8[]> MetaRow::data
     callvirt instance int32 class [mscorlib]System.Collections.Generic.List`1<uint8[]>::get_Count()
     stloc index
+
+    ldarg.0
+    ldfld class [mscorlib]System.Collections.Generic.Dictionary`2<string,int32> MetaRow::cache
+    ldloc key
+    ldloc index
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string,int32>::Add(!0, !1)
 
     ldarg.0
     ldfld class [mscorlib]System.Collections.Generic.List`1<uint8[]> MetaRow::data
