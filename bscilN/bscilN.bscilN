@@ -451,81 +451,85 @@ ret
 }
 
 .method static void SeedTildeStream() {
+  .locals init (class Token mscorlib)
+
   ldstr "Addr.exe"
   ldc.i4.s 0x01
-  call void TildeStream::Module(string, int16)
+  call class Token TildeStream::AddModule(string, int16)
+  pop
 
-  ldc.i4.6 //TODO ResolutionScope AssemblyRef => index 1 ditto below
+  ldc.i4.0 // Flags
+  ldc.i4.0 // PublicKey
+  ldstr "mscorlib"
+  ldstr "" // Culture
+  ldc.i4.0 // HashValue
+  call class Token TildeStream::AddAssemblyRef(uint32, uint16, string, string, uint16)
+  stloc mscorlib
+
+  ldloc mscorlib
   ldstr "Int32"
   ldstr "System"
-  call void TildeStream::TypeRef(uint16, string, string)
+  call void TildeStream::AddTypeRef(class Token, string, string)
 
-  ldc.i4.6 //TODO ditto below
+  ldloc mscorlib
   ldstr "String"
   ldstr "System"
-  call void TildeStream::TypeRef(uint16, string, string)
+  call void TildeStream::AddTypeRef(class Token, string, string)
 
-  ldc.i4.6
+  ldloc mscorlib
   ldstr "Console"
   ldstr "System"
-  call void TildeStream::TypeRef(uint16, string, string)
+  call void TildeStream::AddTypeRef(class Token, string, string)
 
-  ldc.i4.6
+  ldloc mscorlib
   ldstr "Object"
   ldstr "System"
-  call void TildeStream::TypeRef(uint16, string, string)
+  call void TildeStream::AddTypeRef(class Token, string, string)
 
   ldc.i4.0 // Flags
   ldstr "<Module>"
   ldstr ""
-  ldc.i4.0 // Extends
+  ldc.i4.0 // TODO Extends null
   ldc.i4.1 // FieldList
   ldc.i4.1 // MethodList
-  call void TildeStream::TypeDef(uint32, string, string, uint16, uint16, uint16)
+  call void TildeStream::AddTypeDef(uint32, string, string, uint16, uint16, uint16)
 
   ldc.i4.0 // Flags
   ldstr "Hello"
   ldstr ""
-  ldc.i4 0x11 // Extends System.Object
+  ldc.i4 0x11 // TODO Extends System.Object
   ldc.i4.1 // FieldList
   ldc.i4.1 // MethodList
-  call void TildeStream::TypeDef(uint32, string, string, uint16, uint16, uint16)
+  call void TildeStream::AddTypeDef(uint32, string, string, uint16, uint16, uint16)
 
   ldc.i4 0x2050 // RVA
   ldc.i4.0 // ImplFlags
   ldc.i4 0x10 // Flags
   ldstr "Main" // Name
-  ldc.i4 0x03 // Signature
+  ldc.i4 0x03 // TODO Signature, ditto below
   ldc.i4 1 // ParamList
-  call void TildeStream::MethodDef(uint32, uint16, uint16, string, uint16, uint16)
+  call void TildeStream::AddMethodDef(uint32, uint16, uint16, string, uint16, uint16)
 
-  ldc.i4 0x11 // Class MemberRefParent of System.String
+  ldc.i4 0x11 // TODO Class MemberRefParent of System.String
   ldstr "Concat"
   ldc.i4 0x07 // Signature
-  call void TildeStream::MemberRef(uint16, string, uint16)
+  call void TildeStream::AddMemberRef(uint16, string, uint16)
 
   ldc.i4 0x19 // Class MemberRefParent of System.Console
   ldstr "WriteLine"
   ldc.i4 0x0D // Signature
-  call void TildeStream::MemberRef(uint16, string, uint16)
+  call void TildeStream::AddMemberRef(uint16, string, uint16)
 
-  ldc.i4 0x01 // blob heap index
-  call void TildeStream::TypeSepc(uint16)
+  ldc.i4 0x01 // TODO blob heap index
+  call void TildeStream::AddTypeSepc(uint16)
 
   ldc.i4.0 // HashAlgId AssemblyHashAlgorithm.None
   ldc.i4.0 // Flags
   ldc.i4.0 // PublicKey
   ldstr "World"
   ldstr "" // Culture
-  call void TildeStream::Assembly(uint32, uint32, uint16, string, string)
+  call void TildeStream::AddAssembly(uint32, uint32, uint16, string, string)
   
-  ldc.i4.0 // Flags
-  ldc.i4.0 // PublicKey
-  ldstr "mscorlib"
-  ldstr "" // Culture
-  ldc.i4.0 // HashValue
-  call void TildeStream::AssemblyRef(uint32, uint16, string, string, uint16)
-
   ret
 }
 }

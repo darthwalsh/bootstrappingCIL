@@ -10,16 +10,22 @@ public class MetadataTests {
     var A = Encoding.GetEncoding("UTF-8").GetBytes("A");
     var B = Encoding.GetEncoding("UTF-8").GetBytes("B");
 
-    var row = new MetaRow();
+    var table = new MetaTable();
 
-    var a = row.Add(A);
-    Assert.AreEqual(1, row.GetCount());
+    var a = table.Add(A);
+    Assert.AreEqual(1, table.GetCount());
 
-    var b = row.Add(B);
-    Assert.AreEqual(2, row.GetCount());
+    var b = table.Add(B);
+    Assert.AreEqual(2, table.GetCount());
     Assert.AreNotEqual(a, b);
 
-    Assert.AreEqual(a, row.Add(A));
-    Assert.AreEqual(b, row.Add(B));
+    Assert.AreEqual(a, table.Add(A));
+    Assert.AreEqual(b, table.Add(B));
+  }
+
+  [TestMethod]
+  public void ResolutionScope() {
+    Assert.AreEqual(0b11000, CodedIndex.ResolutionScope(new Token(TildeStream.Module, 0b110)));
+    Assert.AreEqual(0b11010, CodedIndex.ResolutionScope(new Token(TildeStream.AssemblyRef, 0b110)));
   }
 }

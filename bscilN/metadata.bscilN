@@ -68,18 +68,208 @@
   }
 }
 
-.class abstract sealed TildeStream { // II.24.2.6
+.class public abstract sealed TildeStream { // II.24.2.6
+  .field public static initonly uint8 Module
+  .field public static initonly uint8 TypeRef
+  .field public static initonly uint8 TypeDef
+  .field public static initonly uint8 Field
+  .field public static initonly uint8 MethodDef
+  .field public static initonly uint8 Param
+  .field public static initonly uint8 InterfaceImpl
+  .field public static initonly uint8 MemberRef
+  .field public static initonly uint8 Constant
+  .field public static initonly uint8 CustomAttribute = uint8(0x0C)
+  .field public static initonly uint8 FieldMarshal
+  .field public static initonly uint8 DeclSecurity
+  .field public static initonly uint8 ClassLayout
+  .field public static initonly uint8 FieldLayout
+  .field public static initonly uint8 StandAloneSig
+  .field public static initonly uint8 EventMap
+  .field public static initonly uint8 Event
+  .field public static initonly uint8 PropertyMap
+  .field public static initonly uint8 Property
+  .field public static initonly uint8 MethodSemantics
+  .field public static initonly uint8 MethodImpl
+  .field public static initonly uint8 ModuleRef
+  .field public static initonly uint8 TypeSpec
+  .field public static initonly uint8 ImplMap
+  .field public static initonly uint8 FieldRVA
+  .field public static initonly uint8 Assembly
+  .field public static initonly uint8 AssemblyProcessor
+  .field public static initonly uint8 AssemblyOS
+  .field public static initonly uint8 AssemblyRef
+  .field public static initonly uint8 AssemblyRefProcessor
+  .field public static initonly uint8 AssemblyRefOS
+  .field public static initonly uint8 File
+  .field public static initonly uint8 ExportedType
+  .field public static initonly uint8 ManifestResource
+  .field public static initonly uint8 NestedClass
+  .field public static initonly uint8 GenericParam
+  .field public static initonly uint8 MethodSpec
+  .field public static initonly uint8 GenericParamConstraint
+
   .field public static int64 fileStart
   .field public static int64 fileEnd
 
-  .field private static class MetaRow[] tables
+  .field private static class MetaTable[] tables
 
   .method static hidebysig specialname rtspecialname default void .cctor() {
     .locals init (int32 i)
 
+    ldc.i4.s 0x00
+    stsfld uint8 TildeStream::Module
+    ldc.i4.s 0x01
+    stsfld uint8 TildeStream::TypeRef
+    ldc.i4.s 0x02
+    stsfld uint8 TildeStream::TypeDef
+    ldc.i4.s 0x04
+    stsfld uint8 TildeStream::Field
+    ldc.i4.s 0x06
+    stsfld uint8 TildeStream::MethodDef
+    ldc.i4.s 0x08
+    stsfld uint8 TildeStream::Param
+    ldc.i4.s 0x09
+    stsfld uint8 TildeStream::InterfaceImpl
+    ldc.i4.s 0x0A
+    stsfld uint8 TildeStream::MemberRef
+    ldc.i4.s 0x0B
+    stsfld uint8 TildeStream::Constant
+    ldc.i4.s 0x0C
+    stsfld uint8 TildeStream::CustomAttribute
+    ldc.i4.s 0x0D
+    stsfld uint8 TildeStream::FieldMarshal
+    ldc.i4.s 0x0E
+    stsfld uint8 TildeStream::DeclSecurity
+    ldc.i4.s 0x0F
+    stsfld uint8 TildeStream::ClassLayout
+    ldc.i4.s 0x10
+    stsfld uint8 TildeStream::FieldLayout
+    ldc.i4.s 0x11
+    stsfld uint8 TildeStream::StandAloneSig
+    ldc.i4.s 0x12
+    stsfld uint8 TildeStream::EventMap
+    ldc.i4.s 0x14
+    stsfld uint8 TildeStream::Event
+    ldc.i4.s 0x15
+    stsfld uint8 TildeStream::PropertyMap
+    ldc.i4.s 0x17
+    stsfld uint8 TildeStream::Property
+    ldc.i4.s 0x18
+    stsfld uint8 TildeStream::MethodSemantics
+    ldc.i4.s 0x19
+    stsfld uint8 TildeStream::MethodImpl
+    ldc.i4.s 0x1A
+    stsfld uint8 TildeStream::ModuleRef
+    ldc.i4.s 0x1B
+    stsfld uint8 TildeStream::TypeSpec
+    ldc.i4.s 0x1C
+    stsfld uint8 TildeStream::ImplMap
+    ldc.i4.s 0x1D
+    stsfld uint8 TildeStream::FieldRVA
+    ldc.i4.s 0x20
+    stsfld uint8 TildeStream::Assembly
+    ldc.i4.s 0x21
+    stsfld uint8 TildeStream::AssemblyProcessor
+    ldc.i4.s 0x22
+    stsfld uint8 TildeStream::AssemblyOS
+    ldc.i4.s 0x23
+    stsfld uint8 TildeStream::AssemblyRef
+    ldc.i4.s 0x24
+    stsfld uint8 TildeStream::AssemblyRefProcessor
+    ldc.i4.s 0x25
+    stsfld uint8 TildeStream::AssemblyRefOS
+    ldc.i4.s 0x26
+    stsfld uint8 TildeStream::File
+    ldc.i4.s 0x27
+    stsfld uint8 TildeStream::ExportedType
+    ldc.i4.s 0x28
+    stsfld uint8 TildeStream::ManifestResource
+    ldc.i4.s 0x29
+    stsfld uint8 TildeStream::NestedClass
+    ldc.i4.s 0x2A
+    stsfld uint8 TildeStream::GenericParam
+    ldc.i4.s 0x2B
+    stsfld uint8 TildeStream::MethodSpec
+    ldc.i4.s 0x2C
+    stsfld uint8 TildeStream::GenericParamConstraint
+    ldc.i4.s 0x01
+    stsfld uint8 TildeStream::TypeRef
+    ldc.i4.s 0x02
+    stsfld uint8 TildeStream::TypeDef
+    ldc.i4.s 0x04
+    stsfld uint8 TildeStream::Field
+    ldc.i4.s 0x06
+    stsfld uint8 TildeStream::MethodDef
+    ldc.i4.s 0x08
+    stsfld uint8 TildeStream::Param
+    ldc.i4.s 0x09
+    stsfld uint8 TildeStream::InterfaceImpl
+    ldc.i4.s 0x0A
+    stsfld uint8 TildeStream::MemberRef
+    ldc.i4.s 0x0B
+    stsfld uint8 TildeStream::Constant
+    ldc.i4.s 0x0C
+    stsfld uint8 TildeStream::CustomAttribute
+    ldc.i4.s 0x0D
+    stsfld uint8 TildeStream::FieldMarshal
+    ldc.i4.s 0x0E
+    stsfld uint8 TildeStream::DeclSecurity
+    ldc.i4.s 0x0F
+    stsfld uint8 TildeStream::ClassLayout
+    ldc.i4.s 0x10
+    stsfld uint8 TildeStream::FieldLayout
+    ldc.i4.s 0x11
+    stsfld uint8 TildeStream::StandAloneSig
+    ldc.i4.s 0x12
+    stsfld uint8 TildeStream::EventMap
+    ldc.i4.s 0x14
+    stsfld uint8 TildeStream::Event
+    ldc.i4.s 0x15
+    stsfld uint8 TildeStream::PropertyMap
+    ldc.i4.s 0x17
+    stsfld uint8 TildeStream::Property
+    ldc.i4.s 0x18
+    stsfld uint8 TildeStream::MethodSemantics
+    ldc.i4.s 0x19
+    stsfld uint8 TildeStream::MethodImpl
+    ldc.i4.s 0x1A
+    stsfld uint8 TildeStream::ModuleRef
+    ldc.i4.s 0x1B
+    stsfld uint8 TildeStream::TypeSpec
+    ldc.i4.s 0x1C
+    stsfld uint8 TildeStream::ImplMap
+    ldc.i4.s 0x1D
+    stsfld uint8 TildeStream::FieldRVA
+    ldc.i4.s 0x20
+    stsfld uint8 TildeStream::Assembly
+    ldc.i4.s 0x21
+    stsfld uint8 TildeStream::AssemblyProcessor
+    ldc.i4.s 0x22
+    stsfld uint8 TildeStream::AssemblyOS
+    ldc.i4.s 0x23
+    stsfld uint8 TildeStream::AssemblyRef
+    ldc.i4.s 0x24
+    stsfld uint8 TildeStream::AssemblyRefProcessor
+    ldc.i4.s 0x25
+    stsfld uint8 TildeStream::AssemblyRefOS
+    ldc.i4.s 0x26
+    stsfld uint8 TildeStream::File
+    ldc.i4.s 0x27
+    stsfld uint8 TildeStream::ExportedType
+    ldc.i4.s 0x28
+    stsfld uint8 TildeStream::ManifestResource
+    ldc.i4.s 0x29
+    stsfld uint8 TildeStream::NestedClass
+    ldc.i4.s 0x2A
+    stsfld uint8 TildeStream::GenericParam
+    ldc.i4.s 0x2B
+    stsfld uint8 TildeStream::MethodSpec
+    ldc.i4.s 0x2C
+    stsfld uint8 TildeStream::GenericParamConstraint
+
     ldc.i4 0x2D
-    newarr MetaRow
-    stsfld class MetaRow[] TildeStream::tables
+    newarr MetaTable
+    stsfld class MetaTable[] TildeStream::tables
 
     ldc.i4.0
     stloc i
@@ -87,9 +277,9 @@
     br.s LOOP_END
 
 LOOP:
-    ldsfld class MetaRow[] TildeStream::tables
+    ldsfld class MetaTable[] TildeStream::tables
     ldloc i
-    newobj instance void MetaRow::.ctor()
+    newobj instance void MetaTable::.ctor()
     stelem.ref
 
     ldloc i
@@ -99,7 +289,7 @@ LOOP:
 
 LOOP_END:
     ldloc i
-    ldsfld class MetaRow[] TildeStream::tables
+    ldsfld class MetaTable[] TildeStream::tables
     ldlen
     conv.i4
     blt.s LOOP
@@ -156,10 +346,10 @@ LOOP_END:
     br.s LOOP_END
 
 LOOP_BODY:
-    ldsfld class MetaRow[] TildeStream::tables
+    ldsfld class MetaTable[] TildeStream::tables
     ldloc i
     ldelem.ref
-    callvirt instance int32 MetaRow::GetCount()
+    callvirt instance int32 MetaTable::GetCount()
     brfalse.s LOOP_INCREMENT
 
     ldloc mask
@@ -177,7 +367,7 @@ LOOP_INCREMENT:
 
 LOOP_END:
     ldloc i
-    ldsfld class MetaRow[] TildeStream::tables
+    ldsfld class MetaTable[] TildeStream::tables
     ldlen
     conv.i4
     blt LOOP_BODY
@@ -192,10 +382,10 @@ LOOP_END:
     br.s LOOP_END
 
 LOOP_BODY:
-    ldsfld class MetaRow[] TildeStream::tables
+    ldsfld class MetaTable[] TildeStream::tables
     ldloc i
     ldelem.ref
-    callvirt instance int32 MetaRow::GetCount()
+    callvirt instance int32 MetaTable::GetCount()
     stloc len
 
     ldloc len
@@ -212,7 +402,7 @@ LOOP_INCREMENT:
 
 LOOP_END:
     ldloc i
-    ldsfld class MetaRow[] TildeStream::tables
+    ldsfld class MetaTable[] TildeStream::tables
     ldlen
     conv.i4
     blt LOOP_BODY
@@ -226,10 +416,10 @@ LOOP_END:
     br.s LOOP_END
 
 LOOP_BODY:
-    ldsfld class MetaRow[] TildeStream::tables
+    ldsfld class MetaTable[] TildeStream::tables
     ldloc i
     ldelem.ref
-    callvirt instance void MetaRow::Write()
+    callvirt instance void MetaTable::Write()
 
     ldloc i
     ldc.i4.1
@@ -238,7 +428,7 @@ LOOP_BODY:
 
 LOOP_END:
     ldloc i
-    ldsfld class MetaRow[] TildeStream::tables
+    ldsfld class MetaTable[] TildeStream::tables
     ldlen
     conv.i4
     blt LOOP_BODY
@@ -246,21 +436,26 @@ LOOP_END:
     ret
   }
 
-  .method private static void AddRow(uint8 table, uint8[] data) {
-    ldsfld class MetaRow[] TildeStream::tables
+  .method private static class Token AddRow(uint8 table, uint8[] data) {
+    .locals init (int32 i)
+    ldsfld class MetaTable[] TildeStream::tables
     ldarg table
     ldelem.ref
     ldarg data
-    callvirt instance int32 MetaRow::Add(uint8[])
-    pop // will need to return metadata token with this
+    callvirt instance int32 MetaTable::Add(uint8[])
+    stloc i
 
+    ldarg table
+    ldloc i
+    ldc.i4.1
+    add // Tokens are all 1-based indices
+    newobj instance void Token::.ctor(uint8, uint16)
     ret
   }
 
   // NOTE! in II.22 many of the other tables (MethodImpl, NestedClass, etc) are required to be sorted by primary key... that might be a pain... one idea: take two passes to build the metadata, sorting after the first pass -- but no, after sorting all the internal indices will be wrong...? Need to store references that can mutate with the index, instead of returning ints.
 
-  // TODO return a table index
-  .method public static void Module(string name, int16 mvidIndex) {
+  .method public static class Token AddModule(string name, int16 mvidIndex) {
     .locals init (class RowBuilder row)
 
     newobj instance void RowBuilder::.ctor()
@@ -286,15 +481,16 @@ LOOP_END:
     ldc.i4.0 // EncBaseId
     call instance void RowBuilder::Add(int16)
 
-    ldc.i4 0x00 // Module
+    ldsfld uint8 TildeStream::Module
     ldloc row
     call instance uint8[] RowBuilder::Build()
-    call void TildeStream::AddRow(uint8, uint8[])
+    call class Token TildeStream::AddRow(uint8, uint8[])
     
     ret
   }
 
-  .method public static void TypeRef(uint16 scope, string name, string ns) {
+  // TODO return a Token, ditto below
+  .method public static void AddTypeRef(class Token scope, string name, string ns) {
     .locals init (class RowBuilder row)
 
     newobj instance void RowBuilder::.ctor()
@@ -302,7 +498,8 @@ LOOP_END:
 
     ldloc row
     ldarg scope
-    call instance void RowBuilder::Add(int16) // TODO coded index ResolutionScope
+    call uint16 CodedIndex::ResolutionScope(class Token)
+    call instance void RowBuilder::Add(int16)
 
     ldloc row
     ldarg name
@@ -312,15 +509,16 @@ LOOP_END:
     ldarg ns
     call instance void RowBuilder::String(string)
 
-    ldc.i4 0x01 // TypeRef
+    ldsfld uint8 TildeStream::TypeRef
     ldloc row
     call instance uint8[] RowBuilder::Build()
-    call void TildeStream::AddRow(uint8, uint8[])
+    call class Token TildeStream::AddRow(uint8, uint8[])
+    pop
     
     ret
   }
 
-  .method public static void TypeDef(uint32 flagz, string name, string ns, uint16 extendz, uint16 fieldList, uint16 methodList) {
+  .method public static void AddTypeDef(uint32 flagz, string name, string ns, uint16 extendz, uint16 fieldList, uint16 methodList) {
     .locals init (class RowBuilder row)
 
     newobj instance void RowBuilder::.ctor()
@@ -350,15 +548,16 @@ LOOP_END:
     ldarg methodList
     call instance void RowBuilder::Add(int16)
 
-    ldc.i4 0x02 // TypeDef
+    ldsfld uint8 TildeStream::TypeDef
     ldloc row
     call instance uint8[] RowBuilder::Build()
-    call void TildeStream::AddRow(uint8, uint8[])
+    call class Token TildeStream::AddRow(uint8, uint8[])
+    pop
     
     ret
   }
 
-  .method public static void MethodDef(uint32 rva, uint16 implFlags, uint16 flagz, string name, uint16 sig, uint16 paramList) {
+  .method public static void AddMethodDef(uint32 rva, uint16 implFlags, uint16 flagz, string name, uint16 sig, uint16 paramList) {
     .locals init (class RowBuilder row)
 
     newobj instance void RowBuilder::.ctor()
@@ -388,15 +587,16 @@ LOOP_END:
     ldarg paramList
     call instance void RowBuilder::Add(int16)
 
-    ldc.i4 0x06 // MethodDef
+    ldsfld uint8 TildeStream::MethodDef
     ldloc row
     call instance uint8[] RowBuilder::Build()
-    call void TildeStream::AddRow(uint8, uint8[])
+    call class Token TildeStream::AddRow(uint8, uint8[])
+    pop
     
     ret
   }
 
-  .method public static void MemberRef(uint16 clazz, string name, uint16 sig) {
+  .method public static void AddMemberRef(uint16 clazz, string name, uint16 sig) {
     .locals init (class RowBuilder row)
 
     newobj instance void RowBuilder::.ctor()
@@ -414,15 +614,16 @@ LOOP_END:
     ldarg sig
     call instance void RowBuilder::Add(int16)
 
-    ldc.i4 0x0A // MemberRef
+    ldsfld uint8 TildeStream::MemberRef
     ldloc row
     call instance uint8[] RowBuilder::Build()
-    call void TildeStream::AddRow(uint8, uint8[])
+    call class Token TildeStream::AddRow(uint8, uint8[])
+    pop
     
     ret
   }
 
-  .method public static void TypeSepc(uint16 sig) {
+  .method public static void AddTypeSepc(uint16 sig) {
     .locals init (class RowBuilder row)
 
     newobj instance void RowBuilder::.ctor()
@@ -432,15 +633,16 @@ LOOP_END:
     ldarg sig
     call instance void RowBuilder::Add(int16)
 
-    ldc.i4 0x1B // TypeSpec
+    ldsfld uint8 TildeStream::TypeSpec
     ldloc row
     call instance uint8[] RowBuilder::Build()
-    call void TildeStream::AddRow(uint8, uint8[])
+    call class Token TildeStream::AddRow(uint8, uint8[])
+    pop
     
     ret
   }
 
-  .method public static void Assembly(uint32 hashAlgId, uint32 flagz, uint16 publicKey, string name, string culture) {
+  .method public static void AddAssembly(uint32 hashAlgId, uint32 flagz, uint16 publicKey, string name, string culture) {
     .locals init (class RowBuilder row)
 
     newobj instance void RowBuilder::.ctor()
@@ -479,15 +681,16 @@ LOOP_END:
     ldarg culture
     call instance void RowBuilder::String(string)
 
-    ldc.i4 0x20 // Assembly
+    ldsfld uint8 TildeStream::Assembly
     ldloc row
     call instance uint8[] RowBuilder::Build()
-    call void TildeStream::AddRow(uint8, uint8[])
+    call class Token TildeStream::AddRow(uint8, uint8[])
+    pop
     
     ret
   }
 
-  .method public static void AssemblyRef(uint32 flagz, uint16 publicKey, string name, string culture, uint16 hashValue) {
+  .method public static class Token AddAssemblyRef(uint32 flagz, uint16 publicKey, string name, string culture, uint16 hashValue) {
     .locals init (class RowBuilder row)
 
     newobj instance void RowBuilder::.ctor()
@@ -526,10 +729,10 @@ LOOP_END:
     ldarg hashValue
     call instance void RowBuilder::Add(int16)
 
-    ldc.i4 0x23 // AssemblyRef
+    ldsfld uint8 TildeStream::AssemblyRef
     ldloc row
     call instance uint8[] RowBuilder::Build()
-    call void TildeStream::AddRow(uint8, uint8[])
+    call class Token TildeStream::AddRow(uint8, uint8[])
     
     ret
   }
@@ -593,7 +796,7 @@ LOOP_END:
   }
 }
 
-.class public sealed MetaRow {
+.class public sealed MetaTable {
   .field class [mscorlib]System.Collections.Generic.List`1<uint8[]> data
   .field class [mscorlib]System.Collections.Generic.Dictionary`2<string, int32> cache
 
@@ -603,11 +806,11 @@ LOOP_END:
 
     ldarg.0
     newobj instance void class [mscorlib]System.Collections.Generic.List`1<uint8[]>::.ctor()
-    stfld class [mscorlib]System.Collections.Generic.List`1<uint8[]> MetaRow::data
+    stfld class [mscorlib]System.Collections.Generic.List`1<uint8[]> MetaTable::data
 
     ldarg.0
     newobj instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string,int32>::.ctor()
-    stfld class [mscorlib]System.Collections.Generic.Dictionary`2<string,int32> MetaRow::cache
+    stfld class [mscorlib]System.Collections.Generic.Dictionary`2<string,int32> MetaTable::cache
     
     ret
   }
@@ -620,31 +823,31 @@ LOOP_END:
     stloc key
 
     ldarg.0
-    ldfld class [mscorlib]System.Collections.Generic.Dictionary`2<string,int32> MetaRow::cache
+    ldfld class [mscorlib]System.Collections.Generic.Dictionary`2<string,int32> MetaTable::cache
     ldloc key
     callvirt instance bool class [mscorlib]System.Collections.Generic.Dictionary`2<string,int32>::ContainsKey(!0)
     brfalse.s NOT_FOUND
 
     ldarg.0
-    ldfld class [mscorlib]System.Collections.Generic.Dictionary`2<string,int32> MetaRow::cache
+    ldfld class [mscorlib]System.Collections.Generic.Dictionary`2<string,int32> MetaTable::cache
     ldloc key
     callvirt instance !1 class [mscorlib]System.Collections.Generic.Dictionary`2<string,int32>::get_Item(!0)
     ret
 
 NOT_FOUND:
     ldarg.0
-    ldfld class [mscorlib]System.Collections.Generic.List`1<uint8[]> MetaRow::data
+    ldfld class [mscorlib]System.Collections.Generic.List`1<uint8[]> MetaTable::data
     callvirt instance int32 class [mscorlib]System.Collections.Generic.List`1<uint8[]>::get_Count()
     stloc index
 
     ldarg.0
-    ldfld class [mscorlib]System.Collections.Generic.Dictionary`2<string,int32> MetaRow::cache
+    ldfld class [mscorlib]System.Collections.Generic.Dictionary`2<string,int32> MetaTable::cache
     ldloc key
     ldloc index
     callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string,int32>::Add(!0, !1)
 
     ldarg.0
-    ldfld class [mscorlib]System.Collections.Generic.List`1<uint8[]> MetaRow::data
+    ldfld class [mscorlib]System.Collections.Generic.List`1<uint8[]> MetaTable::data
     ldarg val
     callvirt instance void class [mscorlib]System.Collections.Generic.List`1<uint8[]>::Add(!0)
 
@@ -655,7 +858,7 @@ NOT_FOUND:
 
   .method public instance int32 GetCount() {
     ldarg.0
-    ldfld class [mscorlib]System.Collections.Generic.List`1<uint8[]> MetaRow::data
+    ldfld class [mscorlib]System.Collections.Generic.List`1<uint8[]> MetaTable::data
     callvirt instance int32 class [mscorlib]System.Collections.Generic.List`1<uint8[]>::get_Count()
     ret
   }
@@ -667,7 +870,7 @@ NOT_FOUND:
 
 LOOP_BODY:
     ldarg.0
-    ldfld class [mscorlib]System.Collections.Generic.List`1<uint8[]> MetaRow::data
+    ldfld class [mscorlib]System.Collections.Generic.List`1<uint8[]> MetaTable::data
     ldloc i
     callvirt instance !0 class [mscorlib]System.Collections.Generic.List`1<uint8[]>::get_Item(int32)
     call void C::Write(uint8[])
@@ -680,10 +883,130 @@ LOOP_BODY:
 LOOP_START:
     ldloc i
     ldarg.0
-    ldfld class [mscorlib]System.Collections.Generic.List`1<uint8[]> MetaRow::data
+    ldfld class [mscorlib]System.Collections.Generic.List`1<uint8[]> MetaTable::data
     callvirt instance int32 class [mscorlib]System.Collections.Generic.List`1<uint8[]>::get_Count()
     blt LOOP_BODY
 
+    ret
+  }
+}
+
+.class public sealed Token { // III.1.9 Metadata Token 
+  .field private uint8 table;
+  .field private uint16 row; // 1-based, should really be 24-bit but not sure how to write that into byte stream
+
+  .method public hidebysig specialname rtspecialname instance void .ctor (uint8, uint16) {
+    ldarg.0
+    call instance void [mscorlib]System.Object::.ctor()
+
+    ldarg.0
+    ldarg.1
+    stfld uint8 Token::table
+
+    ldarg.0
+    ldarg.2
+    stfld uint16 Token::row
+
+    ret
+  }
+
+  .method public instance uint8 get_table() {
+    ldarg.0
+    ldfld uint8 Token::table
+    ret
+  }
+
+  .method public instance uint16 get_row() {
+    ldarg.0
+    ldfld uint16 Token::row
+    ret
+  }
+
+  .method public instance void Write() {
+    ldarg.0
+    ldfld uint16 Token::row
+    call void C::Write(int16)
+    ldc.i4.0
+    call void C::Write(uint8)
+    
+    ldarg.0
+    ldfld uint8 Token::table
+    call void C::Write(uint8)
+
+    ret
+  }
+}
+
+.class public abstract sealed CodedIndex { // II.24.2.6
+  .field static class CodedIndexBuilder resolutionScope
+
+  .method static hidebysig specialname rtspecialname default void .cctor() {
+    newobj instance void CodedIndexBuilder::.ctor()
+    dup
+    ldsfld uint8 TildeStream::Module
+    call instance void CodedIndexBuilder::Add(uint8)
+    dup
+    ldsfld uint8 TildeStream::ModuleRef
+    call instance void CodedIndexBuilder::Add(uint8)
+    dup
+    ldsfld uint8 TildeStream::AssemblyRef
+    call instance void CodedIndexBuilder::Add(uint8)
+    dup
+    ldsfld uint8 TildeStream::TypeRef
+    call instance void CodedIndexBuilder::Add(uint8)
+    stsfld class CodedIndexBuilder CodedIndex::resolutionScope
+
+    ret
+  }
+
+  .method public static uint16 ResolutionScope(class Token) {
+    ldarg.0
+    callvirt instance uint16 Token::get_row()
+    ldc.i4 0x02 // TODO infer the shift count from number of entries in builder, move shift into Builder::Get()
+    shl
+
+    ldsfld class CodedIndexBuilder CodedIndex::resolutionScope
+    ldarg.0
+    callvirt instance uint8 Token::get_table()
+    call instance uint8 CodedIndexBuilder::Get(uint8)
+    or
+    ret
+  }
+}
+
+.class sealed CodedIndexBuilder {
+  .field class [mscorlib]System.Collections.Generic.Dictionary`2<uint8,uint8> tags
+
+  .method public hidebysig specialname rtspecialname instance void .ctor () {
+    ldarg.0
+    call instance void [mscorlib]System.Object::.ctor()
+
+    ldarg.0
+    newobj instance void class [mscorlib]System.Collections.Generic.Dictionary`2<uint8,uint8>::.ctor()
+    stfld class [mscorlib]System.Collections.Generic.Dictionary`2<uint8,uint8> CodedIndexBuilder::tags
+
+    ret
+  }
+
+  .method public instance void Add(uint8) {
+    ldarg.0
+    ldfld class [mscorlib]System.Collections.Generic.Dictionary`2<uint8,uint8> CodedIndexBuilder::tags
+    ldarg.1
+
+    ldarg.0
+    ldfld class [mscorlib]System.Collections.Generic.Dictionary`2<uint8,uint8> CodedIndexBuilder::tags
+    callvirt instance int32 class [mscorlib]System.Collections.Generic.Dictionary`2<uint8,uint8>::get_Count()
+    conv.u1
+    
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<uint8,uint8>::Add(!0, !1)
+    ret
+  }
+
+  .method public instance uint8 Get(uint8) {
+    ldarg.0
+    ldfld class [mscorlib]System.Collections.Generic.Dictionary`2<uint8,uint8> CodedIndexBuilder::tags
+    ldarg.1
+    callvirt instance !1 class [mscorlib]System.Collections.Generic.Dictionary`2<uint8,uint8>::get_Item(!0)
     ret
   }
 }
