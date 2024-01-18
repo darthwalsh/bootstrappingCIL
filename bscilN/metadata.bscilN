@@ -78,7 +78,7 @@
   .field public static initonly uint8 InterfaceImpl
   .field public static initonly uint8 MemberRef
   .field public static initonly uint8 Constant
-  .field public static initonly uint8 CustomAttribute = uint8(0x0C)
+  .field public static initonly uint8 CustomAttribute
   .field public static initonly uint8 FieldMarshal
   .field public static initonly uint8 DeclSecurity
   .field public static initonly uint8 ClassLayout
