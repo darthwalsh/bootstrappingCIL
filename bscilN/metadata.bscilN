@@ -489,8 +489,7 @@ LOOP_END:
     ret
   }
 
-  // TODO return a Token, ditto below
-  .method public static void AddTypeRef(class Token scope, string name, string ns) {
+  .method public static class Token AddTypeRef(class Token scope, string name, string ns) {
     .locals init (class RowBuilder row)
 
     newobj instance void RowBuilder::.ctor()
@@ -513,12 +512,11 @@ LOOP_END:
     ldloc row
     call instance uint8[] RowBuilder::Build()
     call class Token TildeStream::AddRow(uint8, uint8[])
-    pop
     
     ret
   }
 
-  .method public static void AddTypeDef(uint32 flagz, string name, string ns, uint16 extendz, uint16 fieldList, uint16 methodList) {
+  .method public static class Token AddTypeDef(uint32 flagz, string name, string ns, class Token extendz, uint16 fieldList, uint16 methodList) {
     .locals init (class RowBuilder row)
 
     newobj instance void RowBuilder::.ctor()
@@ -538,26 +536,26 @@ LOOP_END:
 
     ldloc row
     ldarg extendz
-    call instance void RowBuilder::Add(int16)  // TODO coded index CodedIndex.TypeDefOrRef
+    call uint16 CodedIndex::TypeDefOrRef(class Token)
+    call instance void RowBuilder::Add(int16)
 
     ldloc row
     ldarg fieldList
-    call instance void RowBuilder::Add(int16)
+    call instance void RowBuilder::Add(int16) 
 
     ldloc row
     ldarg methodList
-    call instance void RowBuilder::Add(int16)
+    call instance void RowBuilder::Add(int16) // TODO MethodDefRun based on MethodDef[0]
 
     ldsfld uint8 TildeStream::TypeDef
     ldloc row
     call instance uint8[] RowBuilder::Build()
     call class Token TildeStream::AddRow(uint8, uint8[])
-    pop
     
     ret
   }
 
-  .method public static void AddMethodDef(uint32 rva, uint16 implFlags, uint16 flagz, string name, uint16 sig, uint16 paramList) {
+  .method public static class Token AddMethodDef(uint32 rva, uint16 implFlags, uint16 flagz, string name, uint16 sig, uint16 paramList) {
     .locals init (class RowBuilder row)
 
     newobj instance void RowBuilder::.ctor()
@@ -591,12 +589,11 @@ LOOP_END:
     ldloc row
     call instance uint8[] RowBuilder::Build()
     call class Token TildeStream::AddRow(uint8, uint8[])
-    pop
     
     ret
   }
 
-  .method public static void AddMemberRef(uint16 clazz, string name, uint16 sig) {
+  .method public static class Token AddMemberRef(class Token clazz, string name, uint16 sig) {
     .locals init (class RowBuilder row)
 
     newobj instance void RowBuilder::.ctor()
@@ -604,7 +601,8 @@ LOOP_END:
 
     ldloc row
     ldarg clazz
-    call instance void RowBuilder::Add(int16) // TODO coded index MemberRefParent
+    call uint16 CodedIndex::MemberRefParent(class Token)
+    call instance void RowBuilder::Add(int16)
 
     ldloc row
     ldarg name
@@ -618,12 +616,11 @@ LOOP_END:
     ldloc row
     call instance uint8[] RowBuilder::Build()
     call class Token TildeStream::AddRow(uint8, uint8[])
-    pop
     
     ret
   }
 
-  .method public static void AddTypeSepc(uint16 sig) {
+  .method public static class Token AddTypeSpec(uint16 sig) {
     .locals init (class RowBuilder row)
 
     newobj instance void RowBuilder::.ctor()
@@ -637,12 +634,11 @@ LOOP_END:
     ldloc row
     call instance uint8[] RowBuilder::Build()
     call class Token TildeStream::AddRow(uint8, uint8[])
-    pop
     
     ret
   }
 
-  .method public static void AddAssembly(uint32 hashAlgId, uint32 flagz, uint16 publicKey, string name, string culture) {
+  .method public static class Token AddAssembly(uint32 hashAlgId, uint32 flagz, uint16 publicKey, string name, string culture) {
     .locals init (class RowBuilder row)
 
     newobj instance void RowBuilder::.ctor()
@@ -685,7 +681,6 @@ LOOP_END:
     ldloc row
     call instance uint8[] RowBuilder::Build()
     call class Token TildeStream::AddRow(uint8, uint8[])
-    pop
     
     ret
   }
@@ -938,10 +933,45 @@ LOOP_START:
 }
 
 .class public abstract sealed CodedIndex { // II.24.2.6
+  .field static class CodedIndexBuilder typeDefOrRef
+  .field static class CodedIndexBuilder memberRefParent
   .field static class CodedIndexBuilder resolutionScope
 
   .method static hidebysig specialname rtspecialname default void .cctor() {
-    newobj instance void CodedIndexBuilder::.ctor()
+    ldc.i4.2
+    newobj instance void CodedIndexBuilder::.ctor(uint8)
+    dup
+    ldsfld uint8 TildeStream::TypeDef
+    call instance void CodedIndexBuilder::Add(uint8)
+    dup
+    ldsfld uint8 TildeStream::TypeRef
+    call instance void CodedIndexBuilder::Add(uint8)
+    dup
+    ldsfld uint8 TildeStream::TypeSpec
+    call instance void CodedIndexBuilder::Add(uint8)
+    stsfld class CodedIndexBuilder CodedIndex::typeDefOrRef
+
+    ldc.i4.3
+    newobj instance void CodedIndexBuilder::.ctor(uint8)
+    dup
+    ldsfld uint8 TildeStream::TypeDef
+    call instance void CodedIndexBuilder::Add(uint8)
+    dup
+    ldsfld uint8 TildeStream::TypeRef
+    call instance void CodedIndexBuilder::Add(uint8)
+    dup
+    ldsfld uint8 TildeStream::ModuleRef
+    call instance void CodedIndexBuilder::Add(uint8)
+    dup
+    ldsfld uint8 TildeStream::MethodDef
+    call instance void CodedIndexBuilder::Add(uint8)
+    dup
+    ldsfld uint8 TildeStream::TypeSpec
+    call instance void CodedIndexBuilder::Add(uint8)
+    stsfld class CodedIndexBuilder CodedIndex::memberRefParent
+
+    ldc.i4.2
+    newobj instance void CodedIndexBuilder::.ctor(uint8)
     dup
     ldsfld uint8 TildeStream::Module
     call instance void CodedIndexBuilder::Add(uint8)
@@ -959,31 +989,43 @@ LOOP_START:
     ret
   }
 
-  .method public static uint16 ResolutionScope(class Token) {
+  .method public static uint16 TypeDefOrRef(class Token) {
+    ldsfld class CodedIndexBuilder CodedIndex::typeDefOrRef
     ldarg.0
-    callvirt instance uint16 Token::get_row()
-    ldc.i4 0x02 // TODO infer the shift count from number of entries in builder, move shift into Builder::Get()
-    shl
+    call instance uint16 CodedIndexBuilder::Get(class Token)
+    ret
+  }
 
+  .method public static uint16 MemberRefParent(class Token) {
+    ldsfld class CodedIndexBuilder CodedIndex::memberRefParent
+    ldarg.0
+    call instance uint16 CodedIndexBuilder::Get(class Token)
+    ret
+  }
+
+  .method public static uint16 ResolutionScope(class Token) {
     ldsfld class CodedIndexBuilder CodedIndex::resolutionScope
     ldarg.0
-    callvirt instance uint8 Token::get_table()
-    call instance uint8 CodedIndexBuilder::Get(uint8)
-    or
+    call instance uint16 CodedIndexBuilder::Get(class Token)
     ret
   }
 }
 
 .class sealed CodedIndexBuilder {
   .field class [mscorlib]System.Collections.Generic.Dictionary`2<uint8,uint8> tags
+  .field uint8 tagBits
 
-  .method public hidebysig specialname rtspecialname instance void .ctor () {
+  .method public hidebysig specialname rtspecialname instance void .ctor (uint8) {
     ldarg.0
     call instance void [mscorlib]System.Object::.ctor()
 
     ldarg.0
     newobj instance void class [mscorlib]System.Collections.Generic.Dictionary`2<uint8,uint8>::.ctor()
     stfld class [mscorlib]System.Collections.Generic.Dictionary`2<uint8,uint8> CodedIndexBuilder::tags
+
+    ldarg.0
+    ldarg.1
+    stfld uint8 CodedIndexBuilder::tagBits
 
     ret
   }
@@ -1002,11 +1044,25 @@ LOOP_START:
     ret
   }
 
-  .method public instance uint8 Get(uint8) {
+  .method public instance uint16 Get(class Token) {
+    ldarg.1
+    brtrue.s NOT_NULL
+    ldc.i4.0
+    ret
+
+NOT_NULL:
+    ldarg.1
+    callvirt instance uint16 Token::get_row()
+    ldarg.0
+    ldfld uint8 CodedIndexBuilder::tagBits
+    shl
+
     ldarg.0
     ldfld class [mscorlib]System.Collections.Generic.Dictionary`2<uint8,uint8> CodedIndexBuilder::tags
     ldarg.1
+    callvirt instance uint8 Token::get_table()
     callvirt instance !1 class [mscorlib]System.Collections.Generic.Dictionary`2<uint8,uint8>::get_Item(!0)
+    or
     ret
   }
 }
