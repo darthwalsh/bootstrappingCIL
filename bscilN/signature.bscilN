@@ -1,0 +1,333 @@
+.class public abstract sealed Signature { // II.23.2
+  .field private static class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> elementType
+
+  .method static hidebysig specialname rtspecialname default void .cctor() {
+    newobj instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::.ctor()
+    stsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    
+    // II.23.1.16
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "void"
+    ldc.i4.s 0x01
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "end"
+    ldc.i4.s 0x00
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "bool"
+    ldc.i4.s 0x02
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "char"
+    ldc.i4.s 0x03
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "int8"
+    ldc.i4.s 0x04
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "uint8"
+    ldc.i4.s 0x05
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "int16"
+    ldc.i4.s 0x06
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "uint16"
+    ldc.i4.s 0x07
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "int32"
+    ldc.i4.s 0x08
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "uint32"
+    ldc.i4.s 0x09
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "int64"
+    ldc.i4.s 0x0A
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "uint64"
+    ldc.i4.s 0x0B
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "float32"
+    ldc.i4.s 0x0C
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "float64"
+    ldc.i4.s 0x0D
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "string"
+    ldc.i4.s 0x0E
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "ptr"
+    ldc.i4.s 0x0F
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "byref"
+    ldc.i4.s 0x10
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "valuetype"
+    ldc.i4.s 0x11
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "class"
+    ldc.i4.s 0x12
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "var"
+    ldc.i4.s 0x13
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "array"
+    ldc.i4.s 0x14
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "genericinst"
+    ldc.i4.s 0x15
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "typedbyref"
+    ldc.i4.s 0x16
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "intptr"
+    ldc.i4.s 0x18
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "uintptr"
+    ldc.i4.s 0x19
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "fnptr"
+    ldc.i4.s 0x1B
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "object"
+    ldc.i4.s 0x1C
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "szarray"
+    ldc.i4.s 0x1D
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "mvar"
+    ldc.i4.s 0x1E
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "cmodreqd"
+    ldc.i4.s 0x1F
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "cmodopt"
+    ldc.i4.s 0x20
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "internal"
+    ldc.i4.s 0x21
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "modifier"
+    ldc.i4.s 0x40
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "sentinel"
+    ldc.i4.s 0x41
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldstr "pinned"
+    ldc.i4.s 0x45
+    callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::Add(!0, !1)
+
+    ret
+  }
+
+  .method public static uint8[] CompressUnsigned(uint32) {
+    ldarg.0
+    ldc.i4 0x7F
+    bgt.un.s TWO_BYTES
+
+    ldc.i4.1
+    newarr uint8
+    dup
+
+    ldc.i4.0
+    ldarg.0
+    conv.u1
+    stelem.i1
+    ret
+
+TWO_BYTES:
+    ldarg.0
+    ldc.i4 0x3FFF
+    bgt.un.s FOUR_BYTES
+
+    ldc.i4.2
+    newarr uint8
+    dup
+
+    ldc.i4.0
+    ldarg.0
+    ldc.i4.8
+    shr.un
+    ldc.i4 0x80
+    or
+    conv.u1
+    stelem.i1
+    dup
+
+    ldc.i4.1
+    ldarg.0
+    conv.u1
+    stelem.i1
+    ret
+
+FOUR_BYTES:
+    ldarg.0
+    ldc.i4 0xDFFFFFFF
+    bgt.un.s TOO_BIG
+
+    ldc.i4.4
+    newarr uint8
+    dup
+
+    ldc.i4.0
+    ldarg.0
+    ldc.i4.s 24
+    shr.un
+    ldc.i4 0xC0
+    or
+    conv.u1
+    stelem.i1
+    dup
+
+    ldc.i4.1
+    ldarg.0
+    ldc.i4.s 16
+    shr.un
+    conv.u1
+    stelem.i1
+    dup
+
+    ldc.i4.2
+    ldarg.0
+    ldc.i4.8
+    shr.un
+    conv.u1
+    stelem.i1
+    dup
+
+    ldc.i4.3
+    ldarg.0
+    conv.u1
+    stelem.i1
+    ret
+
+TOO_BIG:
+    ldstr "value too large"
+    newobj instance void [mscorlib]System.ArgumentOutOfRangeException::.ctor(string)
+    throw
+  }
+
+  .method public static uint8 ElementType(string) {
+    ldsfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8> Signature::elementType
+    ldarg.0
+    callvirt instance !1 class [mscorlib]System.Collections.Generic.Dictionary`2<string, uint8>::get_Item(!0)
+    ret
+  }
+
+  .method public static uint8[] MethodSig(string return, string[] params) { // II.23.2.1
+    // This should really take uint8[] instead of string, or many some object model to allow for lazy lookup of metadata tokens?
+    .locals init (class [mscorlib]System.Collections.Generic.List`1<uint8> sig, int32 i)
+
+    newobj instance void class [mscorlib]System.Collections.Generic.List`1<uint8>::.ctor()
+    stloc sig
+
+    ldloc sig
+    ldc.i4.0 // staticKind
+    callvirt instance void class [mscorlib]System.Collections.Generic.List`1<uint8>::Add(!0)
+
+    ldloc sig
+    ldarg params
+    ldlen
+    conv.i4
+    call uint8[] Signature::CompressUnsigned(uint32)
+    callvirt instance void class [mscorlib]System.Collections.Generic.List`1<uint8>::AddRange(class [mscorlib]System.Collections.Generic.IEnumerable`1<!0>)
+
+    ldloc sig
+    ldarg return
+    call uint8 Signature::ElementType(string)
+    callvirt instance void class [mscorlib]System.Collections.Generic.List`1<uint8>::Add(!0)
+
+    ldc.i4.0
+    stloc i
+    br.s LOOP_END
+
+LOOP:
+    ldloc sig
+    ldarg params
+    ldloc i
+    ldelem.ref
+    call uint8 Signature::ElementType(string)
+    callvirt instance void class [mscorlib]System.Collections.Generic.List`1<uint8>::Add(!0)
+
+    ldloc i
+    ldc.i4.1
+    add
+    stloc i
+
+LOOP_END:
+    ldloc i
+    ldarg params
+    ldlen
+    conv.i4
+    blt.s LOOP
+
+    ldloc sig
+    callvirt instance !0[] class [mscorlib]System.Collections.Generic.List`1<uint8>::ToArray()
+    ret
+  }
+
+}
